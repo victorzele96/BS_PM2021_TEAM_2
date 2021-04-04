@@ -9,7 +9,7 @@ pipeline {
             }
             steps {
                 sh 'ls'
-                sh 'python -m py_compile BS_PM2021_TEAM_2/manage.py'
+                sh 'python -m py_compile manage.py'
             }
         }
     }
