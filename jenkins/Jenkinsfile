@@ -2,10 +2,15 @@ pipeline {
     agent none
     stages {
         stage('Application Setup'){
-        steps{
-            sh 'python -m pip install -r requirements.txt'
+            agent {
+                docker {
+                    image 'python:3.8'
+                }
+            }
+            steps{
+                sh 'python -m pip install -r requirements.txt'
+            }
         }
-    }
         stage('Build') {
             agent {
                 docker {
