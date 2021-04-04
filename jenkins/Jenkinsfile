@@ -8,7 +8,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'pwd'
+                sh 'ls'
                 sh 'python -m py_compile BS_PM2021_TEAM_2/manage.py'
             }
         }
