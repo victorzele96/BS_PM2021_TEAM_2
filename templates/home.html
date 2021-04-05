@@ -1,10 +1,60 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link type="text/css" href="{% static 'styles/home.css' %}" rel="stylesheet">
+    <title>StudyBuddy</title>
+
 </head>
 <body>
+
+    <nav>
+
+        <a href="{% url 'home' %}" class="logo">
+            <img src="{%  static '/image/logo.png' %} "  style="width:10%">
+        </a>
+        <ul class="menu">
+            <p ><b>{{user.username|title}}</b></p>
+                {% if not user.is_authenticated %}
+                   <li> <a type="submit" href="login">Login</a> </li>
+                {% else %}
+                  <li>  <a type="submit" href="logout">Logout</a> </li>
+                {% endif %}
+                {% if user.is_superuser %}
+                    <li><a type="submit" href="register_teacher">Register Teacher</a> </li>
+                    <li><a type="submit" href="register_student">Register Student</a> </li>
+                {% endif %}
+        </ul>
+
+    </nav>
+    <div class="temp">
+        <div id="left-bar">
+            <h1>test left</h1>
+
+        </div>
+
+
+        <div id="main">
+            <h1>test center</h1>
+            {% block content %}
+
+            {% endblock %}
+
+        </div>
+
+        <div id="right-bar">
+            <h1>test rigth</h1>
+        </div>
+    </div>
+
+{#    <div>#}
+{#        {% block content %}#}
+{##}
+{#        {% endblock %}#}
+{#    </div>#}
+
+
 
 </body>
 </html>
