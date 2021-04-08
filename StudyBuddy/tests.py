@@ -31,6 +31,12 @@ class LoginTest(TestCase):
         test = user is not None and user.is_authenticated
         self.assertFalse(test)
         print("Wrong Password Login - ", test)
+
+    def test_wrong_input(self):
+        user = authenticate(username='wrong', password='wrong')
+        test = user is not None and user.is_authenticated
+        self.assertFalse(test)
+        print("Wrong Input Login - ", test)
 # Login tests
 
 # Register tests
