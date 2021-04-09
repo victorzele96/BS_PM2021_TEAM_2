@@ -91,7 +91,7 @@ def login_request(request):
                 messages.info(request, f"You are now logged in as {username}")
 
                 if request.user.is_superuser:
-                    return redirect('/admin')
+                    return redirect('/school')
                 if request.user.is_staff:
                     return redirect('/teacher')
                 return redirect('/student')
