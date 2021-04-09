@@ -1,0 +1,53 @@
+body{
+    background-color: wheat;
+    background-size: cover;
+    padding: 0px;
+    font-family: poppins;
+    height: 100%;
+    width: 100%;
+    margin-top: 90px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width:100%;
+    border:1px solid rgba(0, 0, 0, 0.04);
+    background-color: #000000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+nav .menu {
+    display: flex;
+}
+
+nav .menu li a{
+    height: 40px;
+    line-height: 45px;
+
+    margin: 0px;
+    padding: 0px 22px;
+    display: flex;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #98732e;
+    letter-spacing: 1px;
+    display: block;
+    float: left;
+    white-space: pre;
+}
+
+nav .menu p{
+    margin-right: 500px;
+    color: wheat;
+    float: right;
+}
+
+nav .logo{
+    margin-left: 180px;
+}
