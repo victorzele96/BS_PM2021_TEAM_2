@@ -12,6 +12,17 @@ from .forms import *
 def home(request):
     return render(request, '../templates/home.html')
 
+def adminHome(request):
+    return render(request, '../templates/admin/adminHome.html')
+
+def teacherHome(request):
+    return render(request, '../templates/teacher/teacherHome.html')
+
+def studentHome(request):
+    return render(request, '../templates/student/studentHome.html')
+
+
+
 def register_teacher(request):
     if request.method == "POST":
         form = TeacherUserForm(request.POST)
@@ -26,13 +37,13 @@ def register_teacher(request):
             for msg in form.error_messages:
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
-            return render(request = request,
-                          template_name = "Register/Register.html",
+            return render(request=request,
+                          template_name="register.html",
                           context={"form":form})
 
     form = TeacherUserForm
     return render(request = request,
-                  template_name = "Register/Register.html",
+                  template_name="register.html",
                   context={"form":form})
 
 
@@ -51,12 +62,12 @@ def register_student(request):
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
             return render(request = request,
-                          template_name = "Register/Register.html",
+                          template_name="register.html",
                           context={"form":form})
 
     form = TeacherUserForm
     return render(request = request,
-                  template_name = "Register/Register.html",
+                  template_name="register.html",
                   context={"form":form})
 
 
@@ -78,12 +89,18 @@ def login_request(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}")
-                return redirect('/')
+
+                if request.user.is_superuser:
+                    return redirect('/admin')
+                if request.user.is_staff:
+                    return redirect('/teacher')
+                return redirect('/student')
+
             else:
                 messages.error(request, "Invalid username or password.")
         else:
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
-    return render(request = request,
-                    template_name = "Login.html",
-                    context={"form":form})
+    return render(request=request,
+                  template_name="login.html",
+                  context={"form": form})

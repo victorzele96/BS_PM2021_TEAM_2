@@ -1,0 +1,24 @@
+{% include  'navbase.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" href="{% static 'styles/login.css' %}" rel="stylesheet">
+    <title>StudyBuddy</title>
+
+</head>
+    <body>
+        {% block content %}
+            <div class="header">   {% block title %}<h1>Login</h1>{% endblock %}   </div>
+                <div class="container-login">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Login</button>
+                    </form>
+                </div>
+
+        {% endblock %}
+    </body>
+</html>
