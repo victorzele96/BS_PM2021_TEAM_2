@@ -12,8 +12,8 @@ from .forms import *
 def home(request):
     return render(request, '../templates/home.html')
 
-def adminHome(request):
-    return render(request, '../templates/admin/adminHome.html')
+def schoolHome(request):
+    return render(request, '../templates/school/schoolHome.html')
 
 def teacherHome(request):
     return render(request, '../templates/teacher/teacherHome.html')
@@ -38,12 +38,12 @@ def register_teacher(request):
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
             return render(request=request,
-                          template_name="admin/register.html",
+                          template_name="school/register.html",
                           context={"form":form})
 
     form = TeacherUserForm
     return render(request = request,
-                  template_name="admin/register.html",
+                  template_name="school/register.html",
                   context={"form":form})
 
 
@@ -62,12 +62,12 @@ def register_student(request):
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
             return render(request = request,
-                          template_name="admin/register.html",
+                          template_name="school/register.html",
                           context={"form":form})
 
     form = TeacherUserForm
     return render(request = request,
-                  template_name="admin/register.html",
+                  template_name="school/register.html",
                   context={"form":form})
 
 
