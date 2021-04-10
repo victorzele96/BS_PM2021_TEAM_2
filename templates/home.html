@@ -16,5 +16,19 @@
 
     </div>
 
+    <div class="news" >
+        {% if news %}
+            {% for article in news %}
+                {{ article.title }}
+                {{ article.body }}
+                {{ article.date }}
+            {% endfor %}
+        {% else %}
+            <h1>No Records</h1>
+        {% endif %}
+
+
+    </div>
+
 </body>
 </html>

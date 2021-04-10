@@ -8,9 +8,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .forms import *
+from .models import Article
 
 def home(request):
-    return render(request, '../templates/home.html')
+    news = Article.objects.all().order_by('date')
+    return render(request, '../templates/home.html',{'news': news})
 
 def schoolHome(request):
     return render(request, '../templates/school/schoolHome.html')
