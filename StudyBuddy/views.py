@@ -10,20 +10,17 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from .models import Article
 
+
+# Home Section
 def home(request):
     news = Article.objects.all().order_by('date')
     return render(request, '../templates/home.html',{'news': news})
 
+
+# School Section
+##########################################################################################
 def schoolHome(request):
     return render(request, '../templates/school/schoolHome.html')
-
-def teacherHome(request):
-    return render(request, '../templates/teacher/teacherHome.html')
-
-def studentHome(request):
-    return render(request, '../templates/student/studentHome.html')
-
-
 
 def register_teacher(request):
     if request.method == "POST":
@@ -84,8 +81,28 @@ def register_student(request):
     return render(request=request,template_name="school/register.html",context={"form": form, "p_reg_form": p_reg_form})
 
 
+def add_display_news(request):
+    pass
+
+##########################################################################################
 
 
+
+# Staff Section
+##########################################################################################
+def teacherHome(request):
+    return render(request, '../templates/teacher/teacherHome.html')
+##########################################################################################
+
+# Student Section
+##########################################################################################
+def studentHome(request):
+    return render(request, '../templates/student/studentHome.html')
+##########################################################################################
+
+
+# Other Section
+##########################################################################################
 @login_required
 def logout_request(request):
     logout(request)
@@ -117,3 +134,9 @@ def login_request(request):
     return render(request=request,
                   template_name="login.html",
                   context={"form": form})
+##########################################################################################
+
+
+
+
+

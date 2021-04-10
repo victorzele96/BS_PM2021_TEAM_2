@@ -21,6 +21,7 @@ urlpatterns = [
     path("school/", views.schoolHome, name="schoolHome"),
     path("school/register_teacher/", views.register_teacher, name="register_teacher"),
     path("school/register_student/", views.register_student, name="register_student"),
+    path("school/news/", views.add_display_news, name="school_news"),
 
 
 
