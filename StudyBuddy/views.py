@@ -26,49 +26,60 @@ def studentHome(request):
 def register_teacher(request):
     if request.method == "POST":
         form = TeacherUserForm(request.POST)
-        if form.is_valid():
+        p_reg_form = ProfileForm(request.POST)
+        if form.is_valid() and p_reg_form.is_valid():
             user = form.save()
+            user.refresh_from_db()
             username = form.cleaned_data.get('username')
+
+            p_reg_form = ProfileForm(request.POST, instance=user.profile)
+            p_reg_form.full_clean()
+            p_reg_form.save()
+
+
+
             messages.success(request, f"New account created: {username}")
-            login(request, user)
+            #login(request, user)
             return redirect("home")
 
         else:
             for msg in form.error_messages:
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
-            return render(request=request,
-                          template_name="school/register.html",
-                          context={"form":form})
+            return render(request=request,template_name="school/register.html",context={"form": form, "p_reg_form": p_reg_form})
 
-    form = TeacherUserForm
-    return render(request = request,
-                  template_name="school/register.html",
-                  context={"form":form})
+    form = TeacherUserForm()
+    p_reg_form = ProfileForm()
+    return render(request=request,template_name="school/register.html",context={"form": form, "p_reg_form": p_reg_form})
 
 
 def register_student(request):
     if request.method == "POST":
         form = StudentUserForm(request.POST)
-        if form.is_valid():
+        p_reg_form = ProfileForm(request.POST)
+        p_reg_form = ProfileForm(request.POST)
+        if form.is_valid() and p_reg_form.is_valid():
             user = form.save()
+            user.refresh_from_db()
             username = form.cleaned_data.get('username')
+
+            p_reg_form = ProfileForm(request.POST, instance=user.profile)
+            p_reg_form.full_clean()
+            p_reg_form.save()
+
             messages.success(request, f"New account created: {username}")
-            login(request, user)
+            # login(request, user)
             return redirect("home")
 
         else:
             for msg in form.error_messages:
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
-            return render(request = request,
-                          template_name="school/register.html",
-                          context={"form":form})
+            return render(request=request,template_name="school/register.html",context={"form": form, "p_reg_form": p_reg_form})
 
-    form = TeacherUserForm
-    return render(request = request,
-                  template_name="school/register.html",
-                  context={"form":form})
+    form = StudentUserForm()
+    p_reg_form = ProfileForm()
+    return render(request=request,template_name="school/register.html",context={"form": form, "p_reg_form": p_reg_form})
 
 
 
