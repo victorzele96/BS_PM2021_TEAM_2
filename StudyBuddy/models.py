@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserChangeForm
 
 
 class Article(models.Model):
-    title = models.CharField()
+    title = models.CharField(max_length=64)
     body = models.TextField()
     date = models.DateTimeField('date published')
 
@@ -25,7 +25,7 @@ class Profile(models.Model):
     # image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
     Class = models.CharField("Class", max_length=50, blank=True)
-    birth_date = models.CharField("Birth Date", blank=True)
+    birth_date = models.DateField("Birth Date", blank=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'
