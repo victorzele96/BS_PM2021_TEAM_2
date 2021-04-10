@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout, authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from datetime import date, datetime
 
 from .forms import *
 from .models import Article
@@ -56,7 +57,6 @@ def register_student(request):
     if request.method == "POST":
         form = StudentUserForm(request.POST)
         p_reg_form = ProfileForm(request.POST)
-        p_reg_form = ProfileForm(request.POST)
         if form.is_valid() and p_reg_form.is_valid():
             user = form.save()
             user.refresh_from_db()
@@ -82,7 +82,33 @@ def register_student(request):
 
 
 def add_display_news(request):
-    pass
+    news = Article.objects.all().order_by('date')
+    if request.method == "POST":
+        article_form = ArticleForm(request.POST)
+
+        if article_form.is_valid():
+            article_form.date=datetime.now()
+            article = article_form.save()
+
+
+
+            messages.success(request, f"New article: {article} has been saved")
+            # login(request, user)
+
+            article_form = ArticleForm()
+            return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
+
+        else:
+            for msg in article_form.error_messages:
+                messages.error(request, f"{msg}: {article_form.error_messages[msg]}")
+
+            return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
+
+
+
+
+    article_form=ArticleForm()
+    return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
 
 ##########################################################################################
 
