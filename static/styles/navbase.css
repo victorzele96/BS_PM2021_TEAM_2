@@ -48,6 +48,8 @@ nav .menu p{
     float: right;
 }
 
-nav .logo{
-    margin-left: 180px;
+nav #logo{
+    margin-left: 500px;
+    height: 50px;
+    width: 50px;
 }
