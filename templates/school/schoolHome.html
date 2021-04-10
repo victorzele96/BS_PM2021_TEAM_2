@@ -9,11 +9,13 @@
 </head>
 <body>
     <div class="container-main">
-        this is admin page hello you!
+        {% block title %}<h1>this is admin page hello you!</h1>{% endblock %}
         <br><br><br><br>
 
-        {% block content %}
 
+
+        {% block content %}
+            <a href="{% url 'school_news' %}" class="home-btn">News</a>
         {% endblock %}
     </div>
 </body>
