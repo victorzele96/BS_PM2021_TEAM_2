@@ -12,8 +12,8 @@ from .forms import *
 def home(request):
     return render(request, '../templates/home.html')
 
-def adminHome(request):
-    return render(request, '../templates/admin/adminHome.html')
+def schoolHome(request):
+    return render(request, '../templates/school/schoolHome.html')
 
 def teacherHome(request):
     return render(request, '../templates/teacher/teacherHome.html')
@@ -91,7 +91,7 @@ def login_request(request):
                 messages.info(request, f"You are now logged in as {username}")
 
                 if request.user.is_superuser:
-                    return redirect('/admin')
+                    return redirect('/school')
                 if request.user.is_staff:
                     return redirect('/teacher')
                 return redirect('/student')
