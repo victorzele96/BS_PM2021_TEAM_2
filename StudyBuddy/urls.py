@@ -18,7 +18,7 @@ urlpatterns = [
     path("logout", views.logout_request, name="logout"),
 
     # School
-    path("school/", views.adminHome, name="adminHome"),
+    path("school/", views.schoolHome, name="schoolHome"),
     path("school/register_teacher/", views.register_teacher, name="register_teacher"),
     path("school/register_student/", views.register_student, name="register_student"),
 
