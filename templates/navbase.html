@@ -14,40 +14,62 @@
             <li class="current-user"><p><b class="welcome">Welcome: </b><b>{{user.username|title}}</b></p></li>
             {% if user.is_superuser %}
                 <li><a href="{% url 'schoolHome' %}" class="home-btn">Home</a></li>
+                <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">Register</a>
+                <div class="dropdown-content">
+                    <a class="reg-teacher-btn" type="submit" href="{% url 'register_teacher' %}">Teacher</a>
+                    <a class="reg-student-btn" type="submit" href="{% url 'register_student' %}">Student</a>
+                </div>
+                </li>
+                <li><a href="#" class="details-btn">User Details</a></li>
+                <li><a href="#" class="progress-btn">Students Progress</a></li>
+                <li><a href="#" class="schedule-btn">Schedule</a></li>
+                <li><a href="#" class="subject-btn">Subject</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">Messages</a>
+                    <div class="dropdown-content">
+                        <a class="view-msg-btn" type="submit" href="#">View User Messages</a>
+                        <a class="send-msg-btn" type="submit" href="#">Send System Message</a>
+                    </div>
+                </li>
+                <li><a href="#" class="documents-btn">Documents</a></li>
+                <li><a href="#" class="theme-btn">Theme</a></li>
             {% else %}
                 {% if user.is_staff %}
                     <li><a href="{% url 'teacherHome' %}" class="home-btn">Home</a></li>
+                    <li><a href="#" class="my-classes-btn">My Classes</a></li>
+                    <li><a href="#" class="add-exercise-btn">Add Exercise</a></li>
+                    <li><a href="#" class="progress-btn">View Progress</a></li>
+                    <li><a href="#" class="details-btn">User Details</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">Messages</a>
+                        <div class="dropdown-content">
+                            <a class="view-msg-btn" type="submit" href="#">View Messages</a>
+                            <a class="send-msg-btn" type="submit" href="#">Send Message</a>
+                        </div>
+                    </li>
                 {% else %}
                     <li><a href="{% url 'studentHome' %}" class="home-btn">Home</a></li>
+                    <li><a href="#" class="schedule-btn">My Schedule</a></li>
+                    <li><a href="#" class="exams-hw-btn">Exams and HW</a></li>
+                    <li><a href="#" class="exercise-btn">Exercise</a></li>
+                    <li><a href="#" class="progress-btn">View Progress</a></li>
+                    <li><a href="#" class="details-btn">User Details</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">Messages</a>
+                        <div class="dropdown-content">
+                            <a class="view-msg-btn" type="submit" href="#">View Messages</a>
+                            <a class="send-msg-btn" type="submit" href="#">Send Message</a>
+                        </div>
+                    </li>
+                    <li><a href="#" class="documents-btn">Documents</a></li>
+                    <li><a href="#" class="theme-btn">Theme</a></li>
                 {% endif %}
             {% endif %}
         {% else %}
             <li><a href="{% url 'home' %}" class="home-btn">Home</a></li>
         {% endif %}
 
-        {% if user.is_superuser %}
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">Register</a>
-                <div class="dropdown-content">
-                    <a type="submit" href="{% url 'register_teacher' %}">Teacher</a>
-                    <a type="submit" href="{% url 'register_student' %}">Student</a>
-                </div>
-            </li>
-            <li><a href="#" class="home-btn">User Details</a></li>
-            <li><a href="#" class="home-btn">Students Progress</a></li>
-            <li><a href="#" class="home-btn">Schedule</a></li>
-            <li><a href="#" class="home-btn">Subject</a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">Messages</a>
-                <div class="dropdown-content">
-                    <a type="submit" href="#">View User Messages</a>
-                    <a type="submit" href="#">Send System Message</a>
-                </div>
-            </li>
-            <li><a href="#" class="home-btn">Documents</a></li>
-            <li><a href="#" class="home-btn">Themes</a></li>
-
-        {% endif %}
         {% if not user.is_authenticated %}
             <div class="login-logout-btn-container">
                 <li> <a type="submit" class="login-btn" href="{% url 'login' %}">Login</a> </li>
