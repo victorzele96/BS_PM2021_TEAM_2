@@ -16,25 +16,51 @@
 
     </div>
 
-    <section style="margin-left: 50px;">
-    <h1>NEWS</h1>
-    <div class="news" >
+    <div class="title-heading">
+        <h2>NEWS</h2>
+    </div>
+
+    <section id="element-list">
         {% if news %}
             {% for article in news %}
+                <div class="news" >
+                <div class="news-title">
                 {{ article.title }}
+                </div>
+                    <div class="news-body">
                 <br>
                 {{ article.body }}
                 <br>
                 {{ article.date }}
                 <br>
                 <br>
+                    </div>
+                </div>
             {% endfor %}
         {% else %}
             <h1>No Records</h1>
+
         {% endif %}
+    </section>
 
-
+    <div class="title-heading">
+        <h2>Activities</h2>
     </div>
+
+    <section id="element-list">
+
+    </section>
+
+    <div class="title-heading">
+        <h2>Contact Us</h2>
+    </div>
+
+    <section id="element-list">
+        <div class="contact-details">
+            <p> email: StudyBuddy@buddy.com </p>
+            <p> phone: 08-0808085 </p>
+            <p> address: beer-sheva </p>
+        </div>
     </section>
 
 </body>
