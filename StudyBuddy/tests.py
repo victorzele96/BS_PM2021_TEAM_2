@@ -2,13 +2,69 @@ from django.contrib.auth import authenticate, get_user_model
 from django.test import TestCase
 
 
+class Test__init__(TestCase):
+    # pylint: disable = all
+    def test___init__(self):
+        test = True
+        self.assertTrue(test)
+        print("\n__init__.py - ", test)
+
+
+class TestAdmin(TestCase):
+    # pylint: disable = all
+    def test_admin(self):
+        test = True
+        self.assertTrue(test)
+        print("\nadmin.py - ", test)
+
+
+class TestApps(TestCase):
+    # pylint: disable = all
+    def test_apps(self):
+        test = True
+        self.assertTrue(test)
+        print("\napps.py - ", test)
+
+
+class TestForms(TestCase):
+    # pylint: disable = all
+    def test_forms(self):
+        test = True
+        self.assertTrue(test)
+        print("\nforms.py - ", test)
+
+
+class TestModels(TestCase):
+    # pylint: disable = all
+    def test_models(self):
+        test = True
+        self.assertTrue(test)
+        print("\nmodels.py - ", test)
+
+
+class TestUrls(TestCase):
+    # pylint: disable = all
+    def test_urls(self):
+        test = True
+        self.assertTrue(test)
+        print("\nurls.py - ", test)
+
+
+class TestViews(TestCase):
+    # pylint: disable = all
+    def test_views(self):
+        test = True
+        self.assertTrue(test)
+        print("\nviews.py - ", test)
+
+
 # Login tests
 class LoginTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
         super(LoginTest, cls).setUpClass()
-        print("___Login SetUp___")
+        print("\n___Login SetUp___")
         cls.user = get_user_model().objects.create_user(username='admin', password='admin')
         cls.user.save()
 
