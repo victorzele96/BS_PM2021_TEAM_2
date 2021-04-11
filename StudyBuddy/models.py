@@ -34,7 +34,7 @@ class Profile(models.Model):
 
     Parent_2_first_name = models.CharField("Parent_2_first_name", max_length=50, blank=True)
     Parent_2_Phone = models.CharField("Parent_2_Phone", max_length=10, blank=True)
-
+    Theme = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username} Profile'
