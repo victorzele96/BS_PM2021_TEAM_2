@@ -5,7 +5,66 @@ body {
 .container-main{
 }
 
-.container-main .xpl-txt{
+.container-main .xpl-txt {
     margin: 150px;
     font-size: 25px;
+}
+
+#element-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.news{
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 2px 2px 30px #866767;
+    margin: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    border-top: 3px solid #292929;
+}
+
+.news:hover {
+    transform: translateY(-10px);
+    transition: all ease 0.2s;
+}
+.news-title{
+    position: absolute;
+    /*top: 0px;*/
+    /*left: 50%;*/
+    transform: translateX(-50%);
+    background-color: #1f1f1f;
+    color: wheat;
+    padding: 5px 20px;
+    font-weight: 500;
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: 5px 10px 30px rgba(0,0,0,0.4);
+}
+
+.news-body{
+    margin-top: 30px;
+}
+
+.title-heading h2{
+    font-weight: 400;
+    margin-bottom: 50px;
+    padding: 1px 20px;
+    background-color: rgba(0,0,0,0.01);
+    border: 1px solid rgba(0,0,0,0.06);
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.contact-details p{
+    display: inline-flex;
+    margin-left: 20px;
+    font-weight: bold;
 }
