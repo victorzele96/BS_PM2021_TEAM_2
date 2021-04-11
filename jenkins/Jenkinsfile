@@ -1,12 +1,12 @@
 pipeline {
-    agent none
+    agent {
+        docker {
+            image 'python:3.8'
+            }
+        }
     stages {
         stage('Build') {
-            agent {
-                docker {
-                    image 'python:3.8'
-                }
-            }
+
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
 
@@ -16,12 +16,10 @@ pipeline {
                 }
             }
         }
-//         stage('Test') {
-//             agent {
-//                 docker {
-//
-//                 }
-//             }
-//         }
+        stage('Test') {
+            steps{
+                sh 'python -m py_compile manage.py test'
+            }
+        }
     }
 }
