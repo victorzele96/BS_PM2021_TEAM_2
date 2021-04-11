@@ -8,10 +8,29 @@ from . import views
 
 urlpatterns = [
     # path('', views.home, name='home'),
-    url(r'^$', views.home, name='home'),
+    # url(r'^$', views.home, name='home'),
 
-    path("register_teacher/", views.register_teacher, name="register_teacher"),
-    path("register_student/", views.register_student, name="register_student"),
+
+    # Home
+    path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
     path("login/", views.login_request, name="login"),
     path("logout", views.logout_request, name="logout"),
+
+    # School
+    path("school/", views.schoolHome, name="schoolHome"),
+    path("school/register_teacher/", views.register_teacher, name="register_teacher"),
+    path("school/register_student/", views.register_student, name="register_student"),
+    path("school/news/", views.add_display_news, name="school_news"),
+
+
+
+    # Teacher
+    path("teacher/", views.teacherHome, name="teacherHome"),
+
+
+
+    # Student
+    path("student/", views.studentHome, name="studentHome"),
+
 ]
