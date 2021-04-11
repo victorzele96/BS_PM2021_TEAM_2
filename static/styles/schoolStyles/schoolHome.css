@@ -11,6 +11,14 @@ body{
     margin-left: 500px;
 }
 
+.school-btn-container {
+    margin-left: 500px;
+}
+
+.page-title {
+    text-align: center;
+}
+
 * {
   box-sizing: border-box;
 }
