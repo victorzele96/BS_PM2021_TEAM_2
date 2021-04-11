@@ -26,6 +26,8 @@ class Profile(models.Model):
 
     Class = models.CharField("Class", max_length=50, blank=True)
     birth_date = models.DateField("Birth Date", blank=True)
+    ID=models.IntegerField
+
 
     def __str__(self):
         return f'{self.user.username} Profile'
