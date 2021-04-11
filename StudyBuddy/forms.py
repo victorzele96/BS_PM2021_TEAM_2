@@ -60,3 +60,33 @@ class StudentUserForm(UserCreationForm):
             user.is_staff = False
             user.save()
         return user
+
+# Profile Forms
+#############################################################################################################################
+class SelfAdminProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["Theme"]
+
+class SelfTeacherProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = [ 'birth_date', "Personal_Phone", "Theme"]
+
+class SelfStudentProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['birth_date', "Personal_Phone", "Parent_1_first_name", "Parent_1_Phone", "Parent_2_first_name", "Parent_2_Phone", "Theme"]
+
+
+class AdminTeacherProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['Class',"ID_TZ", 'birth_date', "Personal_Phone", "Theme"]
+
+
+class AdminStudentProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['Class', "ID_TZ", 'birth_date', "Personal_Phone", "Parent_1_first_name", "Parent_1_Phone", "Parent_2_first_name", "Parent_2_Phone"]
+#######################################################################################################################################################
