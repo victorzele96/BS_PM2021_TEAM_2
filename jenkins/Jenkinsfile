@@ -16,6 +16,19 @@ pipeline {
                 }
             }
         }
+        stage('Migrate') {
+            agent {
+                docker {
+                    image 'python:3.8'
+                }
+            }
+            steps{
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'python manage.py makemigrations'
+                    sh 'python manage.py migrate'
+                }
+            }
+        }
         stage('Test') {
             agent {
                 docker {
