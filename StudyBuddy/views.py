@@ -14,7 +14,7 @@ from .models import Article
 
 # Home Section
 def home(request):
-    news = Article.objects.all().order_by('date')
+    news = Article.objects.all().order_by('-date')
     return render(request, '../templates/home.html',{'news': news})
 
 
