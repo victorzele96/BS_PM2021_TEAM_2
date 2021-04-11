@@ -1,0 +1,23 @@
+{% extends 'school/schoolHome.html' %}
+{% block title %}<h1>News</h1>{% endblock %}
+{% block content %}
+    <div id="input">
+        <form method="post">
+            {% csrf_token %}
+            {{article_form.as_p}}
+            <button style="background-color:#000000; color:#cd7e09" type="submit">Sign Up</button>
+        </form>
+    </div>
+    <div id="output">
+        {% if news %}
+            {% for article in news %}
+                {{ article.title }}
+                {{ article.body }}
+                {{ article.date }}
+            {% endfor %}
+        {% else %}
+            <h1>No Records</h1>
+        {% endif %}
+    </div>
+
+{% endblock %}
