@@ -6,3 +6,11 @@ body{
     margin: 150px;
     font-size: 25px;
 }
+
+.school-container {
+    margin-left: 500px;
+}
+
+* {
+  box-sizing: border-box;
+}
