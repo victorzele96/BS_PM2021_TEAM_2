@@ -6,3 +6,15 @@ body{
     margin: 150px;
     font-size: 25px;
 }
+
+.student-container {
+    margin-left: 500px;
+}
+
+.page-title {
+    text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
