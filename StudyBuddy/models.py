@@ -26,7 +26,14 @@ class Profile(models.Model):
 
     Class = models.CharField("Class", max_length=50, blank=True)
     birth_date = models.DateField("Birth Date", blank=True)
-    ID=models.IntegerField
+    ID_TZ = models.IntegerField(default=None, blank=True)
+    Personal_Phone = models.CharField("Personal Phone", max_length=10, blank=True)
+
+    Parent_1_first_name = models.CharField("Parent_1_first_name", max_length=50, blank=True)
+    Parent_1_Phone = models.CharField("Parent_1_Phone", max_length=10, blank=True)
+
+    Parent_2_first_name = models.CharField("Parent_2_first_name", max_length=50, blank=True)
+    Parent_2_Phone = models.CharField("Parent_2_Phone", max_length=10, blank=True)
 
 
     def __str__(self):
