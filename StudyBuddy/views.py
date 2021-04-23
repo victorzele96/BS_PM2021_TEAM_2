@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
@@ -10,7 +11,8 @@ from datetime import date, datetime
 
 from .forms import *
 from .models import Article
-from .models import Profile
+
+
 
 
 # Home Section
@@ -116,6 +118,30 @@ def add_display_news(request):
     article_form=ArticleForm()
     return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
 
+
+def get_users(request):
+    # test = User.objects.get(username="StudentTest1")
+    # test.
+    users = User.objects.all()
+
+    return render(request, '../templates/school/User_list.html', {'users': users})
+
+
+@staff_member_required
+def del_user(request, username):
+    try:
+        u = User.objects.get(username = username)
+        u.delete()
+        messages.success(request, "The user is deleted")
+
+    except User.DoesNotExist:
+        messages.error(request, "User doesnot exist")
+        return render(request, '../templates/school/schoolHome.html')
+
+    except Exception as e:
+        return render(request, '../templates/school/schoolHome.html',{'err':e.message})
+
+    return render(request, 'front.html')
 ##########################################################################################
 
 

@@ -22,3 +22,10 @@ body{
 * {
   box-sizing: border-box;
 }
+
+table{
+    width: 100%;
+}
+th{
+    width: 30%;
+}

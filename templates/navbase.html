@@ -14,6 +14,8 @@
             <li class="current-user"><p><b class="welcome">Welcome: </b><b>{{user.username|title}}</b></p></li>
             {% if user.is_superuser %}
                 <li><a href="{% url 'schoolHome' %}" class="home-btn">Home</a></li>
+
+
             {% else %}
                 {% if user.is_staff %}
                     <li><a href="{% url 'teacherHome' %}" class="home-btn">Home</a></li>
