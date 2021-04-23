@@ -1,0 +1,36 @@
+{% include 'navbase.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" href="{% static 'styles/studentStyles/studentHome.css' %}" rel="stylesheet">
+    <title>Title</title>
+</head>
+<body>
+    <div class="container-main">
+        {% block title %}<h1 class="page-title">this is admin page hello you!</h1>{% endblock %}
+        <br><br><br><br>
+
+
+
+        {% block content %}
+
+            <div class="student-container">
+                <h1> Technical Support </h1>
+                <br>
+                <br>
+                <p>
+                    <b><u>Contact us</u>:</b>
+                    <br>
+                    <br>
+                    <b>phone:</b> +49 564 4522
+                    <br>
+                    <b>email:</b> StudyBuddy@TechSupport.com
+                </p>
+            </div>
+
+        {% endblock %}
+    </div>
+</body>
+</html>
