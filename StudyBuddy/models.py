@@ -21,7 +21,7 @@ class Article(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User,null=True, on_delete=models.CASCADE)
     # image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
     Class = models.CharField("Class", max_length=50, blank=True)

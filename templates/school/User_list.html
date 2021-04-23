@@ -1,0 +1,15 @@
+{% extends 'school/schoolHome.html' %}
+{% block title %}<h2 style="text-align: center">User List</h2>{% endblock %}
+
+{% block content %}
+    <table>
+    {% for user in users %}
+        <tr>
+            <th>{{ user.username}}</th>
+            <th><a href="#">Edit</a></th>
+{#            <th><a href="{% url 'del_user' %}" >Delete</a></th>#}
+            <th><a href="{{user.delete}}" >Delete</a></th>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
