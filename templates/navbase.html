@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link type="text/css" href="{% static 'styles/navBase.css' %}" rel="stylesheet">
+    <link id="myStyleSheet" type="text/css" href="{% static 'styles/navBase.css' %}" rel="stylesheet">
     <title>Title</title>
 </head>
 <body>
@@ -45,7 +45,13 @@
                 </div>
             </li>
             <li><a href="#" class="home-btn">Documents</a></li>
-            <li><a href="#" class="home-btn">Themes</a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">Themes</a>
+                <div class="dropdown-content">
+                    <a type="submit" onclick="swapStyle('dark')">Dark Mode</a>
+                    <a type="submit" onclick="swapStyle('light')">Light Mode</a>
+                </div>
+            </li>
 
         {% endif %}
         {% if not user.is_authenticated %}
@@ -60,5 +66,29 @@
     </ul>
 </nav>
 
+
+<!--scripts -->\
+<script type="text/javascript">
+
+    var setTheme = localStorage.getItem('theme')
+
+    if(setTheme == null)
+        swapStyle('light')
+    else
+        swapStyle(setTheme)
+
+    function swapStyle(sheet){
+        console.log(sheet)
+        if(sheet === 'light'){
+            document.getElementById('myStyleSheet').href = "{% static 'styles/navBase.css' %}"
+            localStorage.setItem('theme', 'light')
+        }
+        if(sheet === 'dark'){
+            document.getElementById('myStyleSheet').href = "{% static 'styles/darkStyles/navBase.css' %}"
+            localStorage.setItem('theme', 'dark')
+        }
+
+    }
+</script>
 </body>
 </html>
