@@ -11,13 +11,19 @@ from datetime import date, datetime
 
 from .forms import *
 from .models import Article
-from django.contrib.auth.models import User
+
+
 
 
 # Home Section
 def home(request):
+    print(request.user.username)
+    print(request.user.id)
+
+    # currentProfile = Profile.objects.get(user_id = request.user.id)
     news = Article.objects.all().order_by('-date')
-    return render(request, '../templates/home.html',{'news': news})
+    # return render(request, '../templates/home.html',{'news': news, 'currentProfile': currentProfile})
+    return render(request, '../templates/home.html', {'news': news})
 
 
 # School Section

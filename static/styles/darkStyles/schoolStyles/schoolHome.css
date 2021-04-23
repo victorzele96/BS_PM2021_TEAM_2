@@ -1,0 +1,24 @@
+body{
+
+}
+
+.container-main{
+    margin: 150px;
+    font-size: 25px;
+}
+
+.school-container {
+    margin-left: 500px;
+}
+
+.school-btn-container {
+    margin-left: 500px;
+}
+
+.page-title {
+    text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
