@@ -18,6 +18,7 @@ class Article(models.Model):
         verbose_name = "Article"
         verbose_name_plural = "Articles"
 
+# class TeacherProfile(models.Model):
 
 
 class Profile(models.Model):

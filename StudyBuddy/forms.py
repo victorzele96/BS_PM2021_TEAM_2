@@ -27,8 +27,6 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ['Class', 'birth_date']
 
-
-
 class TeacherUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
