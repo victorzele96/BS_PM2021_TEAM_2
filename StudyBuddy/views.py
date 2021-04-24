@@ -44,8 +44,6 @@ def register_teacher(request):
             p_reg_form.full_clean()
             p_reg_form.save()
 
-
-
             messages.success(request, f"New account created: {username}")
             #login(request, user)
             return redirect("home")
@@ -98,8 +96,6 @@ def add_display_news(request):
             article_form.date=datetime.now()
             article = article_form.save()
 
-
-
             messages.success(request, f"New article: {article} has been saved")
             # login(request, user)
 
@@ -111,9 +107,6 @@ def add_display_news(request):
                 messages.error(request, f"{msg}: {article_form.error_messages[msg]}")
 
             return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
-
-
-
 
     article_form=ArticleForm()
     return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
@@ -143,8 +136,6 @@ def del_user(request, username):
 
     return render(request, 'front.html')
 ##########################################################################################
-
-
 
 # Staff Section
 ##########################################################################################
