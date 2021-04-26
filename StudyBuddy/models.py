@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
 
+
 # Create your models here.
 
 
@@ -10,35 +11,52 @@ class Article(models.Model):
     body = models.TextField()
     date = models.DateTimeField('date published')
 
-    def __str__(self):
+    def str(self):
         return self.title
 
     class Meta:
-        #for admin
+        # for admin
         verbose_name = "Article"
         verbose_name_plural = "Articles"
 
-# class TeacherProfile(models.Model):
+
+class TeacherForm(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    phone = models.CharField("phone", max_length=10)
+    subjects = models.CharField("subjects", max_length=80)
+    theme = models.IntegerField(default=0)
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User,null=True, on_delete=models.CASCADE)
-    # image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-
-    Class = models.CharField("Class", max_length=50, blank=True)
-    birth_date = models.DateField("Birth Date", blank=True)
-    ID_TZ = models.IntegerField(default=None, blank=True)
-    Personal_Phone = models.CharField("Personal Phone", max_length=10, blank=True)
-
-    Parent_1_first_name = models.CharField("Parent_1_first_name", max_length=50, blank=True)
-    Parent_1_Phone = models.CharField("Parent_1_Phone", max_length=10, blank=True)
-
-    Parent_2_first_name = models.CharField("Parent_2_first_name", max_length=50, blank=True)
-    Parent_2_Phone = models.CharField("Parent_2_Phone", max_length=10, blank=True)
-    Theme = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f'{self.user.username} Profile'
+    def str(self):
+        return f'{self.user.username} Teacher'
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+class StudentForm(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    grade = models.CharField("grade", max_length=50)
+    birth_date = models.DateField("Birth Date", blank=True)
+    personalPhone = models.CharField("Personal Phone", max_length=10, blank=True)
+
+    parentName_M = models.CharField("mother name", max_length=20)  # mother = _M
+    parentPhone_M = models.CharField("mother phone", max_length=10)
+
+    parentName_F = models.CharField("father name", max_length=20, blank=True)
+    parentPhone_F = models.CharField("father phone", max_length=10, blank=True)
+
+    theme = models.IntegerField(default=0)
+
+    def str(self):
+        return f'{self.user.username} Student'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+# class ConnStudentUser(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     studentUser = models.ForeignKey(StudentForm, on_delete=models.CASCADE)
+#
+# class ConnTeacherUser(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     teacherUser = models.ForeignKey(TeacherForm, on_delete=models.CASCADE)
