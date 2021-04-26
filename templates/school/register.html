@@ -1,8 +1,7 @@
 {% extends 'school/schoolHome.html' %}
 {% block title %}<h1>Register</h1>{% endblock %}
-
 {% block content %}
-<style>
+    <style>
 .button {
   display: inline-block;
   border-radius: 4px;
@@ -48,9 +47,6 @@
         {% csrf_token %}
         {{form.as_p}}
         {{extra_form.as_p}}
-{#        {% for fields in form %}#}
-{##}
-{#        {% endfor %}#}
         <button class="button" style="vertical-align:middle" type="submit"><span>Sign Up </span></button>
     </form>
 

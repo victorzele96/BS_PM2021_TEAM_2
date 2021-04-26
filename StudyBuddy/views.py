@@ -195,3 +195,10 @@ def login_request(request):
                   template_name="login.html",
                   context={"form": form})
 ##########################################################################################
+# def updateTheme(request):
+#     user = request.user
+#
+#     if user.AuthenticationMiddleware:
+#         print(user.theme)
+#     else:
+#         print("Hello Nice Guest")
