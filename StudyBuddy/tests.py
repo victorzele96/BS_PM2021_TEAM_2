@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, get_user_model
 from django.test import TestCase
+from .forms import StudentUserForm
 
 
 def positive_test_result(test):
@@ -117,6 +118,5 @@ class LoginTest(TestCase):
 
 # Register tests
 class RegisterTest(TestCase):
-
     pass
 # Register tests
