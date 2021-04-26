@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
@@ -12,10 +13,17 @@ from .forms import *
 from .models import Article
 
 
+
+
 # Home Section
 def home(request):
+    print(request.user.username)
+    print(request.user.id)
+
+    # currentProfile = Profile.objects.get(user_id = request.user.id)
     news = Article.objects.all().order_by('-date')
-    return render(request, '../templates/home.html',{'news': news})
+    # return render(request, '../templates/home.html',{'news': news, 'currentProfile': currentProfile})
+    return render(request, '../templates/home.html', {'news': news})
 
 
 # School Section
@@ -26,70 +34,65 @@ def schoolHome(request):
 def register_teacher(request):
     if request.method == "POST":
         form = TeacherUserForm(request.POST)
-        p_reg_form = ProfileForm(request.POST)
-        if form.is_valid() and p_reg_form.is_valid():
+        teacher_form = TeacherForm(request.POST)
+        if form.is_valid() and teacher_form.is_valid():
             user = form.save()
             user.refresh_from_db()
             username = form.cleaned_data.get('username')
 
-            p_reg_form = ProfileForm(request.POST, instance=user.profile)
-            p_reg_form.full_clean()
-            p_reg_form.save()
+            teacher_form = TeacherForm(request.POST)
+            teacher_form.full_clean()
+            teacher = teacher_form.save(commit=False)
+            teacher.user = user
 
-
+            teacher.save()
 
             messages.success(request, f"New account created: {username}")
-            #login(request, user)
             return redirect("home")
 
         else:
             for msg in form.error_messages:
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
-            return render(request=request,template_name="school/register.html",context={"form": form, "p_reg_form": p_reg_form})
+            return render(request=request,template_name="school/register.html",
+                          context={"form": form, "extra_form": teacher_form})
 
     form = TeacherUserForm()
-    p_reg_form = ProfileForm()
-    return render(request=request,template_name="school/register.html",context={"form": form, "p_reg_form": p_reg_form})
+    teacher_form = TeacherForm()
+    return render(request=request,template_name="school/register.html",
+                  context={"form": form, "extra_form": teacher_form})
 
-
-# def register_student(request):
-#     if request.method == "POST":
-#         form = StudentUserForm(request.POST)
-#         p_reg_form = ProfileForm(request.POST)
-#         if form.is_valid() and p_reg_form.is_valid():
-#             user = form.save()
-#             user.refresh_from_db()
-#             username = form.cleaned_data.get('username')
-#
-#             p_reg_form = ProfileForm(request.POST, instance=user.profile)
-#             p_reg_form.full_clean()
-#             p_reg_form.save()
-#
-#             messages.success(request, f"New account created: {username}")
-#             # login(request, user)
-#             return redirect("home")
-#
-#         else:
-#             for msg in form.error_messages:
-#                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
-#
-#             return render(request=request,template_name="school/register.html",context={"form": form, "p_reg_form": p_reg_form})
-#
-#     form = StudentUserForm()
-#     p_reg_form = ProfileForm()
-#     return render(request=request,template_name="school/register.html",context={"form": form, "p_reg_form": p_reg_form})
 
 def register_student(request):
-    form = UserCreationForm()
-
     if request.method == "POST":
         form = StudentUserForm(request.POST)
-        if form.is_valid():
-            form.save()
+        student_form = StudentForm(request.POST)
+        if form.is_valid() and student_form.is_valid():
+            user = form.save()
+            user.refresh_from_db()
+            username = form.cleaned_data.get('username')
 
-    context = {'form': form}
-    return render(request, 'templates/login.html', context)
+            student_form = StudentForm(request.POST)
+            student_form.full_clean()
+            student = student_form.save(commit=False)
+            student.user = user
+
+            student.save()
+
+            messages.success(request, f"New account created: {username}")
+            return redirect("home")
+
+        else:
+            for msg in form.error_messages:
+                messages.error(request, f"{msg}: {form.error_messages[msg]}")
+
+            return render(request=request,template_name="school/register.html",
+                          context={"form": form, "extra_form": student_form}) #, "p_reg_form": p_reg_form
+
+    form = StudentUserForm()
+    student_form = StudentForm()
+    return render(request=request,template_name="school/register.html",
+                  context={"form": form, "extra_form": student_form})  #, "p_reg_form": p_reg_form
 
 
 def add_display_news(request):
@@ -100,8 +103,6 @@ def add_display_news(request):
         if article_form.is_valid():
             article_form.date=datetime.now()
             article = article_form.save()
-
-
 
             messages.success(request, f"New article: {article} has been saved")
             # login(request, user)
@@ -115,15 +116,31 @@ def add_display_news(request):
 
             return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
 
-
-
-
     article_form=ArticleForm()
     return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
 
+
+def get_users(request):
+    users = User.objects.all()
+    return render(request, '../templates/school/User_list.html', {'users': users})
+
+
+@staff_member_required
+def del_user(request, username):
+    try:
+        u = User.objects.get(username = username)
+        u.delete()
+        messages.success(request, "The user is deleted")
+
+    except User.DoesNotExist:
+        messages.error(request, "User doesnot exist")
+        return render(request, '../templates/school/schoolHome.html')
+
+    except Exception as e:
+        return render(request, '../templates/school/schoolHome.html',{'err':e.message})
+
+    return redirect("get_users")
 ##########################################################################################
-
-
 
 # Staff Section
 ##########################################################################################
@@ -178,8 +195,3 @@ def login_request(request):
                   template_name="login.html",
                   context={"form": form})
 ##########################################################################################
-
-
-
-
-

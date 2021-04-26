@@ -22,6 +22,8 @@ urlpatterns = [
     path("school/register_teacher/", views.register_teacher, name="register_teacher"),
     path("school/register_student/", views.register_student, name="register_student"),
     path("school/news/", views.add_display_news, name="school_news"),
+    path("school/user_details/", views.get_users, name="user_details"),
+    # url(r'^school/user_details/(?P<username>[\w|\W.-]+)/$', views.del_user, name='del_user'),
 
 
 

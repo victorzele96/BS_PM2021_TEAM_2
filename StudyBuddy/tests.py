@@ -17,9 +17,9 @@ def negative_test_result(test):
         return "Failure"
 
 
-class Test__init__(TestCase):
+class Test_init_(TestCase):
     # pylint: disable = all
-    def test___init__(self):
+    def test__init_(self):
         test = True
         self.assertTrue(test)
         print("\n__init__.py - ", positive_test_result(test))
@@ -79,7 +79,7 @@ class LoginTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super(LoginTest, cls).setUpClass()
-        print("\n___Login SetUp___")
+        print("\n__Login SetUp__")
         print("Module - result")
         cls.user = get_user_model().objects.create_user(username='admin', password='admin')
         cls.user.save()
@@ -87,7 +87,7 @@ class LoginTest(TestCase):
     @classmethod
     def tearDownClass(cls):
         super(LoginTest, cls).tearDownClass()
-        print("\n___Login TearDown___")
+        print("\n__Login TearDown__")
         cls.user.delete()
 
     def test_correct(self):

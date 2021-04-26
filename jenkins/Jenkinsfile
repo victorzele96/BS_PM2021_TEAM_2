@@ -24,6 +24,7 @@ pipeline {
             }
             steps{
                 withEnv(["HOME=${env.WORKSPACE}"]) {
+//                     sh 'python manage.py makemigrations --merge'
                     sh 'python manage.py makemigrations'
                     sh 'python manage.py migrate'
                 }
