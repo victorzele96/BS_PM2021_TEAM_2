@@ -29,3 +29,16 @@ table{
 th{
     width: 30%;
 }
+
+#element-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.contact-details p{
+    display: inline-flex;
+    margin-left: 20px;
+    font-weight: bold;
+}
