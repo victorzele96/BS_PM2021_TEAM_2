@@ -1,4 +1,4 @@
-from django.forms import ModelForm,TextInput
+from django.forms import ModelForm, TextInput
 from .models import *
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -7,9 +7,7 @@ from django.contrib.auth.models import User
 from datetime import date, datetime
 
 
-
 class ArticleForm(forms.ModelForm):
-
     class Meta:
         model = Article
         fields = ['title', 'body']
@@ -22,11 +20,23 @@ class ArticleForm(forms.ModelForm):
             article.save()
         return
 
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['Class', 'birth_date']
 
+class TeacherForm(forms.ModelForm):
+    class Meta:
+        model = TeacherForm
+        fields = ('phone', 'subjects')
+
+
+class StudentForm(forms.ModelForm):
+    birth_date = forms.DateField(widget=forms.DateInput(attrs={
+        "class": "input",
+        "type": "date",
+        "placeholder": "YYYY-MM-DD"
+    }))
+    class Meta:
+        model = StudentForm
+        fields = ('grade', 'birth_date', 'personalPhone', 'parentName_M', 'parentPhone_M', 'parentName_F',
+                  'parentPhone_F')
 
 
 class TeacherUserForm(UserCreationForm):
@@ -34,7 +44,7 @@ class TeacherUserForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ("first_name", "last_name", "username", "email", "password1", "password2")
 
     def save(self, commit=True):
         user = super(TeacherUserForm, self).save(commit=False)
@@ -45,16 +55,15 @@ class TeacherUserForm(UserCreationForm):
         return user
 
 
-
 class StudentUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ("first_name", "last_name", "username", "email", "password1", "password2")
 
     def save(self, commit=True):
-        user = super(StudentUserForm, self).save(commit=False)
+        user = super(StudentUserForm, self).save(commit=False)  # create user in auth table
         user.email = self.cleaned_data["email"]
         if commit:
             user.is_staff = False
