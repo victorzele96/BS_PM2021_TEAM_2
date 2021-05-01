@@ -3,6 +3,7 @@ from django.test import TestCase
 # from django.contrib.auth.models import User
 # from django.contrib.auth.forms import UserCreationForm
 
+##### UNIT TESTS #####
 
 def positive_test_result(test):
     if test:
@@ -91,26 +92,26 @@ class LoginTest(TestCase):
         print("\n__Login TearDown__")
         cls.user.delete()
 
-    def test_correct(self):
-        user = authenticate(username='admin', password='admin')
+    def test_correct(self, username='admin', password='admin'):
+        user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertTrue(test)
         print("\nCorrect Login - ", positive_test_result(test))
 
-    def test_wrong_username(self):
-        user = authenticate(username='wrong', password='admin')
+    def test_wrong_username(self, username='wrong', password='admin'):
+        user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertFalse(test)
         print("\nWrong Username Login - ", negative_test_result(test))
 
-    def test_wrong_password(self):
-        user = authenticate(username='admin', password='wrong')
+    def test_wrong_password(self, username='admin', password='wrong'):
+        user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertFalse(test)
         print("\nWrong Password Login - ", negative_test_result(test))
 
-    def test_wrong_input(self):
-        user = authenticate(username='wrong', password='wrong')
+    def test_wrong_input(self, username='wrong', password='wrong'):
+        user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertFalse(test)
         print("\nWrong Input Login - ", negative_test_result(test))
@@ -119,6 +120,19 @@ class LoginTest(TestCase):
 
 # Register tests
 class RegisterTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super(RegisterTest, cls).setUpClass()
+        print("\n__Register SetUp__")
+        print("Module - result")
+        cls.user = get_user_model().objects.create_user(username='admin', password='admin')
+        cls.user.save()
 
-    pass
+    @classmethod
+    def tearDownClass(cls):
+        super(RegisterTest, cls).tearDownClass()
+        print("\n__Register TearDown__")
+        cls.user.delete()
 # Register tests
+
+##### UNIT TESTS END #####
