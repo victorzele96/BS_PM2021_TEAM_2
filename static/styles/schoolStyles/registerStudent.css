@@ -30,7 +30,7 @@ body {
 h1 {
     font-size: 3.2em;
     text-transform: capitalize;
-    color: #f4511e;
+    color:#fff;
     text-shadow: 1px 1px 1px #000;
     letter-spacing: 3px;
     margin: .8em 1vw;
@@ -38,7 +38,7 @@ h1 {
 }
 
 .w3ls-login form {
-    max-width: 500px;
+    max-width: 550px;
     margin: 0 5vw;
     border-radius: 8px;
     background: transparent;
@@ -65,7 +65,7 @@ h1 {
 .agile-field-txt {
     flex-basis: 100%;
     -webkit-flex-basis: 100%;
-    margin-bottom: 1.5em;
+    margin-bottom: 1.0em;
 }
 
 .w3ls-login label i {
@@ -73,7 +73,8 @@ h1 {
     margin-right: 3px;
     color: #fd5c63;
 }
-
+.w3ls-login input[type="email"],
+.w3ls-login input[type="date"],
 .w3ls-login input[type="text"],
 .w3ls-login input[type="password"] {
     width: 100%;
@@ -293,4 +294,10 @@ input:checked+.slider:before {
 .button:hover span:after {
   opacity: 1;
   right: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
 }

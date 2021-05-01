@@ -59,12 +59,43 @@
                 <div class="grid-child-forth">
                     <div class="input-group mb-2">
                         <div class="agile-field-txt">
-                            {{extra_form.phone}}
+                            {{extra_form.grade}}
                         </div>
                     </div>
                     <div class="input-group mb-2">
                         <div class="agile-field-txt">
-                            {{extra_form.subjects}}
+                            {{extra_form.birth_date}}
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-child-fifth">
+                    <div class="input-group mb-2">
+                        <div class="agile-field-txt">
+                            {{extra_form.parentName_M}}
+                        </div>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="agile-field-txt">
+                            {{extra_form.parentPhone_M}}
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-child-sixth">
+                    <div class="input-group mb-2">
+                        <div class="agile-field-txt">
+                            {{extra_form.personalPhone}}
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-child-fifth">
+                    <div class="input-group mb-2">
+                        <div class="agile-field-txt">
+                            {{extra_form.parentName_F}}
+                        </div>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="agile-field-txt">
+                            {{extra_form.parentPhone_F}}
                         </div>
                     </div>
                 </div>
@@ -91,8 +122,14 @@
             form_fields[4].placeholder='Re-enter Password';
             form_fields[5].placeholder='First Name';
             form_fields[6].placeholder='Last Name';
-            form_fields[7].placeholder='Phone Number';
-            form_fields[8].placeholder='Subject';
+            form_fields[7].placeholder='Grade';
+            form_fields[8].placeholder='Birth Date';
+            form_fields[9].placeholder='Parent 1 Name';
+            form_fields[10].placeholder='Parent 1 Phone';
+            form_fields[11].placeholder='Personal Phone';
+            form_fields[12].placeholder='Parent 2 Name';
+            form_fields[13].placeholder='Parent 2 Phone';
+
 
             for (var field in form_fields){
                 form_fields[field].className += ' form-control'

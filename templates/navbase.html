@@ -2,18 +2,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link id="myStyleSheet" type="text/css" href="{% static 'styles/navBase.css' %}" rel="stylesheet">
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">#}
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <title>Title</title>
 </head>
 <body>
 
-<nav>
+<nav style="width: 100%;">
     <ul>
-        {% if user.is_authenticated %}
-            <li class="current-user"><p><b class="welcome">Welcome: </b><b>{{user.username|title}}</b></p></li>
-            {% if user.is_superuser %}
-                <li><a href="{% url 'schoolHome' %}" class="home-btn">Home</a></li>
+        {% if user.is_authenticated %} {# registered user #}
+            {% if user.is_superuser %} {# school user #}
+                <li><a href="{% url 'schoolHome' %}" class="navbar-brand">Study Buddy</a></li>
+                <li style="font-size: 20px;color: lightblue;"> Welcome:<a href="{% url 'schoolHome' %}" class="dropbtn">{{user.username|title}}</a></li>
                 <li class="dropdown">
                 <a href="javascript:void(0)" class="dropbtn">Register</a>
                 <div class="dropdown-content">
@@ -36,8 +41,9 @@
 
 
             {% else %}
-                {% if user.is_staff %}
-                    <li><a href="{% url 'teacherHome' %}" class="home-btn">Home</a></li>
+                {% if user.is_staff %} {# teacher user #}
+                    <li><a href="{% url 'teacherHome' %}" class="navbar-brand">Study Buddy</a></li>
+                    <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'teacherHome' %}" class="dropbtn">{{user.username|title}}</a></li>
                     <li><a href="#" class="my-classes-btn">My Classes</a></li>
                     <li><a href="#" class="add-exercise-btn">Add Exercise</a></li>
                     <li><a href="#" class="progress-btn">View Progress</a></li>
@@ -49,8 +55,9 @@
                             <a class="send-msg-btn" type="submit" href="#">Send Message</a>
                         </div>
                     </li>
-                {% else %}
-                    <li><a href="{% url 'studentHome' %}" class="home-btn">Home</a></li>
+                {% else %} {# student user #}
+                    <li><a href="{% url 'studentHome' %}" class="navbar-brand">Study Buddy</a></li>
+                    <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'studentHome' %}" class="dropbtn">{{user.username|title}}</a></li>
                     <li><a href="#" class="schedule-btn">My Schedule</a></li>
                     <li><a href="#" class="exams-hw-btn">Exams and HW</a></li>
                     <li><a href="#" class="exercise-btn">Exercise</a></li>
@@ -68,7 +75,7 @@
                 {% endif %}
             {% endif %}
         {% else %}
-            <li><a href="{% url 'home' %}" class="home-btn">Home</a></li>
+            <li><a href="{% url 'home' %}" class="navbar-brand">Study Buddy</a></li>
         {% endif %}
         <li class="dropdown">
             <a href="javascript:void(0)" class="dropbtn">Theme</a>
@@ -91,7 +98,7 @@
 </nav>
 
 
-<!--scripts -->\
+<!--scripts -->
 <script type="text/javascript">
 
     var setTheme = localStorage.getItem('theme')
