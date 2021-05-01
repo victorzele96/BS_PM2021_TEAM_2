@@ -21,12 +21,6 @@ class ArticleForm(forms.ModelForm):
         return
 
 
-class TeacherForm(forms.ModelForm):
-    class Meta:
-        model = TeacherForm
-        fields = ('phone', 'subjects')
-
-
 class StudentForm(forms.ModelForm):
     birth_date = forms.DateField(widget=forms.DateInput(attrs={
         "class": "input",
@@ -37,6 +31,28 @@ class StudentForm(forms.ModelForm):
         model = StudentForm
         fields = ('grade', 'birth_date', 'personalPhone', 'parentName_M', 'parentPhone_M', 'parentName_F',
                   'parentPhone_F')
+
+
+class StudentUserForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "username", "email", "password1", "password2")
+
+    def save(self, commit=True):
+        user = super(StudentUserForm, self).save(commit=False)  # create user in auth table
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.is_staff = False
+            user.save()
+        return user
+
+
+class TeacherForm(forms.ModelForm):
+    class Meta:
+        model = TeacherForm
+        fields = ('phone', 'subjects')
 
 
 class TeacherUserForm(UserCreationForm):
@@ -54,18 +70,3 @@ class TeacherUserForm(UserCreationForm):
             user.save()
         return user
 
-
-class StudentUserForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
-    class Meta:
-        model = User
-        fields = ("first_name", "last_name", "username", "email", "password1", "password2")
-
-    def save(self, commit=True):
-        user = super(StudentUserForm, self).save(commit=False)  # create user in auth table
-        user.email = self.cleaned_data["email"]
-        if commit:
-            user.is_staff = False
-            user.save()
-        return user

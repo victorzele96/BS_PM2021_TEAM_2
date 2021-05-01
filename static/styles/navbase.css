@@ -1,5 +1,5 @@
 body {
-    background-color: wheat;
+    background-color: lightblue;
     background-size: cover;
     margin: 0;
 }
@@ -9,7 +9,7 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: #1F2933;
 }
 
 li {
@@ -49,7 +49,7 @@ li.dropdown {
   text-align: left;
 }
 
-.dropdown-content a:hover {background-color: #f1f1f1;}
+.dropdown-content a:hover {background-color: #FFFFFF;}
 
 .dropdown:hover .dropdown-content {
   display: block;
@@ -62,11 +62,11 @@ li.dropdown {
 }
 
 .current-user .welcome {
-    color: #f1f1f1;
+    color: #FFFFFF;
 }
 
 nav {
-    display: inline;
+  display: inline;
 }
 
 .login-logout-btn-container {
