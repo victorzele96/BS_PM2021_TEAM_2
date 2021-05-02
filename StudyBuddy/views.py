@@ -137,7 +137,7 @@ def del_user(request, username):
         return render(request, '../templates/school/schoolHome.html')
 
     except Exception as e:
-        return render(request, '../templates/school/schoolHome.html',{'err':e.message})
+        return render(request, '../templates/school/schoolHome.html', {'err': e.message})
 
     return redirect("get_users")
 
