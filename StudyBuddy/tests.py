@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, get_user_model
 from django.test import TestCase
+from StudyBuddy.forms import TeacherUserForm, TeacherForm
 # from django.contrib.auth.models import User
 # from django.contrib.auth.forms import UserCreationForm
 
@@ -119,20 +120,56 @@ class LoginTest(TestCase):
 
 
 # Register tests
-class RegisterTest(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        super(RegisterTest, cls).setUpClass()
-        print("\n__Register SetUp__")
-        print("Module - result")
-        cls.user = get_user_model().objects.create_user(username='admin', password='admin')
-        cls.user.save()
-
-    @classmethod
-    def tearDownClass(cls):
-        super(RegisterTest, cls).tearDownClass()
-        print("\n__Register TearDown__")
-        cls.user.delete()
+# class TeacherRegistrationTest(TestCase):
+#     @classmethod
+#     def setUpClass(cls):
+#         super(TeacherRegistrationTest, cls).setUpClass()
+#         print("\n__Register SetUp__")
+#         print("Module - result")
+#         cls.teacher = TeacherUserForm().create_user(username='teacher', password1='teacher', password2='teacher',
+#                                                          first_name='tea', last_name='cher', email='teacher@teach.er')
+#         cls.teacher_extra = TeacherForm().create_user(phone='0521234567', subjects='math')
+#         cls.teacher.is_superuser = false;
+#         cls.teacher.is_staff = true;
+#         cls.teacher.save()
+#         cls.teacher_extra.save()
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         super(TeacherRegistrationTest, cls).tearDownClass()
+#         print("\n__Register TearDown__")
+#         cls.teacher.delete()
+#         cls.teacher_extra.delete()
+#
+#     def test_teacher_creation(self):
+#         print(cls.teacher.username, cls.teacher.password1, cls.teacher.first_name, cls.teacher.last_name,
+#               cls.teacher.email, cls.teacher_extra.phone, cls.teacher_extra.subjects)
 # Register tests
+
+
+# class NavTest(TestCase):
+#     @classmethod
+#     def setUpClass(cls):
+#         super(NavTest, cls).setUpClass()
+#         print("\n__Nav SetUp__")
+#         print("Module - result")
+#         cls.user = get_user_model().objects.create_user(username='admin', password='admin')
+#         cls.user.is_superuser = True
+#         cls.user.save()
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         super(NavTest, cls).tearDownClass()
+#         print("\n__Nav TearDown__")
+#         cls.user.delete()
+#
+#     def test_admin_nav(self, username='admin', password='admin'):
+#         user = get_user_model().objects.get("admin")
+#         user_auto = authenticate(username=username, password=password)
+#         if user_auto is not None and user_auto.is_authenticated:
+#             test = user.username == username
+#         self.assertTrue(test)
+
+
 
 ##### UNIT TESTS END #####

@@ -133,13 +133,20 @@ def del_user(request, username):
         messages.success(request, "The user is deleted")
 
     except User.DoesNotExist:
-        messages.error(request, "User doesnot exist")
+        messages.error(request, "User does not exist")
         return render(request, '../templates/school/schoolHome.html')
 
     except Exception as e:
-        return render(request, '../templates/school/schoolHome.html',{'err':e.message})
+        return render(request, '../templates/school/schoolHome.html', {'err': e.message})
 
     return redirect("get_users")
+
+
+def view_class(request):
+
+
+    return render(requestm, '../templates/school/viewClass.html')
+
 ##########################################################################################
 
 # Staff Section
@@ -195,3 +202,6 @@ def login_request(request):
                   template_name="login.html",
                   context={"form": form})
 ##########################################################################################
+
+
+

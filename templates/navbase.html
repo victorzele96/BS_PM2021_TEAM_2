@@ -29,7 +29,14 @@
                 <li><a href="{% url 'user_details' %}" class="details-btn">User Details</a></li>
                 <li><a href="#" class="progress-btn">Students Progress</a></li>
                 <li><a href="#" class="schedule-btn">Schedule</a></li>
-                <li><a href="#" class="subject-btn">Subject</a></li>
+                <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">Class</a>
+                <div class="dropdown-content">
+                    <a class="reg-teacher-btn" type="submit" href="#">Create Class</a>
+                    <a class="reg-student-btn" type="submit" href="#">Create Schedule</a>
+                    <a class="reg-student-btn" type="submit" href="#">View Schedule</a>
+                </div>
+                </li>
                 <li class="dropdown">
                     <a href="javascript:void(0)" class="dropbtn">Messages</a>
                     <div class="dropdown-content">
