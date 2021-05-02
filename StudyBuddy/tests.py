@@ -142,7 +142,6 @@ class TeacherRegistrationTest(TestCase):
         cls.teacher.is_staff = True;
 
         cls.teacher.email = cleaned_data["email"]
-        cls.teacher.
         cls.teacher.save()
         cls.teacher_extra.save()
 
