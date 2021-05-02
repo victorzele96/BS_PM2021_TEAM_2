@@ -86,12 +86,12 @@ def register_student(request):
             for msg in form.error_messages:
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
-            return render(request=request,template_name="school/registerStudent.html",
+            return render(request=request,template_name="school/register.html",
                           context={"form": form, "extra_form": student_form}) #, "p_reg_form": p_reg_form
 
     form = StudentUserForm()
     student_form = StudentForm()
-    return render(request=request,template_name="school/registerStudent.html",
+    return render(request=request,template_name="school/register.html",
                   context={"form": form, "extra_form": student_form})  #, "p_reg_form": p_reg_form
 
 
@@ -133,20 +133,13 @@ def del_user(request, username):
         messages.success(request, "The user is deleted")
 
     except User.DoesNotExist:
-        messages.error(request, "User does not exist")
+        messages.error(request, "User doesnot exist")
         return render(request, '../templates/school/schoolHome.html')
 
     except Exception as e:
-        return render(request, '../templates/school/schoolHome.html', {'err': e.message})
+        return render(request, '../templates/school/schoolHome.html',{'err':e.message})
 
     return redirect("get_users")
-
-
-def view_class(request):
-
-
-    return render(requestm, '../templates/school/viewClass.html')
-
 ##########################################################################################
 
 # Staff Section
@@ -202,6 +195,10 @@ def login_request(request):
                   template_name="login.html",
                   context={"form": form})
 ##########################################################################################
-
-
-
+# def updateTheme(request):
+#     user = request.user
+#
+#     if user.AuthenticationMiddleware:
+#         print(user.theme)
+#     else:
+#         print("Hello Nice Guest")
