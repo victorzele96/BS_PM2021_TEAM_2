@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, get_user_model
 from django.test import TestCase
+from models import *
+from forms import *
 # from django.contrib.auth.models import User
 # from django.contrib.auth.forms import UserCreationForm
 
@@ -125,7 +127,7 @@ class RegisterTest(TestCase):
         super(RegisterTest, cls).setUpClass()
         print("\n__Register SetUp__")
         print("Module - result")
-        cls.user = get_user_model().objects.create_user(username='admin', password='admin')
+        cls.user = TeacherForm().objects.create_user(username='admin', password='admin')
         cls.user.save()
 
     @classmethod

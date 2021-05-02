@@ -27,7 +27,7 @@
                 <label>
                     <i class="fa fa-envelope" aria-hidden="true"></i> password
                 </label>
-                <input type="password" name="password" placeholder="Password" class="form-control" >
+                <input id = "password" type="password" name="password" placeholder="Password" class="form-control" >
                 <div class="agile_label">
                     <input id="check3" name="check3" type="checkbox" value="show password" onclick="myFunction()">
                     <label class="check" for="check3">Show password</label>
@@ -36,7 +36,7 @@
             <!-- script for show password -->
             <script>
                 function myFunction() {
-                    var x = document.getElementById("myInput");
+                    var x = document.getElementById("password");
                     if (x.type === "password") {
                         x.type = "text";
                     } else {

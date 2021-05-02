@@ -26,12 +26,12 @@ class TeacherForm(models.Model):
     subjects = models.CharField("subjects", max_length=80)
     theme = models.IntegerField(default=0)
 
-
     def str(self):
         return f'{self.user.username} Teacher'
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
 
 class StudentForm(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
