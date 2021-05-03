@@ -125,8 +125,19 @@
             document.getElementById('myStyleSheet').href = "{% static 'styles/darkStyles/navBase.css' %}"
             localStorage.setItem('theme', 'dark')
         }
-
     }
+
+    {#function updateTheme(theme){#}
+	{#		var url = "{% url 'update_theme' %}"#}
+	{#		fetch(url, {#}
+	{#			method:'POST',#}
+	{#			headers:{#}
+	{#				'Content-type':'application/json',#}
+	{#				'X-CSRFToken':csrftoken,#}
+	{#			},#}
+	{#			body:JSON.stringify({'theme':theme})#}
+	{#		})#}
+	{#	}#}
 </script>
 </body>
 </html>

@@ -92,7 +92,7 @@ def register_student(request):
     form = StudentUserForm()
     student_form = StudentForm()
     return render(request=request,template_name="school/registerStudent.html",
-                  context={"form": form, "extra_form": student_form})  #, "p_reg_form": p_reg_form 
+                  context={"form": form, "extra_form": student_form})  #, "p_reg_form": p_reg_form
 
 
 def add_display_news(request):
