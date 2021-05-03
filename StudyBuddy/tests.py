@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, get_user_model
 from django.test import TestCase
-from StudyBuddy.forms import TeacherUserForm, TeacherForm
-# from django.contrib.auth.models import User
+from StudyBuddy.models import TeacherForm, StudentForm
+from django.contrib.auth.models import User
 # from django.contrib.auth.forms import UserCreationForm
 
 ##### UNIT TESTS #####
@@ -74,9 +74,9 @@ class TestViews(TestCase):
         test = True
         self.assertTrue(test)
         print("\nviews.py - ", positive_test_result(test))
-
-
-# Login tests
+#
+#
+# # Login tests
 class LoginTest(TestCase):
 
     @classmethod
@@ -97,67 +97,32 @@ class LoginTest(TestCase):
         user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertTrue(test)
-        print("\nCorrect Login - ", positive_test_result(test))
+        print("\nCorrect Login Unit Test - ", positive_test_result(test))
+        return test
 
     def test_wrong_username(self, username='wrong', password='admin'):
         user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertFalse(test)
-        print("\nWrong Username Login - ", negative_test_result(test))
+        print("\nWrong Username Login Unit Test - ", negative_test_result(test))
+        return test
 
     def test_wrong_password(self, username='admin', password='wrong'):
         user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertFalse(test)
-        print("\nWrong Password Login - ", negative_test_result(test))
+        print("\nWrong Password Login Unit Test - ", negative_test_result(test))
+        return test
 
     def test_wrong_input(self, username='wrong', password='wrong'):
         user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertFalse(test)
-        print("\nWrong Input Login - ", negative_test_result(test))
+        print("\nWrong Input Login Unit Test - ", negative_test_result(test))
+        return test
 # Login tests
 
-
-# Register tests
-# class TeacherRegistrationTest(TestCase):
-#     @classmethod
-#     def setUpClass(cls):
-#         super(TeacherRegistrationTest, cls).setUpClass()
-#         print("\n__Register SetUp__")
-#         print("Module - result")
-#         cls.teacher = TeacherUserForm()
-#         cls.teacher.username = 'teacher'
-#         cls.teacher.password1 = 'teacher'
-#         cls.teacher.password2 = 'teacher'
-#         cls.teacher.first_name = 'tea'
-#         cls.teacher.last_name = 'cher'
-#         cls.teacher.email = 'teacher@teach.er'
-
-#         cls.teacher_extra = TeacherForm()
-#         cls.teacher_extra.phone = '0521234567'
-#         cls.teacher_extra.subjects = 'math'
-
-#         cls.teacher.is_superuser = False;
-#         cls.teacher.is_staff = True;
-
-#         cls.teacher.email = cleaned_data["email"]
-#         cls.teacher.save()
-#         cls.teacher_extra.save()
-
-#     @classmethod
-#     def tearDownClass(cls):
-#         super(TeacherRegistrationTest, cls).tearDownClass()
-#         print("\n__Register TearDown__")
-#         cls.teacher.delete()
-#         cls.teacher_extra.delete()
-
-#     def test_teacher_creation(self):
-#         print(cls.teacher.username, cls.teacher.password1, cls.teacher.first_name, cls.teacher.last_name,
-#               cls.teacher.email, cls.teacher_extra.phone, cls.teacher_extra.subjects)
-# Register tests
-
-
+# Navbar tests
 # class NavTest(TestCase):
 #     @classmethod
 #     def setUpClass(cls):
@@ -180,6 +145,176 @@ class LoginTest(TestCase):
 #         if user_auto is not None and user_auto.is_authenticated:
 #             test = user.username == username
 #         self.assertTrue(test)
-
+# Navbar tests
 
 ##### UNIT TESTS END #####
+
+##### INTEGRATION TESTS #####
+
+# Register tests
+class TeacherRegistrationTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super(TeacherRegistrationTest, cls).setUpClass()
+        print("\n__Teacher Registration SetUp__")
+        print("Module - result")
+        cls.teacher = TeacherForm()
+        cls.teacher.username = 'teacher'
+        cls.teacher.password1 = 'teacher'
+        cls.teacher.password2 = 'teacher'
+        cls.teacher.first_name = 'tea'
+        cls.teacher.last_name = 'cher'
+        cls.teacher.email = 'teacher@teach.er'
+        cls.teacher.phone = '0521234567'
+        cls.teacher.subjects = 'math'
+
+        cls.teacher.is_superuser = False
+        cls.teacher.is_staff = True
+
+        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
+                                                                password=cls.teacher.password1, email=cls.teacher.email,
+                                                                first_name=cls.teacher.first_name,
+                                                                last_name=cls.teacher.last_name)
+
+        cls.teacher.save()
+
+    @classmethod
+    def tearDownClass(cls):
+        super(TeacherRegistrationTest, cls).tearDownClass()
+        print("\n__Teacher Registration TearDown__")
+        cls.teacher.delete()
+
+    def test_correct_teacher_creation(self, username='teacher', password='teacher'):
+        user = get_user_model().objects.get(username='teacher')
+        login_test = LoginTest().test_correct(username=username, password=password)
+        test_registration = False
+        if login_test:
+            test_registration = (self.teacher_user.username == user.username
+                                 and self.teacher_user.password == user.password
+                                 and self.teacher_user.email == user.email
+                                 and self.teacher_user.first_name == user.first_name
+                                 and self.teacher_user.last_name == user.last_name)
+        self.assertTrue(test_registration)
+        print("\nCorrect Teacher Registration + Login Integration Test - ", positive_test_result(test_registration))
+
+    def test_wrong_username_teacher_creation(self, username='wrong', password='teacher'):
+        user = get_user_model().objects.get(username='teacher')
+        login_test = LoginTest().test_wrong_username(username=username, password=password)
+        test_registration = False
+        if login_test:
+            test_registration = (self.teacher_user.username == user.username
+                                 and self.teacher_user.password == user.password
+                                 and self.teacher_user.email == user.email)
+        self.assertFalse(test_registration)
+        print("\nWrong Username Teacher Registration + Login Integration Test - ", negative_test_result(test_registration))
+
+    def test_wrong_password_teacher_creation(self, username='teacher', password='wrong'):
+        user = get_user_model().objects.get(username='teacher')
+        login_test = LoginTest().test_wrong_password(username=username, password=password)
+        test_registration = False
+        if login_test:
+            test_registration = (self.teacher_user.username == user.username
+                                 and self.teacher_user.password == user.password
+                                 and self.teacher_user.email == user.email)
+        self.assertFalse(test_registration)
+        print("\nWrong Password Teacher Registration + Login Integration Test - ", negative_test_result(test_registration))
+
+    def test_wrong_input_teacher_creation(self, username='wrong', password='wrong'):
+        user = get_user_model().objects.get(username='teacher')
+        login_test = LoginTest().test_wrong_input(username=username, password=password)
+        test_registration = False
+        if login_test:
+            test_registration = (self.teacher_user.username == user.username
+                                 and self.teacher_user.password == user.password
+                                 and self.teacher_user.email == user.email)
+        self.assertFalse(test_registration)
+        print("\nWrong Password Teacher Registration + Login Integration Test - ", negative_test_result(test_registration))
+
+
+class StudentRegistrationTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super(StudentRegistrationTest, cls).setUpClass()
+        print("\n__Student Registration SetUp__")
+        print("Module - result")
+        cls.student = StudentForm()
+        cls.student.username = 'student'
+        cls.student.password1 = 'student'
+        cls.student.password2 = 'student'
+        cls.student.first_name = 'stud'
+        cls.student.last_name = 'ent'
+        cls.student.email = 'student@stude.nt'
+        cls.student.phone = '0521454567'
+        cls.student.birth_date = '1995-05-01'
+        cls.student.parentName_F = 'bob'
+        cls.student.parentPhone_F = '052987125'
+        cls.student.parentName_M = 'bella'
+        cls.student.parentPhone_M = '0529871256'
+
+        cls.student.is_superuser = False
+        cls.student.is_staff = False
+
+        cls.student_user = get_user_model().objects.create_user(username=cls.student.username,
+                                                                password=cls.student.password1, email=cls.student.email,
+                                                                first_name=cls.student.first_name,
+                                                                last_name=cls.student.last_name)
+
+        cls.student.save()
+
+    @classmethod
+    def tearDownClass(cls):
+        super(StudentRegistrationTest, cls).tearDownClass()
+        print("\n__Student Registration TearDown__")
+        cls.student.delete()
+
+    def test_correct_student_creation(self, username='student', password='student'):
+        user = get_user_model().objects.get(username='student')
+        login_test = LoginTest().test_correct(username=username, password=password)
+        test_registration = False
+        if login_test:
+            test_registration = (self.student_user.username == user.username
+                                 and self.student_user.password == user.password
+                                 and self.student_user.email == user.email
+                                 and self.student_user.first_name == user.first_name
+                                 and self.student_user.last_name == user.last_name)
+        self.assertTrue(test_registration)
+        print("\nCorrect Student Registration + Login Integration Test - ", positive_test_result(test_registration))
+
+    def test_wrong_username_student_creation(self, username='wrong', password='teacher'):
+        user = get_user_model().objects.get(username='student')
+        login_test = LoginTest().test_wrong_username(username=username, password=password)
+        test_registration = False
+        if login_test:
+            test_registration = (self.student_user.username == user.username
+                                 and self.student_user.password == user.password
+                                 and self.student_user.email == user.email)
+        self.assertFalse(test_registration)
+        print("\nWrong Username Student Registration + Login Integration Test - ", negative_test_result(test_registration))
+
+    def test_wrong_password_teacher_creation(self, username='student', password='wrong'):
+        user = get_user_model().objects.get(username='student')
+        login_test = LoginTest().test_wrong_password(username=username, password=password)
+        test_registration = False
+        if login_test:
+            test_registration = (self.student_user.username == user.username
+                                 and self.student_user.password == user.password
+                                 and self.student_user.email == user.email)
+        self.assertFalse(test_registration)
+        print("\nWrong Password Student Registration + Login Integration Test - ",
+              negative_test_result(test_registration))
+
+    def test_wrong_input_teacher_creation(self, username='wrong', password='wrong'):
+        user = get_user_model().objects.get(username='student')
+        login_test = LoginTest().test_wrong_input(username=username, password=password)
+        test_registration = False
+        if login_test:
+            test_registration = (self.student_user.username == user.username
+                                 and self.student_user.password == user.password
+                                 and self.student_user.email == user.email)
+        self.assertFalse(test_registration)
+        print("\nWrong Password Student Registration + Login Integration Test - ", negative_test_result(test_registration))
+# Register tests
+
+##### INTEGRATION TESTS END #####
+
+
