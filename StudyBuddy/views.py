@@ -148,13 +148,29 @@ def delete_teacher_from_school_view(request, pk):
 
 
 def teacher_update(request, pk):
-    # if request.method == "POST":
-    #     form = TeacherUserForm(request.POST)
-    #     teacher_form = TeacherForm(request.POST)
-    #     t_details = {'form': form, 'teacher_form': teacher_form}
-    #     if form.is_valid() and teacher_form.is_valid():
-    #         pass
-    return render(request, '../templates/school/teacher_update.html')
+    teacher = TeacherExtra.objects.get(id=pk)
+    user = User.objects.get(id=teacher.user_id)
+
+    base_details = TeacherUserForm(instance=user)
+    extra_details = TeacherForm(instance=teacher)
+    details = {'base_details': base_details, 'extra_details': extra_details}
+
+    if request.method == 'POST':
+        base_details = TeacherUserForm(request.POST, instance=user)
+        extra_details = TeacherForm(request.POST, instance=teacher)
+        if (base_details.is_valid() and extra_details.is_valid()) or (base_details.is_valid()
+                                                                      and extra_details.is_valid()
+                                                                      and base_details.password1 is None
+                                                                      and base_details.password2 is None):
+            user = base_details.save()
+            # user.set_password(user.password)
+            user.save()
+            extra = extra_details.save(commit=False)
+            extra.save()
+            return redirect('teacher_details')
+        else:
+            print("The user didn\'t changed !")
+    return render(request, '../templates/school/teacher_update.html', context=details)
 
 
 @staff_member_required
