@@ -52,6 +52,7 @@
                 {% if user.is_staff %} {# teacher user #}
                     <li><a href="{% url 'teacherHome' %}" class="navbar-brand">Study Buddy</a></li>
                     <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'teacherHome' %}" class="dropbtn">{{user.username|title}}</a></li>
+                    <li><a href="#" class="schedule-btn">Schedule</a></li>
                     <li><a href="#" class="my-classes-btn">My Classes</a></li>
                     <li><a href="#" class="add-exercise-btn">Add Exercise</a></li>
                     <li><a href="#" class="progress-btn">View Progress</a></li>
