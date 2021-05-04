@@ -47,7 +47,7 @@ class StudentForm(models.Model):
 
     theme = models.IntegerField(default=0)
 
-    def str(self):
+    def __str__(self):
         return f'{self.user.username} Student'
 
     def save(self, *args, **kwargs):

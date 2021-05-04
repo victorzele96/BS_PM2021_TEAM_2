@@ -11,8 +11,8 @@ from datetime import date, datetime
 
 from .forms import *
 from .models import Article
-
-
+from .models import StudentForm as StudentExtra
+from .models import TeacherForm as TeacherExtra
 
 
 # Home Section
@@ -30,6 +30,7 @@ def home(request):
 ##########################################################################################
 def schoolHome(request):
     return render(request, '../templates/school/schoolHome.html')
+
 
 def register_teacher(request):
     if request.method == "POST":
@@ -54,12 +55,12 @@ def register_teacher(request):
             for msg in form.error_messages:
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
-            return render(request=request,template_name="school/register.html",
+            return render(request=request, template_name="school/register.html",
                           context={"form": form, "extra_form": teacher_form})
 
     form = TeacherUserForm()
     teacher_form = TeacherForm()
-    return render(request=request,template_name="school/register.html",
+    return render(request=request, template_name="school/register.html",
                   context={"form": form, "extra_form": teacher_form})
 
 
@@ -86,13 +87,13 @@ def register_student(request):
             for msg in form.error_messages:
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
-            return render(request=request,template_name="school/registerStudent.html",
-                          context={"form": form, "extra_form": student_form}) #, "p_reg_form": p_reg_form
+            return render(request=request, template_name="school/registerStudent.html",
+                          context={"form": form, "extra_form": student_form})  # , "p_reg_form": p_reg_form
 
     form = StudentUserForm()
     student_form = StudentForm()
-    return render(request=request,template_name="school/registerStudent.html",
-                  context={"form": form, "extra_form": student_form})  #, "p_reg_form": p_reg_form
+    return render(request=request, template_name="school/registerStudent.html",
+                  context={"form": form, "extra_form": student_form})  # , "p_reg_form": p_reg_form
 
 
 def add_display_news(request):
@@ -101,7 +102,7 @@ def add_display_news(request):
         article_form = ArticleForm(request.POST)
 
         if article_form.is_valid():
-            article_form.date=datetime.now()
+            article_form.date = datetime.now()
             article = article_form.save()
 
             messages.success(request, f"New article: {article} has been saved")
@@ -116,19 +117,50 @@ def add_display_news(request):
 
             return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
 
-    article_form=ArticleForm()
+    article_form = ArticleForm()
     return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
 
 
 def get_users(request):
-    users = User.objects.all()
-    return render(request, '../templates/school/User_list.html', {'users': users})
+    students = StudentExtra.objects.all()
+    return render(request, '../templates/school/User_list.html', {'students': students})
+
+
+def delete_student_from_school_view(request, pk):
+    student = StudentExtra.objects.get(id=pk)
+    user = User.objects.get(id=student.user_id)
+    user.delete()
+    student.delete()
+    return redirect('user_details')
+
+
+def teacher_details(request):
+    teachers = TeacherExtra.objects.all()
+    return render(request, '../templates/school/teacher_view.html', {'teachers': teachers})
+
+
+def delete_teacher_from_school_view(request, pk):
+    teacher = TeacherExtra.objects.get(id=pk)
+    user = User.objects.get(id=teacher.user_id)
+    user.delete()
+    teacher.delete()
+    return redirect('teacher_details')
+
+
+def teacher_update(request, pk):
+    # if request.method == "POST":
+    #     form = TeacherUserForm(request.POST)
+    #     teacher_form = TeacherForm(request.POST)
+    #     t_details = {'form': form, 'teacher_form': teacher_form}
+    #     if form.is_valid() and teacher_form.is_valid():
+    #         pass
+    return render(request, '../templates/school/teacher_update.html')
 
 
 @staff_member_required
 def del_user(request, username):
     try:
-        u = User.objects.get(username = username)
+        u = User.objects.get(username=username)
         u.delete()
         messages.success(request, "The user is deleted")
 
@@ -143,9 +175,8 @@ def del_user(request, username):
 
 
 def view_class(request):
+    return render(request, '../templates/school/viewClass.html')
 
-
-    return render(requestm, '../templates/school/viewClass.html')
 
 ##########################################################################################
 
@@ -153,12 +184,16 @@ def view_class(request):
 ##########################################################################################
 def teacherHome(request):
     return render(request, '../templates/teacher/teacherHome.html')
+
+
 ##########################################################################################
 
 # Student Section
 ##########################################################################################
 def studentHome(request):
     return render(request, '../templates/student/studentHome.html')
+
+
 ##########################################################################################
 
 
@@ -169,6 +204,7 @@ def logout_request(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("home")
+
 
 def login_request(request):
     if request.method == 'POST':
@@ -202,6 +238,3 @@ def login_request(request):
                   template_name="login.html",
                   context={"form": form})
 ##########################################################################################
-
-
-
