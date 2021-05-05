@@ -1,8 +1,11 @@
 from django.contrib.auth import authenticate, get_user_model
 from django.test import TestCase
-from StudyBuddy.models import TeacherForm, StudentForm
+from StudyBuddy.models import TeacherForm as TeacherExtra, StudentForm as StudentExtra
 from django.contrib.auth.models import User
+import pytest
 # from django.contrib.auth.forms import UserCreationForm
+
+pytest_mark = pytest.mark.django_db
 
 ##### UNIT TESTS #####
 
@@ -76,9 +79,12 @@ class TestViews(TestCase):
         print("\nviews.py - ", positive_test_result(test))
 #
 #
-# # Login tests
-class LoginTest(TestCase):
+# Login tests
 
+
+@pytest.mark.django_db
+class LoginTest(TestCase):
+    pytestmark = pytest.mark.django_db
     @classmethod
     def setUpClass(cls):
         super(LoginTest, cls).setUpClass()
@@ -86,6 +92,8 @@ class LoginTest(TestCase):
         print("Module - result")
         cls.user = get_user_model().objects.create_user(username='admin', password='admin')
         cls.user.save()
+        # cls.user_test = User.objects.get(username="admin")
+        # print(cls.user_test)
 
     @classmethod
     def tearDownClass(cls):
@@ -121,6 +129,33 @@ class LoginTest(TestCase):
         print("\nWrong Input Login Unit Test - ", negative_test_result(test))
         return test
 # Login tests
+#
+# User_list tests
+@pytest.mark.django_db
+class UserListTest(TestCase):
+    pytestmark = pytest.mark.django_db
+
+    @classmethod
+    def setUpClass(cls):
+        super(UserListTest, cls).setUpClass()
+        print("\n__User_List SetUp__")
+        print("Module - result")
+        cls.reg = StudentRegistrationTest()
+        cls.user = StudentExtra.objects.all()
+
+    @classmethod
+    def tearDownClass(cls):
+        super(UserListTest, cls).tearDownClass()
+        print("\n__User_List TearDown__")
+
+    def test_view_student_details(self):
+        print(self.user)
+        if not self.user is None:
+            for s in self.user:
+                test = (self.reg.first_name == s.first_name)
+
+# User_list tests
+
 
 # Navbar tests
 # class NavTest(TestCase):
@@ -152,13 +187,16 @@ class LoginTest(TestCase):
 ##### INTEGRATION TESTS #####
 
 # Register tests
+@pytest.mark.django_db
 class TeacherRegistrationTest(TestCase):
+    pytestmark = pytest.mark.django_db
+
     @classmethod
     def setUpClass(cls):
         super(TeacherRegistrationTest, cls).setUpClass()
         print("\n__Teacher Registration SetUp__")
         print("Module - result")
-        cls.teacher = TeacherForm()
+        cls.teacher = TeacherExtra()
         cls.teacher.username = 'teacher'
         cls.teacher.password1 = 'teacher'
         cls.teacher.password2 = 'teacher'
@@ -231,13 +269,16 @@ class TeacherRegistrationTest(TestCase):
         print("\nWrong Password Teacher Registration + Login Integration Test - ", negative_test_result(test_registration))
 
 
+@pytest.mark.django_db
 class StudentRegistrationTest(TestCase):
+    pytestmark = pytest.mark.django_db
+
     @classmethod
     def setUpClass(cls):
         super(StudentRegistrationTest, cls).setUpClass()
         print("\n__Student Registration SetUp__")
         print("Module - result")
-        cls.student = StudentForm()
+        cls.student = StudentExtra()
         cls.student.username = 'student'
         cls.student.password1 = 'student'
         cls.student.password2 = 'student'
