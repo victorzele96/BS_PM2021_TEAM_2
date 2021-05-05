@@ -32,7 +32,7 @@
                         <td> {{t.user.last_name}}</td>
                         <td> {{t.user.email}}</td>
                         <td> {{t.phone }}</td>
-                        <td><a class="" href="{% url 'teacher_update' t.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
+                        <td><a class="" href="{% url 'teacher_update_from_school' t.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
                         <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>
                     </tr>
                 {% endfor %}

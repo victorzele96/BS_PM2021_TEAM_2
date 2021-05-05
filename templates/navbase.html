@@ -54,9 +54,9 @@
                     <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'teacherHome' %}" class="dropbtn">{{user.username|title}}</a></li>
                     <li><a href="#" class="schedule-btn">Schedule</a></li>
                     <li><a href="#" class="my-classes-btn">My Classes</a></li>
-                    <li><a href="#" class="add-exercise-btn">Add Exercise</a></li>
+                    <li><a href="{% url 'add_exercise' %}" class="add-exercise-btn">Add Exercise</a></li>
                     <li><a href="#" class="progress-btn">View Progress</a></li>
-                    <li><a href="#" class="details-btn">User Details</a></li>
+                    <li><a href="{% url 'teacher_update_from_teacher' user.id %}" class="details-btn">User Details</a></li>
                     <li class="dropdown">
                         <a href="javascript:void(0)" class="dropbtn">Messages</a>
                         <div class="dropdown-content">
@@ -71,7 +71,7 @@
                     <li><a href="#" class="exams-hw-btn">Exams and HW</a></li>
                     <li><a href="#" class="exercise-btn">Exercise</a></li>
                     <li><a href="#" class="progress-btn">View Progress</a></li>
-                    <li><a href="#" class="details-btn">User Details</a></li>
+                    <li><a href="{% url 'student_update_from_student' user.id %}" class="details-btn">User Details</a></li>
                     <li class="dropdown">
                         <a href="javascript:void(0)" class="dropbtn">Messages</a>
                         <div class="dropdown-content">

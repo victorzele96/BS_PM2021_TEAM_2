@@ -140,7 +140,7 @@ def delete_student_from_school_view(request, pk):
     return redirect('user_details')
 
 
-def student_update(request, pk):
+def student_update_from_school(request, pk):
     student = StudentExtra.objects.get(id=pk)
     user = User.objects.get(id=student.user_id)
 
@@ -166,6 +166,32 @@ def student_update(request, pk):
     return render(request, '../templates/school/student_update.html', context=details)
 
 
+def student_update_from_student(request, pk):
+    user = User.objects.get(id=pk)
+    student = StudentExtra.objects.get(user_id=pk)
+
+    base_details = StudentUserForm(instance=user)
+    extra_details = StudentForm(instance=student)
+    details = {'base_details': base_details, 'extra_details': extra_details}
+
+    if request.method == 'POST':
+        base_details = StudentUserForm(request.POST, instance=user)
+        extra_details = StudentForm(request.POST, instance=student)
+        if (base_details.is_valid() and extra_details.is_valid()) or (base_details.is_valid()
+                                                                      and extra_details.is_valid()
+                                                                      and base_details.password1 is None
+                                                                      and base_details.password2 is None):
+            user = base_details.save()
+            # user.set_password(user.password)
+            user.save()
+            extra = extra_details.save(commit=False)
+            extra.save()
+            return redirect('studentHome')
+        else:
+            print("The user didn\'t changed !")
+    return render(request, '../templates/school/student_update.html', context=details)
+
+
 def teacher_details(request):
     teachers = TeacherExtra.objects.all()
     return render(request, '../templates/school/teacher_view.html', {'teachers': teachers})
@@ -179,7 +205,7 @@ def delete_teacher_from_school_view(request, pk):
     return redirect('teacher_details')
 
 
-def teacher_update(request, pk):
+def teacher_update_from_school(request, pk):
     teacher = TeacherExtra.objects.get(id=pk)
     user = User.objects.get(id=teacher.user_id)
 
@@ -204,6 +230,31 @@ def teacher_update(request, pk):
             print("The user didn\'t changed !")
     return render(request, '../templates/school/teacher_update.html', context=details)
 
+
+def teacher_update_from_teacher(request, pk):
+    user = User.objects.get(id=pk)
+    teacher = TeacherExtra.objects.get(user_id=pk)
+
+    base_details = TeacherUserForm(instance=user)
+    extra_details = TeacherForm(instance=teacher)
+    details = {'base_details': base_details, 'extra_details': extra_details}
+
+    if request.method == 'POST':
+        base_details = TeacherUserForm(request.POST, instance=user)
+        extra_details = TeacherForm(request.POST, instance=teacher)
+        if (base_details.is_valid() and extra_details.is_valid()) or (base_details.is_valid()
+                                                                      and extra_details.is_valid()
+                                                                      and base_details.password1 is None
+                                                                      and base_details.password2 is None):
+            user = base_details.save()
+            # user.set_password(user.password)
+            user.save()
+            extra = extra_details.save(commit=False)
+            extra.save()
+            return render(request, '../templates/teacher/teacherHome.html')# ----------------------------------logout when password change
+        else:
+            print("The user didn\'t changed !")
+    return render(request, '../templates/school/teacher_update.html', context=details)
 
 @staff_member_required
 def del_user(request, username):
@@ -233,7 +284,8 @@ def view_class(request):
 def teacherHome(request):
     return render(request, '../templates/teacher/teacherHome.html')
 
-
+def add_exercise(request):
+    return render(request, '../templates/teacher/addExercise.html')
 ##########################################################################################
 
 # Student Section
