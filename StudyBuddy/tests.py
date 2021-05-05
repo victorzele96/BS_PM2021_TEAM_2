@@ -320,7 +320,7 @@ class DeleteStudentTest(TestCase):
             test = self.student is None
 
             self.assertTrue(test)
-        print("\nCorrect Delete Student Details Integration Test - ", positive_test_result(test))
+        print("\nCorrect Delete Student Integration Test - ", positive_test_result(test))
 # Delete Student tests
 
 # Update Student Details tests
@@ -339,6 +339,8 @@ class UpdateStudentDetailsTest(TestCase):
         super(UpdateStudentDetailsTest, cls).tearDownClass()
         print("\n__Update Student Details TearDown__")
         cls.student.delete()
+
+    # unit test
 
     def test_unit_update_student_details(self, username='notStudent', password='notStudent', email='notStudent@stude.nt', first_name='not', last_name='student'):
         if self.student is not None:
@@ -405,6 +407,8 @@ class ViewStudentDetailsTest(TestCase):
         print("\n__View Student Details TearDown__")
         cls.student.delete()
 
+    # unit test
+
     def test_unit_view_student_details(self, username='student', password='student', email='student@stude.nt', first_name='stud', last_name='ent'):
         test = (self.student.username == self.user_dict['username'] and self.student.email == self.user_dict['email']
                 and self.student.first_name == self.user_dict['first_name']
@@ -423,7 +427,7 @@ class ViewStudentDetailsTest(TestCase):
                     and self.student.last_name == self.user_dict['last_name'])
 
         self.assertTrue(test)
-        print("\nCorrect View Student Details Unit Test - ", positive_test_result(test))
+        print("\nCorrect View Student Details Integration Test - ", positive_test_result(test))
 # View Student Details tests
 
 # Teacher Registration test
