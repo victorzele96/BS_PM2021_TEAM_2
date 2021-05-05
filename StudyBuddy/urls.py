@@ -22,6 +22,7 @@ urlpatterns = [
     path("school/register_teacher/", views.register_teacher, name="register_teacher"),
     path("school/register_student/", views.register_student, name="register_student"),
     path("school/news/", views.add_display_news, name="school_news"),
+    path("school/delete_news/<int:pk>", views.delete_news, name='delete_news'),
     path("school/user_details/", views.get_users, name="user_details"),
     path("delete-student-from-school/<int:pk>", views.delete_student_from_school_view,
                                                 name='delete-student-from-school'),

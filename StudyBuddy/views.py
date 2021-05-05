@@ -121,6 +121,12 @@ def add_display_news(request):
     return render(request, '../templates/school/news.html', {'news': news, "article_form": article_form})
 
 
+def delete_news(request, pk):
+    article = Article.objects.get(id=pk)
+    article.delete()
+    return redirect('school_news')
+
+
 def get_users(request):
     students = StudentExtra.objects.all()
     return render(request, '../templates/school/User_list.html', {'students': students})
