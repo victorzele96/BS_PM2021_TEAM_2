@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate, get_user_model
 from django.test import TestCase
 from StudyBuddy.models import TeacherForm as TeacherExtra, StudentForm as StudentExtra
-from django.contrib.auth.models import User
 import pytest
 # from django.contrib.auth.forms import UserCreationForm
 
@@ -92,8 +91,6 @@ class LoginTest(TestCase):
         print("Module - result")
         cls.user = get_user_model().objects.create_user(username='admin', password='admin')
         cls.user.save()
-        # cls.user_test = User.objects.get(username="admin")
-        # print(cls.user_test)
 
     @classmethod
     def tearDownClass(cls):
@@ -129,33 +126,160 @@ class LoginTest(TestCase):
         print("\nWrong Input Login Unit Test - ", negative_test_result(test))
         return test
 # Login tests
-#
-# User_list tests
+
+# Update Teacher Details tests
 @pytest.mark.django_db
-class UserListTest(TestCase):
+class UpdateTeacherDetailsTest(TestCase):
     pytestmark = pytest.mark.django_db
 
     @classmethod
     def setUpClass(cls):
-        super(UserListTest, cls).setUpClass()
-        print("\n__User_List SetUp__")
+        super(UpdateTeacherDetailsTest, cls).setUpClass()
+        print("\n__Update Teacher Details SetUp__")
         print("Module - result")
-        cls.reg = StudentRegistrationTest()
-        cls.user = StudentExtra.objects.all()
+        cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher',
+                                                           email='teacher@teach.er', first_name='tea', last_name='cher')
+        cls.teacher.save()
 
     @classmethod
     def tearDownClass(cls):
-        super(UserListTest, cls).tearDownClass()
-        print("\n__User_List TearDown__")
+        super(UpdateTeacherDetailsTest, cls).tearDownClass()
+        print("\n__Update Teacher Details TearDown__")
+        cls.teacher.delete()
 
-    def test_view_student_details(self):
-        print(self.user)
-        if not self.user is None:
-            for s in self.user:
-                test = (self.reg.first_name == s.first_name)
+    def test_update_teacher_details(self, username='notTeacher', password='notTeacher', email='notTeacher@teach.er', first_name='not', last_name='teacher'):
+        if self.teacher is not None:
+            self.teacher.username = username
+            self.teacher.password = password
+            self.teacher.email = email
+            self.teacher.first_name = first_name
+            self.teacher.last_name = last_name
 
-# User_list tests
+            self.teacher.save()
 
+        test = (self.teacher.username == username and self.teacher.password == password and self.teacher.email == email
+                and self.teacher.first_name == first_name and self.teacher.last_name == last_name)
+
+        self.assertTrue(test)
+        print("\nCorrect Update Teacher Details Unit Test - ", positive_test_result(test))
+
+# Update Teacher Details tests
+
+# View Teacher Details tests
+@pytest.mark.django_db
+class ViewTeacherDetailsTest(TestCase):
+    pytestmark = pytest.mark.django_db
+
+    @classmethod
+    def setUpClass(cls):
+        super(ViewTeacherDetailsTest, cls).setUpClass()
+        print("\n__View Teacher Details SetUp__")
+        print("Module - result")
+
+        cls.user_dict = {
+            'username': 'teacher',
+            'password': 'teacher',
+            'email': 'teacher@teach.er',
+            'first_name': 'tea',
+            'last_name': 'cher',
+        }
+
+        cls.student = get_user_model().objects.create_user(username='teacher', password='teacher',
+                                                           email='teacher@teach.er', first_name='tea', last_name='cher')
+        cls.student.save()
+
+    @classmethod
+    def tearDownClass(cls):
+        super(ViewTeacherDetailsTest, cls).tearDownClass()
+        print("\n__View Teacher Details TearDown__")
+        cls.student.delete()
+
+    def test_update_teacher_details(self, username='teacher', password='teacher', email='teacher@teach.er', first_name='tea', last_name='cher'):
+        test = (self.student.username == self.user_dict['username'] and self.student.email == self.user_dict['email']
+                and self.student.first_name == self.user_dict['first_name']
+                and self.student.last_name == self.user_dict['last_name'])
+
+        self.assertTrue(test)
+        print("\nCorrect View Teacher Details Unit Test - ", positive_test_result(test))
+
+# View Teacher Details tests
+
+# Update Student Details tests
+@pytest.mark.django_db
+class UpdateStudentDetailsTest(TestCase):
+    pytestmark = pytest.mark.django_db
+
+    @classmethod
+    def setUpClass(cls):
+        super(UpdateStudentDetailsTest, cls).setUpClass()
+        print("\n__Update Student Details SetUp__")
+        print("Module - result")
+        cls.student = get_user_model().objects.create_user(username='student', password='student',
+                                                           email='student@stude.nt', first_name='stud', last_name='ent')
+        cls.student.save()
+
+    @classmethod
+    def tearDownClass(cls):
+        super(UpdateStudentDetailsTest, cls).tearDownClass()
+        print("\n__Update Student Details TearDown__")
+        cls.student.delete()
+
+    def test_update_student_details(self, username='notStudent', password='notStudent', email='notStudent@stude.nt', first_name='not', last_name='student'):
+        if self.student is not None:
+            self.student.username = username
+            self.student.password = password
+            self.student.email = email
+            self.student.first_name = first_name
+            self.student.last_name = last_name
+
+            self.student.save()
+
+        test = (self.student.username == username and self.student.password == password and self.student.email == email
+                and self.student.first_name == first_name and self.student.last_name == last_name)
+
+        self.assertTrue(test)
+        print("\nCorrect Update Student Details Unit Test - ", positive_test_result(test))
+
+# Update Student Details tests
+
+# View Student Details tests
+@pytest.mark.django_db
+class ViewStudentDetailsTest(TestCase):
+    pytestmark = pytest.mark.django_db
+
+    @classmethod
+    def setUpClass(cls):
+        super(ViewStudentDetailsTest, cls).setUpClass()
+        print("\n__View Student Details SetUp__")
+        print("Module - result")
+
+        cls.user_dict = {
+            'username': 'student',
+            'password': 'student',
+            'email': 'student@stude.nt',
+            'first_name': 'stud',
+            'last_name': 'ent',
+        }
+
+        cls.student = get_user_model().objects.create_user(username='student', password='student',
+                                                           email='student@stude.nt', first_name='stud', last_name='ent')
+        cls.student.save()
+
+    @classmethod
+    def tearDownClass(cls):
+        super(ViewStudentDetailsTest, cls).tearDownClass()
+        print("\n__View Student Details TearDown__")
+        cls.student.delete()
+
+    def test_update_teacher_details(self, username='student', password='student', email='student@stude.nt', first_name='stud', last_name='ent'):
+        test = (self.student.username == self.user_dict['username'] and self.student.email == self.user_dict['email']
+                and self.student.first_name == self.user_dict['first_name']
+                and self.student.last_name == self.user_dict['last_name'])
+
+        self.assertTrue(test)
+        print("\nCorrect View Student Details Unit Test - ", positive_test_result(test))
+
+# View Student Details tests
 
 # Navbar tests
 # class NavTest(TestCase):
