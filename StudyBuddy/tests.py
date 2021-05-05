@@ -1,10 +1,7 @@
 from django.contrib.auth import authenticate, get_user_model
 from django.test import TestCase
 from StudyBuddy.models import TeacherForm as TeacherExtra, StudentForm as StudentExtra
-import pytest
 # from django.contrib.auth.forms import UserCreationForm
-
-pytest_mark = pytest.mark.django_db
 
 ##### UNIT TESTS #####
 
@@ -81,9 +78,7 @@ class TestViews(TestCase):
 # Login tests
 
 
-@pytest.mark.django_db
 class LoginTest(TestCase):
-    pytestmark = pytest.mark.django_db
     @classmethod
     def setUpClass(cls):
         super(LoginTest, cls).setUpClass()
@@ -128,10 +123,7 @@ class LoginTest(TestCase):
 # Login tests
 
 # Update Teacher Details tests
-@pytest.mark.django_db
 class UpdateTeacherDetailsTest(TestCase):
-    pytestmark = pytest.mark.django_db
-
     @classmethod
     def setUpClass(cls):
         super(UpdateTeacherDetailsTest, cls).setUpClass()
@@ -162,14 +154,10 @@ class UpdateTeacherDetailsTest(TestCase):
 
         self.assertTrue(test)
         print("\nCorrect Update Teacher Details Unit Test - ", positive_test_result(test))
-
 # Update Teacher Details tests
 
 # View Teacher Details tests
-@pytest.mark.django_db
 class ViewTeacherDetailsTest(TestCase):
-    pytestmark = pytest.mark.django_db
-
     @classmethod
     def setUpClass(cls):
         super(ViewTeacherDetailsTest, cls).setUpClass()
@@ -201,14 +189,10 @@ class ViewTeacherDetailsTest(TestCase):
 
         self.assertTrue(test)
         print("\nCorrect View Teacher Details Unit Test - ", positive_test_result(test))
-
 # View Teacher Details tests
 
 # Update Student Details tests
-@pytest.mark.django_db
 class UpdateStudentDetailsTest(TestCase):
-    pytestmark = pytest.mark.django_db
-
     @classmethod
     def setUpClass(cls):
         super(UpdateStudentDetailsTest, cls).setUpClass()
@@ -239,14 +223,10 @@ class UpdateStudentDetailsTest(TestCase):
 
         self.assertTrue(test)
         print("\nCorrect Update Student Details Unit Test - ", positive_test_result(test))
-
 # Update Student Details tests
 
 # View Student Details tests
-@pytest.mark.django_db
 class ViewStudentDetailsTest(TestCase):
-    pytestmark = pytest.mark.django_db
-
     @classmethod
     def setUpClass(cls):
         super(ViewStudentDetailsTest, cls).setUpClass()
@@ -278,7 +258,6 @@ class ViewStudentDetailsTest(TestCase):
 
         self.assertTrue(test)
         print("\nCorrect View Student Details Unit Test - ", positive_test_result(test))
-
 # View Student Details tests
 
 # Navbar tests
@@ -311,10 +290,7 @@ class ViewStudentDetailsTest(TestCase):
 ##### INTEGRATION TESTS #####
 
 # Register tests
-@pytest.mark.django_db
 class TeacherRegistrationTest(TestCase):
-    pytestmark = pytest.mark.django_db
-
     @classmethod
     def setUpClass(cls):
         super(TeacherRegistrationTest, cls).setUpClass()
@@ -393,10 +369,8 @@ class TeacherRegistrationTest(TestCase):
         print("\nWrong Password Teacher Registration + Login Integration Test - ", negative_test_result(test_registration))
 
 
-@pytest.mark.django_db
-class StudentRegistrationTest(TestCase):
-    pytestmark = pytest.mark.django_db
 
+class StudentRegistrationTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super(StudentRegistrationTest, cls).setUpClass()
