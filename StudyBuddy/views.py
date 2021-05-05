@@ -134,6 +134,32 @@ def delete_student_from_school_view(request, pk):
     return redirect('user_details')
 
 
+def student_update(request, pk):
+    student = StudentExtra.objects.get(id=pk)
+    user = User.objects.get(id=student.user_id)
+
+    base_details = StudentUserForm(instance=user)
+    extra_details = StudentForm(instance=student)
+    details = {'base_details': base_details, 'extra_details': extra_details}
+
+    if request.method == 'POST':
+        base_details = StudentUserForm(request.POST, instance=user)
+        extra_details = StudentForm(request.POST, instance=student)
+        if (base_details.is_valid() and extra_details.is_valid()) or (base_details.is_valid()
+                                                                      and extra_details.is_valid()
+                                                                      and base_details.password1 is None
+                                                                      and base_details.password2 is None):
+            user = base_details.save()
+            # user.set_password(user.password)
+            user.save()
+            extra = extra_details.save(commit=False)
+            extra.save()
+            return redirect('user_details')
+        else:
+            print("The user didn\'t changed !")
+    return render(request, '../templates/school/student_update.html', context=details)
+
+
 def teacher_details(request):
     teachers = TeacherExtra.objects.all()
     return render(request, '../templates/school/teacher_view.html', {'teachers': teachers})

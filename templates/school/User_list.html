@@ -47,7 +47,7 @@
                     <td> {{s.parentPhone_F}}</td>
                     <td> {{s.grade }}</td>
                     <td> {{s.birth_date}}</td>
-                    <td><a class="" href="#">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
+                    <td><a class="" href="{% url 'student_update' s.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
                     <td><a class="" href="{% url 'delete-student-from-school' s.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>
                 </tr>
             {% endfor %}
