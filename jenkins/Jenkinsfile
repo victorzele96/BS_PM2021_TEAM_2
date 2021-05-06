@@ -1,12 +1,11 @@
 pipeline {
-    agent none
+    agent {
+	docker {
+	    image 'python:3.8'
+	}
+    }
     stages {
         stage('Build') {
-            agent {
-                docker {
-                    image 'python:3.8'
-                }
-            }
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
 
@@ -17,11 +16,6 @@ pipeline {
             }
         }
         stage('Migrate') {
-            agent {
-                docker {
-                    image 'python:3.8'
-                }
-            }
             steps{
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh 'python manage.py makemigrations'
@@ -30,11 +24,6 @@ pipeline {
             }
         }
         stage('Test') {
-            agent {
-                docker {
-                    image 'python:3.8'
-                }
-            }
             steps{
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh 'python manage.py test'
@@ -43,11 +32,6 @@ pipeline {
         }
 
         stage('Metric I -> Coverage') {
-            agent {
-                docker {
-                    image 'python:3.8'
-                }
-            }
             steps{
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh 'pip install coverage'
@@ -58,11 +42,6 @@ pipeline {
         }
         
         stage('Metric II -> pylint') {
-            agent {
-                docker {
-                    image 'python:3.8'
-                }
-            }
             steps{
                 withEnv(["HOME=${env.WORKSPACE}"]) {
                     sh 'pip install pylint'
