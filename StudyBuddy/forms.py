@@ -165,6 +165,8 @@ DAYS_OF_WEEK = (
     ('Saturday', 'Saturday'),
 
 )
+
+
 class ClassSubjectForm(forms.ModelForm):
     class_room = forms.ModelChoiceField(
         # queryset=User.objects.get(is_staff=True, is_superuser=False),
@@ -192,7 +194,10 @@ class ClassSubjectForm(forms.ModelForm):
     #         (5, 'Friday'),
     #         (6, 'Saturday')]
     #         )
-    start_time = forms.TimeField(input_formats=["%H.%M"])
+    # start_time = forms.TimeField(input_formats=["%H.%M"])
+    # end_time = forms.TimeField(input_formats=["%H.%M"])
+    start_time = forms.DateTimeField(input_formats=["%H.%M"])
+    # end_time = forms.TimeField(input_formats=["%H.%M"])
     day = forms.MultipleChoiceField(
         # queryset=User.objects.get(is_staff=True, is_superuser=False),
         # widgets={'day': forms.CheckboxSelectMultiple},
@@ -216,7 +221,14 @@ class ClassSubjectForm(forms.ModelForm):
         # class_subject.days = self.day.str()
         class_subject.days = self.cleaned_data["day".str()]
         class_subject.start_time = self.cleaned_data["start_time"]
+        # class_subject.end_time = class_subject.start_time + forms.TimeField(
+        #     datetime.time(class_subject.subject.duration, 0, 0))
+        # class_subject.end_time = class_subject.start_time + time(class_subject.subject.duration, 0, 0)
+        class_subject.end_time = class_subject.start_time+(timedelta(hours=class_subject.subject.duration))
+        print(class_subject.start_time)
         if commit:
-            class_subject.end_time = class_subject.start_time + datetime.time(class_subject.subject.duration, 0, 0)
+            # print("class_subject.start_time    >>>>" + class_subject.start_time)
+            # print("TIME    >>>>" + datetime.time(class_subject.subject.duration, 0, 0))
+            # class_subject.end_time = class_subject.start_time + forms.TimeField(datetime.time(class_subject.subject.duration, 0, 0))
             class_subject.save()
         return class_subject
