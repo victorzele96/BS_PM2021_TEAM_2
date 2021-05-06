@@ -41,5 +41,19 @@ pipeline {
                 }
             }
         }
+
+        stage('Coverage') {
+            agent {
+                docker {
+                    image 'python:3.8'
+                }
+            }
+            steps{
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'pip install coverage'
+                    sh 'python -m coverage manage.py test'
+                }
+            }
+        }
     }
 }
