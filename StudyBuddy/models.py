@@ -102,7 +102,7 @@ class StudentForm(models.Model):
 
     theme = models.IntegerField(default=0)
 
-    def __str__(self):
+    def str(self):
         return f'{self.user.username} Student'
 
     def save(self, *args, **kwargs):
@@ -134,13 +134,14 @@ class Classroom(models.Model):
 
 
 class StudentClassroom(models.Model):
-    class_room = models.OneToOneField(Classroom, null=True, on_delete=models.CASCADE)
+    class_room = models.ForeignKey(Classroom, null=True, on_delete=models.CASCADE)
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
     def str(self):
         return self.class_room
 
-    def save(self, *args, **kwargs):
+
+def save(self, *args, **kwargs):
         # print("---->>>>>   "+self.objects.get(user_id=self.user.id))
         # if not StudentClassroom.objects.get(user_id=self.user.id):
         # if not self.objects.get(user_id=self.user.id):
@@ -177,6 +178,8 @@ class ClassSubject(models.Model):
     # day = myFields.DayOfTheWeekField()
     # days = models.CharField(max_length=9, choices=DAYS_OF_WEEK)
     days = models.CharField(max_length=9)
+    start_time = models.TimeField()
+    end_time = models.TimeField(null=True)
 
     def str(self):
         return self.class_room + ' -> ' + self.subject
