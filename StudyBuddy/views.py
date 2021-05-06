@@ -427,6 +427,11 @@ def create_class(request):
     form = ClassroomForm()
     return render(request, '../templates/school/class/create_class.html', {"form": form})
 
+def view_class_list(request):
+    return render(request, '../templates/school/viewClass.html')
+
+def create_class(request):
+    return render(request, '../templates/school/viewClass.html')
 
 ##########################################################################################
 
