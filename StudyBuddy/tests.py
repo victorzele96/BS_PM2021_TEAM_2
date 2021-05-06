@@ -154,20 +154,20 @@ class DeleteTeacherTest(TestCase):
 
     # integration test
 
-    def test_integration_delete_teacher_details(self):
-        self.teacher = get_user_model().objects.create_user(username='teacher', password='teacher',
-                                                            email='teacher@teach.er', first_name='tea',
-                                                            last_name='cher')
-        self.teacher_test = TeacherRegistrationTest
-        if self.teacher_test:
-            self.teacher.save()
-            if self.teacher is not None:
-                self.teacher.delete()
-                self.teacher = None
-            test = self.teacher is None
+#     def test_integration_delete_teacher_details(self):
+#         self.teacher = get_user_model().objects.create_user(username='teacher', password='teacher',
+#                                                             email='teacher@teach.er', first_name='tea',
+#                                                             last_name='cher')
+#         self.teacher_test = TeacherRegistrationTest
+#         if self.teacher_test:
+#             self.teacher.save()
+#             if self.teacher is not None:
+#                 self.teacher.delete()
+#                 self.teacher = None
+#             test = self.teacher is None
 
-            self.assertTrue(test)
-        print("\nCorrect Delete Teacher Integration Test - ", positive_test_result(test))
+#             self.assertTrue(test)
+#         print("\nCorrect Delete Teacher Integration Test - ", positive_test_result(test))
 # Delete Teacher tests
 
 # Update Teacher Details tests
@@ -307,20 +307,20 @@ class DeleteStudentTest(TestCase):
 
     # integration test
 
-    def test_integration_delete_student_details(self):
-        self.teacher = get_user_model().objects.create_user(username='student', password='student',
-                                                            email='student@stude.nt', first_name='stud',
-                                                            last_name='ent')
-        self.student_test = StudentRegistrationTest
-        if self.student_test:
-            self.student.save()
-            if self.student is not None:
-                self.student.delete()
-                self.student = None
-            test = self.student is None
+#     def test_integration_delete_student_details(self):
+#         self.teacher = get_user_model().objects.create_user(username='student', password='student',
+#                                                             email='student@stude.nt', first_name='stud',
+#                                                             last_name='ent')
+#         self.student_test = StudentRegistrationTest
+#         if self.student_test:
+#             self.student.save()
+#             if self.student is not None:
+#                 self.student.delete()
+#                 self.student = None
+#             test = self.student is None
 
-            self.assertTrue(test)
-        print("\nCorrect Delete Student Integration Test - ", positive_test_result(test))
+#             self.assertTrue(test)
+#         print("\nCorrect Delete Student Integration Test - ", positive_test_result(test))
 # Delete Student tests
 
 # Update Student Details tests
