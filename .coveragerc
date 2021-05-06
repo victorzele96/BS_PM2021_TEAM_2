@@ -2,3 +2,5 @@
 source = .
 omit =
     *settings.py*
+    Pipeline/.local/*
+
