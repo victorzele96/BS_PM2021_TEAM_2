@@ -276,6 +276,11 @@ def del_user(request, username):
 def view_class(request):
     return render(request, '../templates/school/viewClass.html')
 
+def view_class_list(request):
+    return render(request, '../templates/school/viewClass.html')
+
+def create_class(request):
+    return render(request, '../templates/school/viewClass.html')
 
 ##########################################################################################
 
