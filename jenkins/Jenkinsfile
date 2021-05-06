@@ -42,7 +42,7 @@ pipeline {
             }
         }
 
-        stage('Coverage') {
+        stage('Metric I -> Coverage') {
             agent {
                 docker {
                     image 'python:3.8'
@@ -53,6 +53,20 @@ pipeline {
                     sh 'pip install coverage'
                     sh 'python -m coverage run manage.py test'
                     sh 'python -m coverage report --fail-under=80'
+                }
+            }
+        }
+        
+        stage('Metric II -> pylint') {
+            agent {
+                docker {
+                    image 'python:3.8'
+                }
+            }
+            steps{
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'pip install pylint-django'
+                    sh 'pylint --load-plugins pylint_django'
                 }
             }
         }
