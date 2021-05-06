@@ -65,6 +65,7 @@ pipeline {
             }
             steps{
                 withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'pip install pylint'
                     sh 'pip install pylint-django'
                     sh 'pylint --load-plugins pylint_django'
                 }
