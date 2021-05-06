@@ -32,9 +32,14 @@ urlpatterns = [
 
     path("school/classes", views.view_class_list, name="view_class_list"),
     path("school/classes/create_class", views.create_class, name="create_class"),
-    # path("school/classes/class", views.view_class, name="view_class"),
+    path("school/classes/class/<int:pk>", views.view_class, name="view_class"),
     # path("school/classes/class/view_class_schedule", views.view_class_schedule, name="view_class_schedule"),
     # path("school/classes/class/create_class_schedule", views.create_class_schedule, name="create_class_schedule"),
+    path("school/classes/class/Add_Student_To_Class", views.Add_Student_To_Class, name="Add_Student_To_Class"),
+    path("school/classes/class/View_Sched/<int:pk>", views.View_Sched, name="View_Sched"),
+    path("school/classes/class/add_subject_to_class", views.add_subject_to_class, name="add_subject_to_class"),
+
+
 
 
     path("school/my_test", views.my_test, name="my_test"),  # here just for test
