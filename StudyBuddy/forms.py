@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from datetime import date, datetime
 
 
+
+
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
@@ -69,4 +71,152 @@ class TeacherUserForm(UserCreationForm):
             user.is_staff = True
             user.save()
         return user
+
+
+
+
+###################################   NEW  ##################################################
+
+class ClassroomForm(forms.ModelForm):
+
+    teacher = forms.ModelChoiceField(
+        # queryset=User.objects.get(is_staff=True, is_superuser=False),
+        queryset=User.objects.filter(is_staff=True) & User.objects.filter(is_superuser=False),
+        initial=0
+    )
+
+    class Meta:
+        model = Classroom
+        # fields = ("class_name","teacher")
+        fields = ("class_name",)
+    #
+    def save(self, commit=True):
+        classroom = super(ClassroomForm, self).save(commit=False)
+        classroom.teacher = self.cleaned_data["teacher"]
+        if commit:
+            classroom.save()
+        return classroom
+
+
+
+class StudentClassroomForm(forms.ModelForm):
+    class_room = forms.ModelChoiceField(
+        # queryset=User.objects.get(is_staff=True, is_superuser=False),
+        queryset=Classroom.objects.all(),
+        initial=0
+    )
+
+    student = forms.ModelChoiceField(
+        # queryset=User.objects.get(is_staff=True, is_superuser=False),
+        queryset=User.objects.filter(is_staff=False),
+        initial=0
+    )
+
+
+
+    class Meta:
+        model = StudentClassroom
+        fields = ("class_room","student")
+
+    def save(self, commit=True):
+        sc = super(StudentClassroomForm, self).save(commit=False)
+        sc.class_room = self.cleaned_data["class_room"]
+        sc.user = self.cleaned_data["student"]
+        if commit:
+            if not StudentClassroom.objects.get(user_id=sc.user.id):
+                sc.save()
+            else:
+                raise ValueError("user must be a student")
+        return sc
+
+
+
+class SubjectForm(forms.ModelForm):
+    teacher = forms.ModelChoiceField(
+        # queryset=User.objects.get(is_staff=True, is_superuser=False),
+        queryset=User.objects.filter(is_staff=True) & User.objects.filter(is_superuser=False),
+        initial=0
+    )
+
+    duration = forms.IntegerField(label='Duration', required=True, validators=[MinValueValidator(1), MaxValueValidator(4)])
+
+    class Meta:
+        model = Subject
+        fields = ("subject_name",)
+
+    def save(self, commit=True):
+        subject = super(SubjectForm, self).save(commit=False)
+        subject.teacher = self.cleaned_data["teacher"]
+        subject.duration = self.cleaned_data["duration"]
+        if commit:
+            subject.save()
+        return subject
+
+
+
+
+DAYS_OF_WEEK = (
+    ('Sunday', 'Sunday'),
+    ('Monday', 'Monday'),
+    ('Tuesday', 'Tuesday'),
+    ('Wednesday', 'Wednesday'),
+    ('Thursday', 'Thursday'),
+    ('Friday', 'Friday'),
+    ('Saturday', 'Saturday'),
+
+)
+
+class ClassSubjectForm(forms.ModelForm):
+    class_room = forms.ModelChoiceField(
+        # queryset=User.objects.get(is_staff=True, is_superuser=False),
+        queryset=Classroom.objects.all(),
+        initial=0
+    )
+
+    subject = forms.ModelChoiceField(
+        # queryset=User.objects.get(is_staff=True, is_superuser=False),
+        queryset=Subject.objects.all(),
+        initial=0
+    )
+
+    # day = forms.MultipleChoiceField(
+    #     # queryset=User.objects.get(is_staff=True, is_superuser=False),
+    #     # widgets={'day': forms.CheckboxSelectMultiple},
+    #     # initial=0
+    #     # widget=gears.widgets.CustomCheckboxSelectMultiple,
+    #     required=True,
+    #     choices=[(0, 'Sunday'),
+    #         (1, 'Monday'),
+    #         (2, 'Tuesday'),
+    #         (3, 'Wednesday'),
+    #         (4, 'Thursday'),
+    #         (5, 'Friday'),
+    #         (6, 'Saturday')]
+    #         )
+
+    day = forms.MultipleChoiceField(
+        # queryset=User.objects.get(is_staff=True, is_superuser=False),
+        # widgets={'day': forms.CheckboxSelectMultiple},
+        # initial=0
+        # widget=gears.widgets.CustomCheckboxSelectMultiple,
+        required=True,
+        choices=DAYS_OF_WEEK
+    )
+
+
+    class Meta:
+        model = ClassSubject
+        # widgets = {'day': forms.CheckboxSelectMultiple}
+        fields = ("class_room", "subject")
+
+    def save(self, commit=True):
+        class_subject = super(ClassSubjectForm, self).save(commit=False)
+        class_subject.class_room = self.cleaned_data["class_room"]
+        class_subject.subject = self.cleaned_data["subject"]
+        # class_subject.days = self.cleaned_data["day"]
+        # class_subject.days = self.day.__str__()
+        class_subject.days = self.cleaned_data["day".__str__()]
+        if commit:
+            class_subject.save()
+        return class_subject
 
