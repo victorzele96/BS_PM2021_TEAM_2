@@ -338,3 +338,96 @@ def login_request(request):
                   template_name="login.html",
                   context={"form": form})
 ##########################################################################################
+
+
+
+## here just to tests
+
+### create class room
+# def my_test(request):
+#     if request.method == 'POST':
+#         form = ClassroomForm(request.POST)
+#         if form.is_valid():
+#             # form.teacher=User.objects.get(id=form.teacher)
+#
+#             obj = form.save(commit=False)
+#             obj.save()
+#             return redirect('/school')
+#
+#         else:
+#             messages.error(request, "Invalid username or password.")
+#             return render(request=request,
+#                           template_name="../templates/school/MY_TEST.html",
+#                           context={"form": form})
+#     form = ClassroomForm()
+#     return render(request=request,
+#                   template_name="../templates/school/MY_TEST.html",
+#                   context={"form": form})
+
+### conect student to class
+# def my_test(request):
+#     if request.method == 'POST':
+#         form = StudentClassroomForm(request.POST)
+#         if form.is_valid():
+#             # form.teacher=User.objects.get(id=form.teacher)
+#
+#             obj = form.save(commit=False)
+#             obj.save()
+#             return redirect('/school')
+#
+#         else:
+#             messages.error(request, "Invalid username or password.")
+#             return render(request=request,
+#                           template_name="../templates/school/MY_TEST.html",
+#                           context={"form": form})
+#     form = StudentClassroomForm()
+#     return render(request=request,
+#                   template_name="../templates/school/MY_TEST.html",
+#                   context={"form": form})
+
+#
+# ### subject test
+#
+# def my_test(request):
+#     if request.method == 'POST':
+#         form = SubjectForm(request.POST)
+#         if form.is_valid():
+#             # form.teacher=User.objects.get(id=form.teacher)
+#
+#             obj = form.save(commit=False)
+#             obj.save()
+#             return redirect('/school')
+#
+#         else:
+#             messages.error(request, "Invalid username or password.")
+#             return render(request=request,
+#                           template_name="../templates/school/MY_TEST.html",
+#                           context={"form": form})
+#     form = SubjectForm()
+#     return render(request=request,
+#                   template_name="../templates/school/MY_TEST.html",
+#                   context={"form": form})
+
+
+
+### subject test
+
+# def my_test(request):
+#     if request.method == 'POST':
+#         form = ClassSubjectForm(request.POST)
+#         if form.is_valid():
+#             # form.teacher=User.objects.get(id=form.teacher)
+#
+#             obj = form.save(commit=False)
+#             obj.save()
+#             return redirect('/school')
+#
+#         else:
+#             messages.error(request, "Invalid username or password.")
+#             return render(request=request,
+#                           template_name="../templates/school/MY_TEST.html",
+#                           context={"form": form})
+#     form = ClassSubjectForm()
+#     return render(request=request,
+#                   template_name="../templates/school/MY_TEST.html",
+#                   context={"form": form})
