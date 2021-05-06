@@ -238,7 +238,7 @@ class DeleteStudentTest(TestCase):
     # integration test
 
     def test_integration_delete_student_details(self):
-        self.teacher = get_user_model().objects.create_user(username='student', password='student',
+        self.student = get_user_model().objects.create_user(username='student', password='student',
                                                             email='student@stude.nt', first_name='stud',
                                                             last_name='ent')
         self.student_test = StudentRegistrationTest
@@ -689,94 +689,94 @@ class StudentRegistrationTest(TestCase):
 # Student Registration test
 
 # News test
-# class NewsTest(TestCase):
-#
-#     news_dict = {
-#         'title': 'news',
-#         'body': 'testing our news section',
-#         'date': '2021-05-05 18:33:00',
-#     }
-#
-#     @classmethod
-#     def setUpClass(cls):
-#         super(NewsTest, cls).setUpClass()
-#         print("\n__News SetUp__")
-#         print("Module - result")
-#         cls.user = get_user_model().objects.create_user(username='admin', password='admin')
-#         cls.user.save()
-#         cls.news = ArticleForm(cls.news_dict)
-#         cls.news.save(commit=False)
-#         cls.news = Article(cls.news_dict)
-#
-#     @classmethod
-#     def tearDownClass(cls):
-#         super(NewsTest, cls).tearDownClass()
-#         print("\n__News TearDown__")
-#         cls.user.delete()
-#
-#     # unit tests
-#
-#     def test_unit_news_creation(self):
-#         self.news.setTitle(self.news_dict['title'])
-#         self.news.setBody(self.news_dict['body'])
-#         self.news.setDate(self.news_dict['date'])
-#         test = (self.news.getTitle() == self.news_dict['title'] and self.news.getBody() == self.news_dict['body']
-#                 and self.news.getDate() == self.news_dict['date'])
-#         self.assertTrue(test)
-#         print("\nCorrect News Creation Unit Test - ", positive_test_result(test))
-#
-#     def test_unit_view_news(self):
-#         test = (self.news.getTitle() == self.news_dict['title'] and self.news.getBody() == self.news_dict['body']
-#                 and self.news.getDate() == self.news_dict['date'])
-#         self.assertTrue(test)
-#         print("\nView News Unit Test - ", positive_test_result(test))
-#
-#     def test_unit_delete_news(self):
-#         self.news.setTitle(None)
-#         self.news.setBody(None)
-#         self.news.setDate(None)
-#         if self.news.getTitle() is None and self.news.getBody() is None and self.news.getDate() is None:
-#             self.news = None
-#         test = self.news is None
-#         self.assertTrue(test)
-#         print("\nDelete News Unit Test - ", positive_test_result(test))
-#
-#     # integration tests
-#
-#     def test_integration_news_creation(self):
-#         login_test = LoginTest().test_unit_correct(username='admin', password='admin')
-#         if login_test:
-#             user = authenticate(username='admin', password='admin')
-#             if user is not None and user.is_authenticated:
-#                 self.news.setTitle(self.news_dict['title'])
-#                 self.news.setBody(self.news_dict['body'])
-#                 self.news.setDate(self.news_dict['date'])
-#                 test = (self.news.getTitle() == self.news_dict['title'] and self.news.getBody() == self.news_dict['body']
-#                         and self.news.getDate() == self.news_dict['date'])
-#         self.assertTrue(test)
-#         print("\nCorrect News Creation Integration Test - ", positive_test_result(test))
-#
-#     def test_integration_view_news(self):
-#         login_test = LoginTest().test_unit_correct(username='admin', password='admin')
-#         if login_test:
-#             user = authenticate(username='admin', password='admin')
-#             if user is not None and user.is_authenticated:
-#                 test = (self.news.getTitle() == self.news_dict['title'] and self.news.getBody() == self.news_dict['body']
-#                         and self.news.getDate() == self.news_dict['date'])
-#         self.assertTrue(test)
-#         print("\nView News Integration Test - ", positive_test_result(test))
-#
-#     def test_integration_delete_news(self):
-#         login_test = LoginTest().test_unit_correct(username='admin', password='admin')
-#         if login_test:
-#             user = authenticate(username='admin', password='admin')
-#             if user is not None and user.is_authenticated:
-#                 self.news.setTitle(None)
-#                 self.news.setBody(None)
-#                 self.news.setDate(None)
-#                 if self.news.getTitle() is None and self.news.getBody() is None and self.news.getDate() is None:
-#                     self.news = None
-#                 test = self.news is None
-#         self.assertTrue(test)
-#         print("\nDelete News Integration Test - ", positive_test_result(test))
+class NewsTest(TestCase):
+
+    news_dict = {
+        'title': 'news',
+        'body': 'testing our news section',
+        'date': '2021-05-05 18:33:00',
+    }
+
+    @classmethod
+    def setUpClass(cls):
+        super(NewsTest, cls).setUpClass()
+        print("\n__News SetUp__")
+        print("Module - result")
+        cls.user = get_user_model().objects.create_user(username='admin', password='admin')
+        cls.user.save()
+        cls.news = ArticleForm(cls.news_dict)
+        cls.news.save(commit=False)
+        cls.news = Article(cls.news_dict)
+
+    @classmethod
+    def tearDownClass(cls):
+        super(NewsTest, cls).tearDownClass()
+        print("\n__News TearDown__")
+        cls.user.delete()
+
+    # unit tests
+
+    def test_unit_news_creation(self):
+        self.news.setTitle(self.news_dict['title'])
+        self.news.setBody(self.news_dict['body'])
+        self.news.setDate(self.news_dict['date'])
+        test = (self.news.getTitle() == self.news_dict['title'] and self.news.getBody() == self.news_dict['body']
+                and self.news.getDate() == self.news_dict['date'])
+        self.assertTrue(test)
+        print("\nCorrect News Creation Unit Test - ", positive_test_result(test))
+
+    def test_unit_view_news(self):
+        test = (self.news.getTitle() == self.news_dict['title'] and self.news.getBody() == self.news_dict['body']
+                and self.news.getDate() == self.news_dict['date'])
+        self.assertTrue(test)
+        print("\nView News Unit Test - ", positive_test_result(test))
+
+    def test_unit_delete_news(self):
+        self.news.setTitle(None)
+        self.news.setBody(None)
+        self.news.setDate(None)
+        if self.news.getTitle() is None and self.news.getBody() is None and self.news.getDate() is None:
+            self.news = None
+        test = self.news is None
+        self.assertTrue(test)
+        print("\nDelete News Unit Test - ", positive_test_result(test))
+
+    # integration tests
+
+    def test_integration_news_creation(self):
+        login_test = LoginTest().test_unit_correct(username='admin', password='admin')
+        if login_test:
+            user = authenticate(username='admin', password='admin')
+            if user is not None and user.is_authenticated:
+                self.news.setTitle(self.news_dict['title'])
+                self.news.setBody(self.news_dict['body'])
+                self.news.setDate(self.news_dict['date'])
+                test = (self.news.getTitle() == self.news_dict['title'] and self.news.getBody() == self.news_dict['body']
+                        and self.news.getDate() == self.news_dict['date'])
+        self.assertTrue(test)
+        print("\nCorrect News Creation Integration Test - ", positive_test_result(test))
+
+    def test_integration_view_news(self):
+        login_test = LoginTest().test_unit_correct(username='admin', password='admin')
+        if login_test:
+            user = authenticate(username='admin', password='admin')
+            if user is not None and user.is_authenticated:
+                test = (self.news.getTitle() == self.news_dict['title'] and self.news.getBody() == self.news_dict['body']
+                        and self.news.getDate() == self.news_dict['date'])
+        self.assertTrue(test)
+        print("\nView News Integration Test - ", positive_test_result(test))
+
+    def test_integration_delete_news(self):
+        login_test = LoginTest().test_unit_correct(username='admin', password='admin')
+        if login_test:
+            user = authenticate(username='admin', password='admin')
+            if user is not None and user.is_authenticated:
+                self.news.setTitle(None)
+                self.news.setBody(None)
+                self.news.setDate(None)
+                if self.news.getTitle() is None and self.news.getBody() is None and self.news.getDate() is None:
+                    self.news = None
+                test = self.news is None
+        self.assertTrue(test)
+        print("\nDelete News Integration Test - ", positive_test_result(test))
 # News test
