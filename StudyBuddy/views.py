@@ -276,6 +276,12 @@ def del_user(request, username):
 def view_class(request):
     return render(request, '../templates/school/viewClass.html')
 
+def view_class_list(request):
+    return render(request, '../templates/school/viewClass.html')
+
+def create_class(request):
+    return render(request, '../templates/school/viewClass.html')
+
 
 ##########################################################################################
 
@@ -343,7 +349,7 @@ def login_request(request):
 
 ## here just to tests
 
-### create class room
+## create class room
 # def my_test(request):
 #     if request.method == 'POST':
 #         form = ClassroomForm(request.POST)
@@ -412,22 +418,22 @@ def login_request(request):
 
 ### subject test
 
-# def my_test(request):
-#     if request.method == 'POST':
-#         form = ClassSubjectForm(request.POST)
-#         if form.is_valid():
-#             # form.teacher=User.objects.get(id=form.teacher)
-#
-#             obj = form.save(commit=False)
-#             obj.save()
-#             return redirect('/school')
-#
-#         else:
-#             messages.error(request, "Invalid username or password.")
-#             return render(request=request,
-#                           template_name="../templates/school/MY_TEST.html",
-#                           context={"form": form})
-#     form = ClassSubjectForm()
-#     return render(request=request,
-#                   template_name="../templates/school/MY_TEST.html",
-#                   context={"form": form})
+def my_test(request):
+    if request.method == 'POST':
+        form = ClassSubjectForm(request.POST)
+        if form.is_valid():
+            # form.teacher=User.objects.get(id=form.teacher)
+
+            obj = form.save(commit=False)
+            obj.save()
+            return redirect('/school')
+
+        else:
+            messages.error(request, "Invalid username or password.")
+            return render(request=request,
+                          template_name="../templates/school/MY_TEST.html",
+                          context={"form": form})
+    form = ClassSubjectForm()
+    return render(request=request,
+                  template_name="../templates/school/MY_TEST.html",
+                  context={"form": form})

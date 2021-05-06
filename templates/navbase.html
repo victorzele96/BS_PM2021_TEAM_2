@@ -33,9 +33,10 @@
                 <li class="dropdown">
                 <a href="javascript:void(0)" class="dropbtn">Class</a>
                 <div class="dropdown-content">
-                    <a class="reg-teacher-btn" type="submit" href="#">Create Class</a>
-                    <a class="reg-student-btn" type="submit" href="#">Create Schedule</a>
-                    <a class="reg-student-btn" type="submit" href="#">View Schedule</a>
+                    <a class="reg-teacher-btn" type="submit" href="{% url 'create_class' %}">Create Class</a>
+                    <a class="reg-teacher-btn" type="submit" href="{% url 'view_class_list' %}">View Class List</a>
+{#                    <a class="reg-student-btn" type="submit" href="#">Create Schedule</a>#}
+{#                    <a class="reg-student-btn" type="submit" href="{% url 'register_teacher' %}">View Schedule</a>#}
                 </div>
                 </li>
                 <li class="dropdown">

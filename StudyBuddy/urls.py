@@ -23,17 +23,21 @@ urlpatterns = [
     path("school/news/", views.add_display_news, name="school_news"),
     path("school/delete_news/<int:pk>", views.delete_news, name='delete_news'),
     path("school/user_details/", views.get_users, name="user_details"),
-    path("delete-student-from-school/<int:pk>", views.delete_student_from_school_view,
-         name='delete-student-from-school'),
+    path("delete-student-from-school/<int:pk>", views.delete_student_from_school_view,name='delete-student-from-school'),
     path("school/student_update/<int:pk>", views.student_update_from_school, name="student_update_from_school"),
-
     path("school/teacher_details/", views.teacher_details, name="teacher_details"),
-    path("delete-teacher-from-school/<int:pk>", views.delete_teacher_from_school_view,
-         name='delete-teacher-from-school'),
-    path("school/teacher_update_from_school/<int:pk>", views.teacher_update_from_school,
-         name="teacher_update_from_school"),
+    path("delete-teacher-from-school/<int:pk>", views.delete_teacher_from_school_view,name='delete-teacher-from-school'),
+    path("school/teacher_update_from_school/<int:pk>", views.teacher_update_from_school,name="teacher_update_from_school"),
 
-    # path("school/my_test", views.my_test, name="my_test"),  # here just for test
+
+    path("school/classes", views.view_class_list, name="view_class_list"),
+    path("school/classes/create_class", views.create_class, name="create_class"),
+    # path("school/classes/class", views.view_class, name="view_class"),
+    # path("school/classes/class/view_class_schedule", views.view_class_schedule, name="view_class_schedule"),
+    # path("school/classes/class/create_class_schedule", views.create_class_schedule, name="create_class_schedule"),
+
+
+    path("school/my_test", views.my_test, name="my_test"),  # here just for test
 
 
     path("school/view_class/", views.view_class, name="view_class"),
