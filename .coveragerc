@@ -3,4 +3,7 @@ source = .
 omit =
     *settings.py*
     */.local/*
+    *manage.py*
+    project/asgi.py
+    project/wsgi.py 
 
