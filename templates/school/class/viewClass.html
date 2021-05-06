@@ -1,14 +1,45 @@
-{% extends 'schoolHome.html' %}
+{% extends 'school/schoolHome.html' %}
 
+{% load static %}
+{% block title %}
 
-{% block title %}<h1>News</h1>{% endblock %}
+    <head>
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/userList.css' %}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <h2 style="text-align: center; font-size: 50px">Class</h2>{% endblock %}
+
 {% block content %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
+{#    <a class="switch-user-view" href="{% url 'Add student to class' %}"> Create Class </a>#}
 
-{#    {{form.class_name}}#}
-{#    {{form.teacher}}#}
-        <button class="btn btn-primary">Submit</button>
-    </form>
+    <a class="switch-user-view" href="{% url 'Add_Student_To_Class' %}"> Add Student To Class </a>
+    <a class="switch-user-view" href="{% url 'add_subject_to_class' %}"> add subject to class </a>
+    <a class="switch-user-view" href="{% url 'View_Sched' obj.id%}"> View Sched </a>
+{#<td><a class="" href="{% url 'teacher_update_from_school' t.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
+
+
+
+    <div id="teacher" class="table-wrapper">
+        <table class="fl-table">
+            <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Remove Student From Cl0ass</th>
+
+            </tr>
+            </thead>
+            <tbody>
+                {% for u in user %}
+                    <tr>
+                        <td> {{u.username}}</td>
+{#                        <td> View Class</td>#}
+
+                        <td> Delete</td>
+{#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
+                    </tr>
+                {% endfor %}
+            <tbody>
+        </table>
+    </div>
 {% endblock %}

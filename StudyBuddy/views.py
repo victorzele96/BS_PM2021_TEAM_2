@@ -14,6 +14,12 @@ from .models import Article
 from .models import StudentForm as StudentExtra
 from .models import TeacherForm as TeacherExtra
 
+from .models import Classroom
+from .models import StudentClassroom
+from .models import ClassSubject
+
+
+
 
 # Home Section
 def home(request):
@@ -273,15 +279,159 @@ def del_user(request, username):
     return redirect("get_users")
 
 
-def view_class(request):
-    return render(request, '../templates/school/viewClass.html')
+def view_class(request, pk):
+    connection = StudentClassroom.objects.filter(class_room=pk)
+    # users = User.objects.filter(id__criteria=connection.user)
+    # user = User.objects.none()
+    #
+    obj = Classroom.objects.get(id=pk)
+
+    list_of_ids = []
+    for c in connection:
+        # user = user | c.user
+        list_of_ids.append(c.user.id)
+        # list_of_ids.append(User.objects.get(id=c.user.id))
+    user = User.objects.filter(id__in=list_of_ids)
+
+
+    return render(request, '../templates/school/class/viewClass.html', {'user': user,'obj': obj})
+
+
+
+
+############################################################################################
+############################################################################################
+############################################################################################
+
+def Add_Student_To_Class(request):
+    if request.method == "POST":
+        form = StudentUserForm(request.POST)
+
+        if form.is_valid():
+            # form.date = datetime.now()
+            new_connection = form.save()
+
+            messages.success(request, f"New new_connection: {new_connection} has been saved")
+
+            return redirect('view_class')
+
+        else:
+            for msg in form.error_messages:
+                messages.error(request, f"{msg}: {form.error_messages[msg]}")
+
+            return render(request, '../templates/school/class/add_student_to_class.html', {"form": form})
+
+    form = StudentUserForm()
+    return render(request, '../templates/school/class/add_student_to_class.html', {"form": form})
+
+
+
+
+def add_subject_to_class(request):
+    if request.method == "POST":
+        form = ClassSubjectForm(request.POST)
+
+        if form.is_valid():
+            # form.date = datetime.now()
+            new_connection = form.save()
+
+            messages.success(request, f"New new_connection: {new_connection} has been saved")
+
+            return redirect('view_class')
+
+        else:
+            for msg in form.error_messages:
+                messages.error(request, f"{msg}: {form.error_messages[msg]}")
+
+            return render(request, '../templates/school/class/add_subject_to_class.html', {"form": form})
+
+    form = ClassSubjectForm()
+    return render(request, '../templates/school/class/add_subject_to_class.html', {"form": form})
+
+
+
+
+
+def view_class_list(request):
+    model = Classroom.objects.all()
+    return render(request, '../templates/school/class/view_class_list.html', {'model': model})
+
+
+
+
+def View_Sched(request, pk):
+    # model = ClassSubject.objects.get(subject=pk)
+    connection = ClassSubject.objects.get(subject=pk)
+
+
+    # connection = StudentClassroom.objects.filter(class_room=pk)
+    # users = User.objects.filter(id__criteria=connection.user)
+    # user = User.objects.none()
+    #
+    list_of_ids = []
+    for c in connection:
+        # user = user | c.user
+        list_of_ids.append(c.user.id)
+        # list_of_ids.append(User.objects.get(id=c.user.id))
+    user = User.objects.filter(id__in=list_of_ids)
+
+
+
+    return render(request, '../templates/school/class/viewClass.html', {'user': user})
+
+
+
+
+
+## create class room
+# def my_test(request):
+#     if request.method == 'POST':
+#         form = ClassroomForm(request.POST)
+#         if form.is_valid():
+#             # form.teacher=User.objects.get(id=form.teacher)
+#
+#             obj = form.save(commit=False)
+#             obj.save()
+#             return redirect('/school')
+#
+#         else:
+#             messages.error(request, "Invalid username or password.")
+#             return render(request=request,
+#                           template_name="../templates/school/MY_TEST.html",
+#                           context={"form": form})
+#     form = ClassroomForm()
+#     return render(request=request,
+#                   template_name="../templates/school/MY_TEST.html",
+#                   context={"form": form})
+
+
+def create_class(request):
+
+    if request.method == "POST":
+        form = ClassroomForm(request.POST)
+
+        if form.is_valid():
+            form.date = datetime.now()
+            new_class = form.save()
+
+            messages.success(request, f"New article: {new_class} has been saved")
+
+            return redirect('view_class_list')
+
+        else:
+            for msg in form.error_messages:
+                messages.error(request, f"{msg}: {form.error_messages[msg]}")
+
+            return render(request, '../templates/school/class/create_class.html', {"form": form})
+
+    form = ClassroomForm()
+    return render(request, '../templates/school/class/create_class.html', {"form": form})
 
 def view_class_list(request):
     return render(request, '../templates/school/viewClass.html')
 
 def create_class(request):
     return render(request, '../templates/school/viewClass.html')
-
 
 ##########################################################################################
 
