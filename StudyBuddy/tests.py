@@ -7,76 +7,6 @@ from datetime import datetime
 
 ##### UNIT TESTS AND INTEGRATION TESTS #####
 
-def positive_test_result(test):
-    if test:
-        return "Success"
-    else:
-        return "Failure"
-
-
-def negative_test_result(test):
-    if not test:
-        return "Success"
-    else:
-        return "Failure"
-
-
-class Test_init_(TestCase):
-#     pylint: disable = all
-    def test__init_(self):
-        test = True
-        self.assertTrue(test)
-        print("\n__init__.py - ", positive_test_result(test))
-
-
-class TestAdmin(TestCase):
-#     pylint: disable = all
-    def test_admin(self):
-        test = True
-        self.assertTrue(test)
-        print("\nadmin.py - ", positive_test_result(test))
-
-
-class TestApps(TestCase):
-#     pylint: disable = all
-    def test_apps(self):
-        test = True
-        self.assertTrue(test)
-        print("\napps.py - ", positive_test_result(test))
-
-
-class TestForms(TestCase):
-#     pylint: disable = all
-    def test_forms(self):
-        test = True
-        self.assertTrue(test)
-        print("\nforms.py - ", positive_test_result(test))
-
-
-class TestModels(TestCase):
-#     pylint: disable = all
-    def test_models(self):
-        test = True
-        self.assertTrue(test)
-        print("\nmodels.py - ", positive_test_result(test))
-
-
-class TestUrls(TestCase):
-#     pylint: disable = all
-    def test_urls(self):
-        test = True
-        self.assertTrue(test)
-        print("\nurls.py - ", positive_test_result(test))
-
-
-class TestViews(TestCase):
-#     pylint: disable = all
-    def test_views(self):
-        test = True
-        self.assertTrue(test)
-        print("\nviews.py - ", positive_test_result(test))
-
-
 # Login tests
 class LoginTest(TestCase):
     @classmethod
@@ -154,20 +84,20 @@ class DeleteTeacherTest(TestCase):
 
     # integration test
 
-#     def test_integration_delete_teacher_details(self):
-#         self.teacher = get_user_model().objects.create_user(username='teacher', password='teacher',
-#                                                             email='teacher@teach.er', first_name='tea',
-#                                                             last_name='cher')
-#         self.teacher_test = TeacherRegistrationTest
-#         if self.teacher_test:
-#             self.teacher.save()
-#             if self.teacher is not None:
-#                 self.teacher.delete()
-#                 self.teacher = None
-#             test = self.teacher is None
+    def test_integration_delete_teacher_details(self):
+        self.teacher = get_user_model().objects.create_user(username='teacher', password='teacher',
+                                                            email='teacher@teach.er', first_name='tea',
+                                                            last_name='cher')
+        self.teacher_test = TeacherRegistrationTest
+        if self.teacher_test:
+            self.teacher.save()
+            if self.teacher is not None:
+                self.teacher.delete()
+                self.teacher = None
+            test = self.teacher is None
 
-#             self.assertTrue(test)
-#         print("\nCorrect Delete Teacher Integration Test - ", positive_test_result(test))
+            self.assertTrue(test)
+        print("\nCorrect Delete Teacher Integration Test - ", positive_test_result(test))
 # Delete Teacher tests
 
 # Update Teacher Details tests
@@ -307,20 +237,20 @@ class DeleteStudentTest(TestCase):
 
     # integration test
 
-#     def test_integration_delete_student_details(self):
-#         self.teacher = get_user_model().objects.create_user(username='student', password='student',
-#                                                             email='student@stude.nt', first_name='stud',
-#                                                             last_name='ent')
-#         self.student_test = StudentRegistrationTest
-#         if self.student_test:
-#             self.student.save()
-#             if self.student is not None:
-#                 self.student.delete()
-#                 self.student = None
-#             test = self.student is None
+    def test_integration_delete_student_details(self):
+        self.teacher = get_user_model().objects.create_user(username='student', password='student',
+                                                            email='student@stude.nt', first_name='stud',
+                                                            last_name='ent')
+        self.student_test = StudentRegistrationTest
+        if self.student_test:
+            self.student.save()
+            if self.student is not None:
+                self.student.delete()
+                self.student = None
+            test = self.student is None
 
-#             self.assertTrue(test)
-#         print("\nCorrect Delete Student Integration Test - ", positive_test_result(test))
+            self.assertTrue(test)
+        print("\nCorrect Delete Student Integration Test - ", positive_test_result(test))
 # Delete Student tests
 
 # Update Student Details tests
@@ -429,6 +359,75 @@ class ViewStudentDetailsTest(TestCase):
         self.assertTrue(test)
         print("\nCorrect View Student Details Integration Test - ", positive_test_result(test))
 # View Student Details tests
+
+def positive_test_result(test):
+    if test:
+        return "Success"
+    else:
+        return "Failure"
+
+
+def negative_test_result(test):
+    if not test:
+        return "Success"
+    else:
+        return "Failure"
+
+
+class Test_init_(TestCase):
+    # pylint: disable = all
+    def test__init_(self):
+        test = True
+        self.assertTrue(test)
+        print("\n__init__.py - ", positive_test_result(test))
+
+
+class TestAdmin(TestCase):
+    # pylint: disable = all
+    def test_admin(self):
+        test = True
+        self.assertTrue(test)
+        print("\nadmin.py - ", positive_test_result(test))
+
+
+class TestApps(TestCase):
+    # pylint: disable = all
+    def test_apps(self):
+        test = True
+        self.assertTrue(test)
+        print("\napps.py - ", positive_test_result(test))
+
+
+class TestForms(TestCase):
+    # pylint: disable = all
+    def test_forms(self):
+        test = True
+        self.assertTrue(test)
+        print("\nforms.py - ", positive_test_result(test))
+
+
+class TestModels(TestCase):
+    # pylint: disable = all
+    def test_models(self):
+        test = True
+        self.assertTrue(test)
+        print("\nmodels.py - ", positive_test_result(test))
+
+
+class TestUrls(TestCase):
+    # pylint: disable = all
+    def test_urls(self):
+        test = True
+        self.assertTrue(test)
+        print("\nurls.py - ", positive_test_result(test))
+
+
+class TestViews(TestCase):
+    # pylint: disable = all
+    def test_views(self):
+        test = True
+        self.assertTrue(test)
+        print("\nviews.py - ", positive_test_result(test))
 
 # Teacher Registration test
 class TeacherRegistrationTest(TestCase):
