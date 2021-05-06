@@ -22,7 +22,7 @@ def negative_test_result(test):
 
 
 class Test_init_(TestCase):
-    # pylint: disable = all
+    pylint: disable = all
     def test__init_(self):
         test = True
         self.assertTrue(test)
@@ -30,7 +30,7 @@ class Test_init_(TestCase):
 
 
 class TestAdmin(TestCase):
-    # pylint: disable = all
+    pylint: disable = all
     def test_admin(self):
         test = True
         self.assertTrue(test)
@@ -38,7 +38,7 @@ class TestAdmin(TestCase):
 
 
 class TestApps(TestCase):
-    # pylint: disable = all
+    pylint: disable = all
     def test_apps(self):
         test = True
         self.assertTrue(test)
@@ -46,7 +46,7 @@ class TestApps(TestCase):
 
 
 class TestForms(TestCase):
-    # pylint: disable = all
+    pylint: disable = all
     def test_forms(self):
         test = True
         self.assertTrue(test)
@@ -54,7 +54,7 @@ class TestForms(TestCase):
 
 
 class TestModels(TestCase):
-    # pylint: disable = all
+    pylint: disable = all
     def test_models(self):
         test = True
         self.assertTrue(test)
@@ -62,7 +62,7 @@ class TestModels(TestCase):
 
 
 class TestUrls(TestCase):
-    # pylint: disable = all
+    pylint: disable = all
     def test_urls(self):
         test = True
         self.assertTrue(test)
@@ -70,7 +70,7 @@ class TestUrls(TestCase):
 
 
 class TestViews(TestCase):
-    # pylint: disable = all
+    pylint: disable = all
     def test_views(self):
         test = True
         self.assertTrue(test)
