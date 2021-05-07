@@ -17,7 +17,9 @@ from .models import TeacherForm as TeacherExtra
 from .models import Classroom
 from .models import StudentClassroom
 from .models import ClassSubject
+
 from .models import Subject
+
 
 
 
@@ -362,13 +364,18 @@ def view_class_list(request):
 
 def View_Sched(request, pk):
     # model = ClassSubject.objects.get(subject=pk)
+
     subject_list = ClassSubject.objects.filter(subject=pk)
+
+    connection = ClassSubject.objects.get(subject=pk)
+
 
 
     # connection = StudentClassroom.objects.filter(class_room=pk)
     # users = User.objects.filter(id__criteria=connection.user)
     # user = User.objects.none()
     #
+
     # list_of_ids = []
     # for c in connection:
     #     # user = user | c.user
@@ -379,6 +386,18 @@ def View_Sched(request, pk):
 
 
     return render(request, '../templates/school/class/view_sched.html', {'subject_list': subject_list})
+
+    list_of_ids = []
+    for c in connection:
+        # user = user | c.user
+        list_of_ids.append(c.user.id)
+        # list_of_ids.append(User.objects.get(id=c.user.id))
+    user = User.objects.filter(id__in=list_of_ids)
+
+
+
+    return render(request, '../templates/school/class/viewClass.html', {'user': user})
+
 
 
 
@@ -428,6 +447,13 @@ def create_class(request):
     form = ClassroomForm()
     return render(request, '../templates/school/class/create_class.html', {"form": form})
 
+
+def view_class_list(request):
+    return render(request, '../templates/school/viewClass.html')
+
+
+def create_class(request):
+    return render(request, '../templates/school/viewClass.html')
 
 ##########################################################################################
 
