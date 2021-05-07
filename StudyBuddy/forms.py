@@ -232,3 +232,9 @@ class ClassSubjectForm(forms.ModelForm):
             # class_subject.end_time = class_subject.start_time + forms.TimeField(datetime.time(class_subject.subject.duration, 0, 0))
             class_subject.save()
         return class_subject
+
+
+class File_Upload_Form(forms.ModelForm):
+    class Meta:
+        model = TeacherFile
+        fields=('name','file')

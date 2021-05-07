@@ -53,12 +53,17 @@ urlpatterns = [
     path("teacher/add-exercise", views.add_exercise, name="add_exercise"),
     path("teacher/teacher_update/<int:pk>", views.teacher_update_from_teacher,
          name="teacher_update_from_teacher"),
+    path("teacher/teacherSchedule", views.teacherSchedule, name="teacherSchedule"),
+    path("teacher/upload_file", views.upload_file, name="upload_file"),
+
+
 
 
     # Student
     path("student/", views.studentHome, name="studentHome"),
     path("student/student_update/<int:pk>", views.student_update_from_student,
          name="student_update_from_student"),
+    path("student/studentSchedule", views.studentSchedule, name="studentSchedule"),
 
 
 ]

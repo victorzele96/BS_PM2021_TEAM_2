@@ -18,6 +18,9 @@ from .models import Classroom
 from .models import StudentClassroom
 from .models import ClassSubject
 
+from .models import Subject
+
+
 
 
 
@@ -361,13 +364,29 @@ def view_class_list(request):
 
 def View_Sched(request, pk):
     # model = ClassSubject.objects.get(subject=pk)
+
+    subject_list = ClassSubject.objects.filter(subject=pk)
+
     connection = ClassSubject.objects.get(subject=pk)
+
 
 
     # connection = StudentClassroom.objects.filter(class_room=pk)
     # users = User.objects.filter(id__criteria=connection.user)
     # user = User.objects.none()
     #
+
+    # list_of_ids = []
+    # for c in connection:
+    #     # user = user | c.user
+    #     list_of_ids.append(c.user.id)
+    #     # list_of_ids.append(User.objects.get(id=c.user.id))
+    # user = User.objects.filter(id__in=list_of_ids)
+
+
+
+    return render(request, '../templates/school/class/view_sched.html', {'subject_list': subject_list})
+
     list_of_ids = []
     for c in connection:
         # user = user | c.user
@@ -378,6 +397,7 @@ def View_Sched(request, pk):
 
 
     return render(request, '../templates/school/class/viewClass.html', {'user': user})
+
 
 
 
@@ -427,8 +447,10 @@ def create_class(request):
     form = ClassroomForm()
     return render(request, '../templates/school/class/create_class.html', {"form": form})
 
+
 def view_class_list(request):
     return render(request, '../templates/school/viewClass.html')
+
 
 def create_class(request):
     return render(request, '../templates/school/viewClass.html')
@@ -442,12 +464,50 @@ def teacherHome(request):
 
 def add_exercise(request):
     return render(request, '../templates/teacher/addExercise.html')
+
+def teacherSchedule(request):
+    act_classes = Subject.objects.filter(teacher_id=request.user.id)
+    # classroom = Classroom.objects.get()
+    complex_model = ClassSubject.objects.none()
+    for act_class in act_classes:
+        complex_model = complex_model | ClassSubject.objects.filter(class_room_id=act_class.id)
+
+    # model = ClassSubject.objects.filter(class_room__id=act_classes.all())
+    return render(request, '../templates/teacher/teacherSchedule.html', {'model': complex_model})
+
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = File_Upload_Form(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('teacherHome')
+    else:
+        form = TeacherFile()
+    return render(request, '../templates/teacher/teacher_file_view.html', {
+        'form': form
+    })
+
+
+
+# def upload_file(request):
+#     upload_file_model
+#     return render(request, '../templates/teacher/teacherSchedule.html', {'upload_file_model': upload_file_model})
+
+
 ##########################################################################################
 
 # Student Section
 ##########################################################################################
 def studentHome(request):
     return render(request, '../templates/student/studentHome.html')
+
+def studentSchedule(request):
+
+    class_connection = Subject.objects.get(user_id=request.user.id)
+    # classroom = Classroom.objects.get()
+    model = ClassSubject.objects.filter(id=class_connection.class_room.id)
+    return render(request, '../templates/teacher/teacherSchedule.html', {'model': model})
 
 
 ##########################################################################################

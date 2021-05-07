@@ -191,3 +191,11 @@ class ClassSubject(models.Model):
     #     # for admin
     #     verbose_name = "Student connection to Class "
     #     verbose_name_plural = "Classes"
+
+class TeacherFile(models.Model):
+    name=models.CharField(max_length=256)
+    file=models.FileField(upload_to='books/')
+    uploaded_at=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
