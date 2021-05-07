@@ -141,7 +141,7 @@ class StudentClassroom(models.Model):
         return self.class_room
 
 
-def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         # print("---->>>>>   "+self.objects.get(user_id=self.user.id))
         # if not StudentClassroom.objects.get(user_id=self.user.id):
         # if not self.objects.get(user_id=self.user.id):
@@ -191,3 +191,11 @@ class ClassSubject(models.Model):
     #     # for admin
     #     verbose_name = "Student connection to Class "
     #     verbose_name_plural = "Classes"
+
+class TeacherFile(models.Model):
+    name=models.CharField(max_length=256)
+    file=models.FileField(upload_to='books/')
+    uploaded_at=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

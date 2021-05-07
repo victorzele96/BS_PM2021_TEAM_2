@@ -53,7 +53,7 @@
                 {% if user.is_staff %} {# teacher user #}
                     <li><a href="{% url 'teacherHome' %}" class="navbar-brand">Study Buddy</a></li>
                     <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'teacherHome' %}" class="dropbtn">{{user.username|title}}</a></li>
-                    <li><a href="#" class="schedule-btn">Schedule</a></li>
+                    <li><a href="{% url 'teacherSchedule' %}" class="schedule-btn">Schedule</a></li>
                     <li><a href="#" class="my-classes-btn">My Classes</a></li>
                     <li><a href="{% url 'add_exercise' %}" class="add-exercise-btn">Add Exercise</a></li>
                     <li><a href="#" class="progress-btn">View Progress</a></li>
@@ -68,7 +68,7 @@
                 {% else %} {# student user #}
                     <li><a href="{% url 'studentHome' %}" class="navbar-brand">Study Buddy</a></li>
                     <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'studentHome' %}" class="dropbtn">{{user.username|title}}</a></li>
-                    <li><a href="#" class="schedule-btn">My Schedule</a></li>
+                    <li><a href="{% url 'studentSchedule' %}" class="schedule-btn">My Schedule</a></li>
                     <li><a href="#" class="exams-hw-btn">Exams and HW</a></li>
                     <li><a href="#" class="exercise-btn">Exercise</a></li>
                     <li><a href="#" class="progress-btn">View Progress</a></li>
