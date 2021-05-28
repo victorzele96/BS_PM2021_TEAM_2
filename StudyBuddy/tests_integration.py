@@ -449,11 +449,11 @@ class NewsTest(TestCase):
         if login_test:
             user = authenticate(username='admin', password='admin')
             if user is not None and user.is_authenticated:
-                self.news.setTitle(self.news_dict['title'])
-                self.news.setBody(self.news_dict['body'])
-                self.news.setDate(self.news_dict['date'])
-                test = (self.news.getTitle() == self.news_dict['title'] and self.news.getBody() == self.news_dict['body']
-                        and self.news.getDate() == self.news_dict['date'])
+                self.news.title = self.news_dict['title']
+                self.news.body = self.news_dict['body']
+                self.news.date = self.news_dict['date']
+                test = (self.news.title == self.news_dict['title'] and self.news.body == self.news_dict['body']
+                        and self.news.date == self.news_dict['date'])
         self.assertTrue(test)
         print("\nCorrect News Creation Integration Test - ", positive_test_result(test))
 
@@ -462,8 +462,8 @@ class NewsTest(TestCase):
         if login_test:
             user = authenticate(username='admin', password='admin')
             if user is not None and user.is_authenticated:
-                test = (self.news.getTitle() == self.news_dict['title'] and self.news.getBody() == self.news_dict['body']
-                        and self.news.getDate() == self.news_dict['date'])
+                test = (self.news.title == self.news_dict['title'] and self.news.body == self.news_dict['body']
+                        and self.news.date == self.news_dict['date'])
         self.assertTrue(test)
         print("\nView News Integration Test - ", positive_test_result(test))
 
@@ -472,10 +472,10 @@ class NewsTest(TestCase):
         if login_test:
             user = authenticate(username='admin', password='admin')
             if user is not None and user.is_authenticated:
-                self.news.setTitle(None)
-                self.news.setBody(None)
-                self.news.setDate(None)
-                if self.news.getTitle() is None and self.news.getBody() is None and self.news.getDate() is None:
+                self.news.title = None
+                self.news.body = None
+                self.news.date = None
+                if self.news.title is None and self.news.body is None and self.news.date is None:
                     self.news = None
                 test = self.news is None
         self.assertTrue(test)
