@@ -308,7 +308,7 @@ def view_class(request, pk):
 
 def Add_Student_To_Class(request):
     if request.method == "POST":
-        form = StudentUserForm(request.POST)
+        form = StudentClassroomForm(request.POST)
 
         if form.is_valid():
             # form.date = datetime.now()
@@ -324,7 +324,7 @@ def Add_Student_To_Class(request):
 
             return render(request, '../templates/school/class/add_student_to_class.html', {"form": form})
 
-    form = StudentUserForm()
+    form = StudentClassroomForm()
     return render(request, '../templates/school/class/add_student_to_class.html', {"form": form})
 
 
@@ -448,12 +448,7 @@ def create_class(request):
     return render(request, '../templates/school/class/create_class.html', {"form": form})
 
 
-def view_class_list(request):
-    return render(request, '../templates/school/viewClass.html')
 
-
-def create_class(request):
-    return render(request, '../templates/school/viewClass.html')
 
 ##########################################################################################
 
@@ -475,17 +470,37 @@ def teacherSchedule(request):
     # model = ClassSubject.objects.filter(class_room__id=act_classes.all())
     return render(request, '../templates/teacher/teacherSchedule.html', {'model': complex_model})
 
+def view_t_classes(request):
+    main_class = Classroom.objects.filter(teacher=request.user)
+    my_subjects = Subject.objects.filter(teacher=request.user)
 
-def upload_file(request):
+    return render(request, '../templates/teacher/view_classes.html', {'model': main_class, "model_2": my_subjects})
+
+def upload_file(request, pk):
     if request.method == 'POST':
         form = File_Upload_Form(request.POST, request.FILES)
         if form.is_valid():
+            form.subject = Subject.objects.get(id=pk)
             form.save()
-            return redirect('teacherHome')
-    else:
-        form = TeacherFile()
-    return render(request, '../templates/teacher/teacher_file_view.html', {
+            return redirect('view_t_classes')
+        else:
+            # for msg in form.error_messages:
+            #     messages.error(request, f"{msg}: {form.error_messages[msg]}")
+            return render(request, '../templates/teacher/upload_file.html', {'form': form})
+
+
+    form = File_Upload_Form()
+    return render(request, '../templates/teacher/upload_file.html', {
         'form': form
+    })
+
+
+
+def teacher_file_view(request, pk):
+    model = TeacherFile.objects.filter(subject_id=pk)
+    ret_pk = pk
+    return render(request, '../templates/teacher/teacher_file_view.html', {
+        'model': model, 'ret_pk': ret_pk
     })
 
 
@@ -504,7 +519,9 @@ def studentHome(request):
 
 def studentSchedule(request):
 
-    class_connection = Subject.objects.get(user_id=request.user.id)
+    # class_connection = Subject.objects.get(user_id=request.user.id)
+    class_connection = StudentClassroom.objects.get(user_id=request.user.id)
+
     # classroom = Classroom.objects.get()
     model = ClassSubject.objects.filter(id=class_connection.class_room.id)
     return render(request, '../templates/teacher/teacherSchedule.html', {'model': model})
