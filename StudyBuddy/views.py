@@ -424,15 +424,22 @@ def View_Sched(request, pk):
 #                   template_name="../templates/school/MY_TEST.html",
 #                   context={"form": form})
 
-
+git
 def create_class(request):
 
     if request.method == "POST":
         form = ClassroomForm(request.POST)
 
         if form.is_valid():
-            form.date = datetime.now()
-            new_class = form.save()
+            # form.teacher = User.objects.get(id=form.teacher)
+            # form.date = datetime.now()
+            new_class = form.save(commit=False)
+            new_class.save()
+            # form.teacher = User.objects.get(id=form.teacher)
+
+
+            # form.date = datetime.now()
+            # new_class = form.save()
 
             messages.success(request, f"New article: {new_class} has been saved")
 
@@ -446,6 +453,29 @@ def create_class(request):
 
     form = ClassroomForm()
     return render(request, '../templates/school/class/create_class.html', {"form": form})
+
+
+## create class room
+# def my_test(request):
+#     if request.method == 'POST':
+#         form = ClassroomForm(request.POST)
+#         if form.is_valid():
+#             # form.teacher=User.objects.get(id=form.teacher)
+#
+#             obj = form.save(commit=False)
+#             obj.save()
+#             return redirect('/school')
+#
+#         else:
+#             messages.error(request, "Invalid username or password.")
+#             return render(request=request,
+#                           template_name="../templates/school/MY_TEST.html",
+#                           context={"form": form})
+#     form = ClassroomForm()
+#     return render(request=request,
+#                   template_name="../templates/school/MY_TEST.html",
+#                   context={"form": form})
+
 
 
 
