@@ -424,7 +424,7 @@ def View_Sched(request, pk):
 #                   template_name="../templates/school/MY_TEST.html",
 #                   context={"form": form})
 
-
+git
 def create_class(request):
 
     if request.method == "POST":
