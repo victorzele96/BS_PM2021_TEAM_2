@@ -117,6 +117,7 @@ class Classroom(models.Model):
     class_name = models.CharField("class name", max_length=50)
     teacher = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
+
     def str(self):
         return self.class_name
 
@@ -193,9 +194,12 @@ class ClassSubject(models.Model):
     #     verbose_name_plural = "Classes"
 
 class TeacherFile(models.Model):
-    name=models.CharField(max_length=256)
-    file=models.FileField(upload_to='books/')
-    uploaded_at=models.DateTimeField(auto_now_add=True)
+    subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=256)
+    description = models.TextField(null=True)
+    file = models.FileField(upload_to='books/')
+    upload_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

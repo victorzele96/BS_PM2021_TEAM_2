@@ -48,13 +48,13 @@
                 </li>
                 <li><a href="#" class="documents-btn">Documents</a></li>
 
-
+{#<td><a class="" href="{% url 'view_class' m.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
             {% else %}
                 {% if user.is_staff %} {# teacher user #}
                     <li><a href="{% url 'teacherHome' %}" class="navbar-brand">Study Buddy</a></li>
                     <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'teacherHome' %}" class="dropbtn">{{user.username|title}}</a></li>
                     <li><a href="{% url 'teacherSchedule' %}" class="schedule-btn">Schedule</a></li>
-                    <li><a href="#" class="my-classes-btn">My Classes</a></li>
+                    <li><a href="{% url 'view_t_classes' %}" class="my-classes-btn">My Classes</a></li>
                     <li><a href="{% url 'add_exercise' %}" class="add-exercise-btn">Add Exercise</a></li>
                     <li><a href="#" class="progress-btn">View Progress</a></li>
                     <li><a href="{% url 'teacher_update_from_teacher' user.id %}" class="details-btn">User Details</a></li>

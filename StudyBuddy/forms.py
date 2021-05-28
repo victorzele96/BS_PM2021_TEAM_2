@@ -121,9 +121,10 @@ class StudentClassroomForm(forms.ModelForm):
     def save(self, commit=True):
         sc = super(StudentClassroomForm, self).save(commit=False)
         sc.class_room = self.cleaned_data["class_room"]
-        sc.user = self.cleaned_data["student"]
+        # sc.user = self.cleaned_data["student"]
+        sc.student = self.cleaned_data["student"]
         if commit:
-            if not StudentClassroom.objects.get(user_id=sc.user.id):
+            if not StudentClassroom.objects.get(user_id=sc.student.id):
                 sc.save()
             else:
                 raise ValueError("user must be a student")
@@ -235,6 +236,18 @@ class ClassSubjectForm(forms.ModelForm):
 
 
 class File_Upload_Form(forms.ModelForm):
+    # subject = Subject.objects.none()
+
+
     class Meta:
         model = TeacherFile
-        fields=('name','file')
+        fields = ('name', 'description', 'file')
+
+    def save(self, commit=True):
+        File = super(File_Upload_Form, self).save(commit=False)
+        # class_subject.subject = self.cleaned_data["subject"]
+
+        if commit:
+            File.upload_time = datetime.now()
+            File.save()
+        return File
