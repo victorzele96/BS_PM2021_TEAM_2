@@ -8,9 +8,19 @@ from StudyBuddy.tests_unit import LoginTest, DeleteTeacherTest, DeleteStudentTes
                                   UpdateStudentDetailsTest, UpdateTeacherDetailsTest, NewsTest
 from datetime import datetime
 
-##### Unility Functions #####
+# _____ UTILITY FUNCTIONS _____
+
 
 def positive_test_result(test):
+    """
+        Returns Success for True and Failure for False
+
+        Args:
+            test (boolean): test result
+
+        Returns:
+            String: Success or Failure
+    """
     if test:
         return "Success"
     else:
@@ -18,14 +28,22 @@ def positive_test_result(test):
 
 
 def negative_test_result(test):
+    """
+        Returns Success for False and Failure for True
+
+        Args:
+            test (boolean): test result
+
+        Returns:
+            String: Success or Failure
+    """
     if not test:
         return "Success"
     else:
         return "Failure"
 
-##### INTEGRATION TESTS #####
 
-print("Integration tests: ")
+# _____ INTEGRATION TESTS _____
 
 # Delete Teacher  tests
 class DeleteTeacherTest(TestCase):
