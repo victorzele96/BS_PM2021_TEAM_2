@@ -55,26 +55,6 @@ class Article(models.Model):
         verbose_name = "Article"
         verbose_name_plural = "Articles"
 
-    # FOR TEST PURPOSES ONLY  #
-    def getTitle(self):       #
-        return self.title     #
-                              #
-    def getBody(self):        #
-        return self.body      #
-                              #
-    def getDate(self):        #
-        return self.date      #
-                              #
-    def setTitle(self, title):#
-        self.title = title    #
-                              #
-    def setBody(self, body):  #
-        self.body = body      #
-                              #
-    def setDate(self, date):  #
-        self.date = date      #
-    # FOR TEST PURPOSES ONLY  #
-
 class TeacherForm(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     phone = models.CharField("phone", max_length=10)

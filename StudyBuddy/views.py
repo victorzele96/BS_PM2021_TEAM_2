@@ -553,7 +553,7 @@ def studentSchedule(request):
 
     # classroom = Classroom.objects.get()
     model = ClassSubject.objects.filter(id=class_connection.class_room.id)
-    return render(request, '../templates/teacher/teacherSchedule.html', {'model': model})
+    return render(request, '../templates/student/studentSchedule.html', {'model': model})
 
 
 ##########################################################################################
