@@ -6,7 +6,7 @@ body {
 }
 
 .container-main .xpl-txt {
-    margin: 150px;
+    margin: 100px;
     font-size: 25px;
 }
 
@@ -17,7 +17,7 @@ body {
     flex-wrap: wrap;
 }
 
-.news{
+.news, .activity{
     width: 300px;
     display: flex;
     justify-content: space-between;
@@ -34,6 +34,11 @@ body {
     transform: translateY(-10px);
     transition: all ease 0.2s;
 }
+
+.activity:hover {
+
+}
+
 .news-title{
     position: absolute;
     /*top: 0px;*/
