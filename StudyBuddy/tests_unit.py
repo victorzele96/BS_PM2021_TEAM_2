@@ -5,12 +5,57 @@ from .models import Article
 from .forms import ArticleForm
 from datetime import datetime
 
-##### UNIT TESTS AND INTEGRATION TESTS #####
+# _____ UTILITY FUNCTIONS _____
+
+
+def positive_test_result(test):
+    """
+        Returns Success for True and Failure for False
+
+        Args:
+            test (boolean): test result
+
+        Returns:
+            String: Success or Failure
+    """
+    if test:
+        return "Success"
+    else:
+        return "Failure"
+
+
+def negative_test_result(test):
+    """
+        Returns Success for False and Failure for True
+
+        Args:
+            test (boolean): test result
+
+        Returns:
+            String: Success or Failure
+    """
+    if not test:
+        return "Success"
+    else:
+        return "Failure"
+
+
+# _____ UNIT TESTS _____
 
 # Login tests
 class LoginTest(TestCase):
+    """
+        Testing class (Inheriting TestCase class) for login functions
+
+        Args:
+    """
+
     @classmethod
     def setUpClass(cls):
+        """
+            Creating a user which can be used in all the functions
+            and printing the testing class start
+        """
         super(LoginTest, cls).setUpClass()
         print("\n__Login SetUp__")
         print("Module - result")
@@ -19,6 +64,10 @@ class LoginTest(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """
+            Deleting the user after the class finishes all its functions
+            and printing the testing class end
+        """
         super(LoginTest, cls).tearDownClass()
         print("\n__Login TearDown__")
         cls.user.delete()
@@ -26,6 +75,16 @@ class LoginTest(TestCase):
     # unit tests
 
     def test_unit_correct(self, username='admin', password='admin'):
+        """
+            Testing the correct username and password input
+
+            Args:
+                username (String): username input which is set as admin by default
+                password (String): password input which is set as admin by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertTrue(test)
@@ -33,6 +92,16 @@ class LoginTest(TestCase):
         return test
 
     def test_unit_wrong_username(self, username='wrong', password='admin'):
+        """
+            Testing the incorrect username input and correct password input
+
+            Args:
+                username (String): username input which is set as wrong by default
+                password (String): password input which is set as admin by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertFalse(test)
@@ -40,6 +109,16 @@ class LoginTest(TestCase):
         return test
 
     def test_unit_wrong_password(self, username='admin', password='wrong'):
+        """
+            Testing the correct username input and incorrect password input
+
+            Args:
+                username (String): username input which is set as admin by default
+                password (String): password input which is set as wrong by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertFalse(test)
@@ -47,6 +126,16 @@ class LoginTest(TestCase):
         return test
 
     def test_unit_wrong_input(self, username='wrong', password='wrong'):
+        """
+            Testing the incorrect username input password input
+
+            Args:
+                username (String): username input which is set as wrong by default
+                password (String): password input which is set as wrong by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = authenticate(username=username, password=password)
         test = user is not None and user.is_authenticated
         self.assertFalse(test)
@@ -55,24 +144,41 @@ class LoginTest(TestCase):
 
 # Login tests
 
+
 # Delete Teacher  tests
 class DeleteTeacherTest(TestCase):
+    """
+        Testing class (Inheriting TestCase class) for deleting teacher user
+    """
     @classmethod
     def setUpClass(cls):
+        """
+            Printing the testing class start
+        """
         super(DeleteTeacherTest, cls).setUpClass()
         print("\n__Delete Teacher SetUp__")
         print("Module - result")
 
     @classmethod
     def tearDownClass(cls):
+        """
+            Printing the testing class end
+        """
         super(DeleteTeacherTest, cls).tearDownClass()
         print("\n__Delete Teacher TearDown__")
 
     # unit test
 
     def test_unit_delete_teacher_details(self):
+        """
+            Delete teacher user testing function
+
+            Returns:
+                Boolean: True or False
+        """
         self.teacher = get_user_model().objects.create_user(username='teacher', password='teacher',
-                                                           email='teacher@teach.er', first_name='tea', last_name='cher')
+                                                            email='teacher@teach.er', first_name='tea',
+                                                            last_name='cher')
         self.teacher.save()
         if self.teacher is not None:
             self.teacher.delete()
@@ -83,26 +189,53 @@ class DeleteTeacherTest(TestCase):
         print("\nCorrect Delete Teacher Unit Test - ", positive_test_result(test))
 # Delete Teacher tests
 
+
 # Update Teacher Details tests
 class UpdateTeacherDetailsTest(TestCase):
+    """
+        Testing class (Inheriting TestCase class) for updating teacher user information
+    """
     @classmethod
     def setUpClass(cls):
+        """
+            Creating a teacher user which can be used in all the functions
+            and printing the testing class start
+        """
         super(UpdateTeacherDetailsTest, cls).setUpClass()
         print("\n__Update Teacher Details SetUp__")
         print("Module - result")
         cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher',
-                                                           email='teacher@teach.er', first_name='tea', last_name='cher')
+                                                           email='teacher@teach.er', first_name='tea',
+                                                           last_name='cher')
         cls.teacher.save()
 
     @classmethod
     def tearDownClass(cls):
+        """
+            Deleting the teacher user after the class finishes
+            and printing the testing class end
+        """
         super(UpdateTeacherDetailsTest, cls).tearDownClass()
         print("\n__Update Teacher Details TearDown__")
         cls.teacher.delete()
 
     # unit test
 
-    def test_unit_update_teacher_details(self, username='notTeacher', password='notTeacher', email='notTeacher@teach.er', first_name='not', last_name='teacher'):
+    def test_unit_update_teacher_details(self, username='notTeacher', password='notTeacher',
+                                         email='notTeacher@teach.er', first_name='not', last_name='teacher'):
+        """
+            Update teacher user information testing function
+
+            Args:
+                username (String): username input which is set as notTeacher by default
+                password (String): password input which is set as notTeacher by default
+                email (String): email input which is set as notTeacher@teach.er by default
+                first_name (String): first name input which is set as not by default
+                last_name (String): last name input which is set as teacher by default
+
+            Returns:
+                Boolean: True or False
+        """
         if self.teacher is not None:
             self.teacher.username = username
             self.teacher.password = password
@@ -119,10 +252,18 @@ class UpdateTeacherDetailsTest(TestCase):
         print("\nCorrect Update Teacher Details Unit Test - ", positive_test_result(test))
 # Update Teacher Details tests
 
+
 # View Teacher Details tests
 class ViewTeacherDetailsTest(TestCase):
+    """
+        Testing class (Inheriting TestCase class) for viewing teacher user information
+    """
     @classmethod
     def setUpClass(cls):
+        """
+            Creating a teacher user which can be used in all the functions
+            and printing the testing class start
+        """
         super(ViewTeacherDetailsTest, cls).setUpClass()
         print("\n__View Teacher Details SetUp__")
         print("Module - result")
@@ -141,13 +282,31 @@ class ViewTeacherDetailsTest(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """
+            Deleting the teacher user after the class finishes all its functions
+            and printing the testing class end
+        """
         super(ViewTeacherDetailsTest, cls).tearDownClass()
         print("\n__View Teacher Details TearDown__")
         cls.teacher.delete()
 
     # unit test
 
-    def test_unit_view_teacher_details(self, username='teacher', password='teacher', email='teacher@teach.er', first_name='tea', last_name='cher'):
+    def test_unit_view_teacher_details(self, username='teacher', password='teacher', email='teacher@teach.er',
+                                       first_name='tea', last_name='cher'):
+        """
+            View teacher user information testing function
+
+            Args:
+                username (String): username input which is set as teacher by default
+                password (String): password input which is set as teacher by default
+                email (String): email input which is set as teacher@teach.er by default
+                first_name (String): first name input which is set as tea by default
+                last_name (String): last name input which is set as cher by default
+
+            Returns:
+                Boolean: True or False
+        """
         test = (self.teacher.username == self.user_dict['username'] and self.teacher.email == self.user_dict['email']
                 and self.teacher.first_name == self.user_dict['first_name']
                 and self.teacher.last_name == self.user_dict['last_name'])
@@ -156,22 +315,38 @@ class ViewTeacherDetailsTest(TestCase):
         print("\nCorrect View Teacher Details Unit Test - ", positive_test_result(test))
 # View Teacher Details tests
 
+
 # Delete Student  tests
 class DeleteStudentTest(TestCase):
+    """
+        Testing class (Inheriting TestCase class) for deleting student user information
+    """
     @classmethod
     def setUpClass(cls):
+        """
+            Printing the testing class start
+        """
         super(DeleteStudentTest, cls).setUpClass()
         print("\n__Delete Student SetUp__")
         print("Module - result")
 
     @classmethod
     def tearDownClass(cls):
+        """
+            Printing the testing class end
+        """
         super(DeleteStudentTest, cls).tearDownClass()
         print("\n__Delete Student TearDown__")
 
     # unit test
 
     def test_unit_delete_teacher_details(self):
+        """
+            Delete teacher user information testing function
+
+            Returns:
+                Boolean: True or False
+        """
         self.student = get_user_model().objects.create_user(username='student', password='student',
                                                             email='student@stude.nt', first_name='stud',
                                                             last_name='ent')
@@ -185,10 +360,18 @@ class DeleteStudentTest(TestCase):
         print("\nCorrect Delete Student Unit Test - ", positive_test_result(test))
 # Delete Student tests
 
+
 # Update Student Details tests
 class UpdateStudentDetailsTest(TestCase):
+    """
+        Testing class (Inheriting TestCase class) for updating student user information
+    """
     @classmethod
     def setUpClass(cls):
+        """
+            Creating a student user which can be used in all the functions
+            and printing the testing class start
+        """
         super(UpdateStudentDetailsTest, cls).setUpClass()
         print("\n__Update Student Details SetUp__")
         print("Module - result")
@@ -198,13 +381,31 @@ class UpdateStudentDetailsTest(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """
+            Deleting the student user after the class finishes
+            and printing the testing class end
+        """
         super(UpdateStudentDetailsTest, cls).tearDownClass()
         print("\n__Update Student Details TearDown__")
         cls.student.delete()
 
     # unit test
 
-    def test_unit_update_student_details(self, username='notStudent', password='notStudent', email='notStudent@stude.nt', first_name='not', last_name='student'):
+    def test_unit_update_student_details(self, username='notStudent', password='notStudent',
+                                         email='notStudent@stude.nt', first_name='not', last_name='student'):
+        """
+            Update student user information testing function
+
+            Args:
+                username (String): username input which is set as notStudent by default
+                password (String): password input which is set as notStudent by default
+                email (String): email input which is set as notStudent@stude.nt by default
+                first_name (String): first name input which is set as not by default
+                last_name (String): last name input which is set as student by default
+
+            Returns:
+                Boolean: True or False
+        """
         if self.student is not None:
             self.student.username = username
             self.student.password = password
@@ -221,10 +422,18 @@ class UpdateStudentDetailsTest(TestCase):
         print("\nCorrect Update Student Details Unit Test - ", positive_test_result(test))
 # Update Student Details tests
 
+
 # View Student Details tests
 class ViewStudentDetailsTest(TestCase):
+    """
+        Testing class (Inheriting TestCase class) for viewing student user information
+    """
     @classmethod
     def setUpClass(cls):
+        """
+            Creating a student user which can be used in all the functions
+            and printing the testing class start
+        """
         super(ViewStudentDetailsTest, cls).setUpClass()
         print("\n__View Student Details SetUp__")
         print("Module - result")
@@ -243,13 +452,31 @@ class ViewStudentDetailsTest(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """
+            Deleting the student user after the class finishes
+            and printing the testing class end
+        """
         super(ViewStudentDetailsTest, cls).tearDownClass()
         print("\n__View Student Details TearDown__")
         cls.student.delete()
 
     # unit test
 
-    def test_unit_view_student_details(self, username='student', password='student', email='student@stude.nt', first_name='stud', last_name='ent'):
+    def test_unit_view_student_details(self, username='student', password='student', email='student@stude.nt',
+                                       first_name='stud', last_name='ent'):
+        """
+            View student user information testing function
+
+            Args:
+                username (String): username input which is set as student by default
+                password (String): password input which is set as student by default
+                email (String): email input which is set as student@stude.nt by default
+                first_name (String): first name input which is set as stud by default
+                last_name (String): last name input which is set as ent by default
+
+            Returns:
+                Boolean: True or False
+        """
         test = (self.student.username == self.user_dict['username'] and self.student.email == self.user_dict['email']
                 and self.student.first_name == self.user_dict['first_name']
                 and self.student.last_name == self.user_dict['last_name'])
@@ -258,79 +485,18 @@ class ViewStudentDetailsTest(TestCase):
         print("\nCorrect View Student Details Unit Test - ", positive_test_result(test))
 # View Student Details tests
 
-def positive_test_result(test):
-    if test:
-        return "Success"
-    else:
-        return "Failure"
-
-
-def negative_test_result(test):
-    if not test:
-        return "Success"
-    else:
-        return "Failure"
-
-
-class Test_init_(TestCase):
-    # pylint: disable = all
-    def test__init_(self):
-        test = True
-        self.assertTrue(test)
-        print("\n__init__.py - ", positive_test_result(test))
-
-
-class TestAdmin(TestCase):
-    # pylint: disable = all
-    def test_admin(self):
-        test = True
-        self.assertTrue(test)
-        print("\nadmin.py - ", positive_test_result(test))
-
-
-class TestApps(TestCase):
-    # pylint: disable = all
-    def test_apps(self):
-        test = True
-        self.assertTrue(test)
-        print("\napps.py - ", positive_test_result(test))
-
-
-class TestForms(TestCase):
-    # pylint: disable = all
-    def test_forms(self):
-        test = True
-        self.assertTrue(test)
-        print("\nforms.py - ", positive_test_result(test))
-
-
-class TestModels(TestCase):
-    # pylint: disable = all
-    def test_models(self):
-        test = True
-        self.assertTrue(test)
-        print("\nmodels.py - ", positive_test_result(test))
-
-
-class TestUrls(TestCase):
-    # pylint: disable = all
-    def test_urls(self):
-        test = True
-        self.assertTrue(test)
-        print("\nurls.py - ", positive_test_result(test))
-
-
-class TestViews(TestCase):
-    # pylint: disable = all
-    def test_views(self):
-        test = True
-        self.assertTrue(test)
-        print("\nviews.py - ", positive_test_result(test))
 
 # Teacher Registration test
 class TeacherRegistrationTest(TestCase):
+    """
+        Testing class (Inheriting TestCase class) for registering teacher user information
+    """
     @classmethod
     def setUpClass(cls):
+        """
+            Creating a teacher user which can be used in all the functions
+            and printing the testing class start
+        """
         super(TeacherRegistrationTest, cls).setUpClass()
         print("\n__Teacher Registration SetUp__")
         print("Module - result")
@@ -356,6 +522,10 @@ class TeacherRegistrationTest(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """
+            Deleting the teacher user after the class finishes
+            and printing the testing class end
+        """
         super(TeacherRegistrationTest, cls).tearDownClass()
         print("\n__Teacher Registration TearDown__")
         cls.teacher.delete()
@@ -363,6 +533,17 @@ class TeacherRegistrationTest(TestCase):
     # unit tests
 
     def test_unit_correct_teacher_creation(self, username='teacher', password='teacher', email='teacher@teach.er'):
+        """
+            Create teacher user information testing function with correct input
+
+            Args:
+                username (String): username input which is set as teacher by default
+                password (String): password input which is set as teacher by default
+                email (String): email input which is set as teacher@teach.er by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = get_user_model().objects.get(username='teacher')
         test_registration = False
         if user is not None:
@@ -376,6 +557,17 @@ class TeacherRegistrationTest(TestCase):
         return test_registration
 
     def test_unit_wrong_username_teacher_creation(self, username='wrong', password='teacher', email='teacher@teach.er'):
+        """
+            Create teacher user information testing function with incorrect username input
+
+            Args:
+                username (String): username input which is set as wrong by default
+                password (String): password input which is set as teacher by default
+                email (String): email input which is set as teacher@teach.er by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = get_user_model().objects.get(username='teacher')
         test_registration = False
         if user is not None:
@@ -386,6 +578,17 @@ class TeacherRegistrationTest(TestCase):
         print("\nWrong Username Teacher Registration + Login Unit Test - ", negative_test_result(test_registration))
 
     def test_unit_wrong_password_teacher_creation(self, username='teacher', password='wrong', email='teacher@teach.er'):
+        """
+            Create teacher user information testing function with incorrect password input
+
+            Args:
+                username (String): username input which is set as teacher by default
+                password (String): password input which is set as wrong by default
+                email (String): email input which is set as teacher@teach.er by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = get_user_model().objects.get(username='teacher')
         test_registration = False
         if user is not None:
@@ -396,6 +599,17 @@ class TeacherRegistrationTest(TestCase):
         print("\nWrong Password Teacher Registration + Login Unit Test - ", negative_test_result(test_registration))
 
     def test_unit_wrong_input_teacher_creation(self, username='wrong', password='wrong', email='teacher@teach.er'):
+        """
+            Create teacher user information testing function with incorrect username and password inputs
+
+            Args:
+                username (String): username input which is set as wrong by default
+                password (String): password input which is set as wrong by default
+                email (String): email input which is set as teacher@teach.er by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = get_user_model().objects.get(username='teacher')
         test_registration = False
         if user is not None:
@@ -406,10 +620,18 @@ class TeacherRegistrationTest(TestCase):
         print("\nWrong Password Teacher Registration + Login Unit Test - ", negative_test_result(test_registration))
 # Teacher Registration test
 
+
 # Student Registration test
 class StudentRegistrationTest(TestCase):
+    """
+        Testing class (Inheriting TestCase class) for registering student user information
+    """
     @classmethod
     def setUpClass(cls):
+        """
+            Creating a student user which can be used in all the functions
+            and printing the testing class start
+        """
         super(StudentRegistrationTest, cls).setUpClass()
         print("\n__Student Registration SetUp__")
         print("Module - result")
@@ -439,13 +661,28 @@ class StudentRegistrationTest(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """
+            Deleting the student user after the class finishes
+            and printing the testing class end
+        """
         super(StudentRegistrationTest, cls).tearDownClass()
         print("\n__Student Registration TearDown__")
         cls.student.delete()
 
     # unit tests
 
-    def test_unit_correct_student_creation(self, username='student', password='student'):
+    def test_unit_correct_student_creation(self, username='student', password='student', email='student@stude.nt'):
+        """
+            Create teacher user information testing function with correct input
+
+            Args:
+                username (String): username input which is set as student by default
+                password (String): password input which is set as student by default
+                email (String): email input which is set as student@stude.nt by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = get_user_model().objects.get(username='student')
         test_registration = False
         if user is not None:
@@ -457,7 +694,18 @@ class StudentRegistrationTest(TestCase):
         self.assertTrue(test_registration)
         print("\nCorrect Student Registration + Login Unit Test - ", positive_test_result(test_registration))
 
-    def test_unit_wrong_username_student_creation(self, username='wrong', password='teacher', email='student@stude.nt'):
+    def test_unit_wrong_username_student_creation(self, username='wrong', password='student', email='student@stude.nt'):
+        """
+            Create teacher user information testing function with incorrect username input
+
+            Args:
+                username (String): username input which is set as wrong by default
+                password (String): password input which is set as student by default
+                email (String): email input which is set as student@stude.nt by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = get_user_model().objects.get(username='student')
         test_registration = False
         if user is not None:
@@ -468,6 +716,17 @@ class StudentRegistrationTest(TestCase):
         print("\nWrong Username Student Registration + Login Unit Test - ", negative_test_result(test_registration))
 
     def test_unit_wrong_password_teacher_creation(self, username='student', password='wrong', email='student@stude.nt'):
+        """
+            Create teacher user information testing function with incorrect password input
+
+            Args:
+                username (String): username input which is set as student by default
+                password (String): password input which is set as wrong by default
+                email (String): email input which is set as student@stude.nt by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = get_user_model().objects.get(username='student')
         test_registration = False
         if user is not None:
@@ -479,6 +738,17 @@ class StudentRegistrationTest(TestCase):
               negative_test_result(test_registration))
 
     def test_unit_wrong_input_teacher_creation(self, username='wrong', password='wrong', email='student@stude.nt'):
+        """
+            Create student user information testing function with incorrect username and password inputs
+
+            Args:
+                username (String): username input which is set as wrong by default
+                password (String): password input which is set as wrong by default
+                email (String): email input which is set as student@stude.nt by default
+
+            Returns:
+                Boolean: True or False
+        """
         user = get_user_model().objects.get(username='student')
         test_registration = False
         if user is not None:
@@ -489,9 +759,12 @@ class StudentRegistrationTest(TestCase):
         print("\nWrong Password Student Registration + Login Unit Test - ", negative_test_result(test_registration))
 # Student Registration test
 
+
 # News test
 class NewsTest(TestCase):
-
+    """
+        Testing class (Inheriting TestCase class) for creating, viewing and deleting news
+    """
     news_dict = {
         'title': 'news',
         'body': 'testing our news section',
@@ -500,6 +773,10 @@ class NewsTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        """
+            Creating news article which can be used in all the functions
+            and printing the testing class start
+        """
         super(NewsTest, cls).setUpClass()
         print("\n__News SetUp__")
         print("Module - result")
@@ -511,6 +788,10 @@ class NewsTest(TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """
+             Deleting the news article after the class finishes
+             and printing the testing class end
+        """
         super(NewsTest, cls).tearDownClass()
         print("\n__News TearDown__")
         cls.user.delete()
@@ -518,6 +799,12 @@ class NewsTest(TestCase):
     # unit tests
 
     def test_unit_news_creation(self):
+        """
+            Create news article testing function
+
+            Returns:
+                Boolean: True or False
+        """
         self.news.title = self.news_dict['title']
         self.news.body = self.news_dict['body']
         self.news.date = self.news_dict['date']
@@ -527,12 +814,24 @@ class NewsTest(TestCase):
         print("\nCorrect News Creation Unit Test - ", positive_test_result(test))
 
     def test_unit_view_news(self):
+        """
+            View news article testing function
+
+            Returns:
+                Boolean: True or False
+        """
         test = (self.news.title == self.news_dict['title'] and self.news.body == self.news_dict['body']
                 and self.news.date == self.news_dict['date'])
         self.assertTrue(test)
         print("\nView News Unit Test - ", positive_test_result(test))
 
     def test_unit_delete_news(self):
+        """
+            Delete news article testing function
+
+            Returns:
+                Boolean: True or False
+        """
         self.news.title = None
         self.news.body = None
         self.news.date = None
