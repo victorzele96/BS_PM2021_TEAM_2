@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link id="myStyleSheet" type="text/css" href="{% static 'styles/navBase.css' %}" rel="stylesheet">
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">#}
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <title>Title</title>
+</head>
+<body>
+
+<nav style="width: 100%;">
+    <ul>
+        {% if user.is_authenticated %} {# registered user #}
+            {% if user.is_superuser %} {# school user #}
+                <li><a href="{% url 'schoolHome' %}" class="navbar-brand">Study Buddy</a></li>
+                <li style="font-size: 20px;color: lightblue;"> Welcome:<a href="{% url 'schoolHome' %}" class="dropbtn">{{user.username|title}}</a></li>
+                <li><a href="{% url 'school_news' %}" class="news-btn">News</a></li>
+                <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">Register</a>
+                <div class="dropdown-content">
+                    <a class="reg-teacher-btn" type="submit" href="{% url 'register_teacher' %}">Teacher</a>
+                    <a class="reg-student-btn" type="submit" href="{% url 'register_student' %}">Student</a>
+                </div>
+                </li>
+                <li><a href="{% url 'user_details' %}" class="details-btn">User Details</a></li>
+                <li><a href="#" class="progress-btn">Students Progress</a></li>
+                <li><a href="#" class="schedule-btn">Schedule</a></li>
+                <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">Class</a>
+                <div class="dropdown-content">
+                    <a class="reg-teacher-btn" type="submit" href="{% url 'create_class' %}">Create Class</a>
+                    <a class="reg-teacher-btn" type="submit" href="{% url 'view_class_list' %}">View Class List</a>
+{#                    <a class="reg-student-btn" type="submit" href="#">Create Schedule</a>#}
+{#                    <a class="reg-student-btn" type="submit" href="{% url 'register_teacher' %}">View Schedule</a>#}
+                </div>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">Messages</a>
+                    <div class="dropdown-content">
+                        <a class="view-msg-btn" type="submit" href="#">View User Messages</a>
+                        <a class="send-msg-btn" type="submit" href="#">Send System Message</a>
+                    </div>
+                </li>
+                <li><a href="#" class="documents-btn">Documents</a></li>
+
+{#<td><a class="" href="{% url 'view_class' m.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
+            {% else %}
+                {% if user.is_staff %} {# teacher user #}
+                    <li><a href="{% url 'teacherHome' %}" class="navbar-brand">Study Buddy</a></li>
+                    <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'teacherHome' %}" class="dropbtn">{{user.username|title}}</a></li>
+                    <li><a href="{% url 'teacherSchedule' %}" class="schedule-btn">Schedule</a></li>
+                    <li><a href="{% url 'view_t_classes' %}" class="my-classes-btn">My Classes</a></li>
+                    <li><a href="{% url 'add_exercise' %}" class="add-exercise-btn">Add Exercise</a></li>
+                    <li><a href="#" class="progress-btn">View Progress</a></li>
+                    <li><a href="{% url 'teacher_update_from_teacher' user.id %}" class="details-btn">User Details</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">Messages</a>
+                        <div class="dropdown-content">
+                            <a class="view-msg-btn" type="submit" href="#">View Messages</a>
+                            <a class="send-msg-btn" type="submit" href="#">Send Message</a>
+                        </div>
+                    </li>
+                {% else %} {# student user #}
+                    <li><a href="{% url 'studentHome' %}" class="navbar-brand">Study Buddy</a></li>
+                    <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'studentHome' %}" class="dropbtn">{{user.username|title}}</a></li>
+                    <li><a href="{% url 'studentSchedule' %}" class="schedule-btn">My Schedule</a></li>
+                    <li><a href="#" class="exams-hw-btn">Exams and HW</a></li>
+                    <li><a href="#" class="exercise-btn">Exercise</a></li>
+                    <li><a href="#" class="progress-btn">View Progress</a></li>
+                    <li><a href="{% url 'student_update_from_student' user.id %}" class="details-btn">User Details</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">Messages</a>
+                        <div class="dropdown-content">
+                            <a class="view-msg-btn" type="submit" href="#">View Messages</a>
+                            <a class="send-msg-btn" type="submit" href="#">Send Message</a>
+                        </div>
+                    </li>
+                    <li><a href="#" class="documents-btn">Documents</a></li>
+
+                {%   endif %}
+            {% endif %}
+        {% else %}
+            <li><a href="{% url 'home' %}" class="navbar-brand">Study Buddy</a></li>
+        {% endif %}
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Theme</a>
+            <div class="dropdown-content">
+                <a class="btn btn-light" onclick="swapStyle('light')">Light Mode</a>
+                <a class="btn btn-dark" onclick="swapStyle('dark')">Dark Mode</a>
+            </div>
+        </li>
+
+        {% if not user.is_authenticated %}
+            <div class="login-logout-btn-container">
+                <li> <a type="submit" class="login-btn" href="{% url 'login' %}">Login</a> </li>
+            </div>
+        {% else %}
+            <div class="login-logout-btn-container">
+                <li>  <a type="submit" class="logout-btn" href="{% url 'logout' %}">Logout</a> </li>
+            </div>
+        {% endif %}
+    </ul>
+</nav>
+
+
+<!--scripts -->
+<script type="text/javascript">
+
+    var setTheme = localStorage.getItem('theme')
+
+    if(setTheme == null)
+        swapStyle('light')
+    else
+        swapStyle(setTheme)
+
+    function swapStyle(sheet){
+        console.log(sheet)
+        if(sheet === 'light'){
+            document.getElementById('myStyleSheet').href = "{% static 'styles/navBase.css' %}"
+            localStorage.setItem('theme', 'light')
+        }
+        if(sheet === 'dark'){
+            document.getElementById('myStyleSheet').href = "{% static 'styles/darkStyles/navBase.css' %}"
+            localStorage.setItem('theme', 'dark')
+        }
+    }
+
+    {#function updateTheme(theme){#}
+	{#		var url = "{% url 'update_theme' %}"#}
+	{#		fetch(url, {#}
+	{#			method:'POST',#}
+	{#			headers:{#}
+	{#				'Content-type':'application/json',#}
+	{#				'X-CSRFToken':csrftoken,#}
+	{#			},#}
+	{#			body:JSON.stringify({'theme':theme})#}
+	{#		})#}
+	{#	}#}
+</script>
+</body>
+</html>

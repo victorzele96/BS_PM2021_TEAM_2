@@ -1,0 +1,69 @@
+pipeline {
+    agent {
+	docker {
+	    image 'python:3.8'
+	}
+    }
+    stages {
+        stage('Build') {
+            steps {
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+
+                    sh 'python -m pip install -r requirements.txt'
+                    sh 'python -m py_compile manage.py'
+
+                }
+            }
+        }
+        stage('Migrate') {
+            steps{
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'python manage.py makemigrations'
+                    sh 'python manage.py migrate'
+                }
+            }
+        }
+        stage('Test') {
+            steps{
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'python manage.py test'
+                }
+            }
+        }
+
+        stage('Metric I -> Coverage') {
+            steps{
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'pip install coverage'
+                    sh 'python -m coverage run manage.py test'
+                    sh 'python -m coverage report --fail-under=70'
+                }
+            }
+        }
+        
+        stage('Metric II -> pylint') {
+            steps{
+                withEnv(["HOME=${env.WORKSPACE}"]) {
+                    sh 'pip install pylint'
+                    sh 'pip install pylint-django'
+                    sh 'python -m pylint StudyBuddy'
+                }
+            }
+        }
+    }
+    post {
+		failure{
+			mail to: 'StudyBuddySCE@gmail.com',
+			subject: "Failed: Job '${env.JOB_NAME}' ['${env.BUILD_NUMBER}']",
+			body: "Failed: Job '${env.JOB_NAME}' ['${env.BUILD_NUMBER}']: Check console output at '${env.BUILD_URL}' '${env.JOB_NAME}' ['${env.BUILD_NUMBER}']"
+		}
+		success{
+			mail to: 'StudyBuddySCE@gmail.com',
+			subject: "SUCCESS: Job '${env.JOB_NAME}' ['${env.BUILD_NUMBER}']",
+			body: "SUCCESS: Job '${env.JOB_NAME}' ['${env.BUILD_NUMBER}']: Check console output at '${env.BUILD_URL}' '${env.JOB_NAME}' ['${env.BUILD_NUMBER}']"
+		}
+		always{
+			deleteDir()
+		}
+	}
+}

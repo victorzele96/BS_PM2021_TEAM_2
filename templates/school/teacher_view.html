@@ -1,0 +1,43 @@
+{% extends 'school/schoolHome.html' %}
+{% load static %}
+{% block title %}
+
+    <head>
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/userList.css' %}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <h2 style="text-align: center; font-size: 50px">Teacher User List</h2>{% endblock %}
+
+{% block content %}
+{#    <a href="{% url 'teacher_details'  %}"> Switch To Teacher </a>#}
+    <a class="switch-user-view" href="{% url 'user_details' %}"> Switch To Student </a>
+
+    <div id="teacher" class="table-wrapper">
+        <table class="fl-table">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for t in teachers %}
+                    <tr>
+                        <td> {{t.user.first_name }}</td>
+                        <td> {{t.user.last_name}}</td>
+                        <td> {{t.user.email}}</td>
+                        <td> {{t.phone }}</td>
+                        <td><a class="" href="{% url 'teacher_update_from_school' t.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
+                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>
+                    </tr>
+                {% endfor %}
+            <tbody>
+        </table>
+    </div>
+
+{% endblock %}

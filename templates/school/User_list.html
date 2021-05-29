@@ -1,0 +1,59 @@
+{% extends 'school/schoolHome.html' %}
+{% load static %}
+{% block title %}
+
+    <head>
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/userList.css' %}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <h2 style="text-align: center; font-size: 50px">Student User List</h2>
+
+{% endblock %}
+
+{% block content %}
+    <a class="switch-user-view" href="{% url 'teacher_details'  %}"> Switch To Teacher </a>
+{#    <a href="{% url 'user_details' %}"> Switch To Student </a>#}
+
+    <div id="student" class="table-wrapper">
+        <table class="fl-table">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Personal Phone</th>
+                <th>Mother Name</th>
+                <th>Mother Phone</th>
+                <th>Father Name</th>
+                <th>Father Phone</th>
+                <th>Grade</th>
+                <th>Birth Date</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for s in students %}
+                <tr>
+                    <td> {{s.user.first_name }}</td>
+                    <td> {{s.user.last_name}}</td>
+                    <td> {{s.user.email }}</td>
+                    <td> {{s.personalPhone}}</td>
+                    <td> {{s.parentName_M}}</td>
+                    <td> {{s.parentPhone_M}}</td>
+                    <td> {{s.parentName_F}}</td>
+                    <td> {{s.parentPhone_F}}</td>
+                    <td> {{s.grade }}</td>
+                    <td> {{s.birth_date}}</td>
+                    <td><a class="" href="{% url 'student_update_from_school' s.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
+                    <td><a class="" href="{% url 'delete-student-from-school' s.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>
+                </tr>
+            {% endfor %}
+
+            <tbody>
+        </table>
+    </div>
+
+{% endblock %}

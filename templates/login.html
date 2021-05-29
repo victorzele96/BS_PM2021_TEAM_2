@@ -1,0 +1,59 @@
+{% include  'navbase.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login</title>
+	<link rel="stylesheet" href="../static/styles/login.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+</head>
+<body>
+    <h1>Login </h1>
+    <div class="w3ls-login box box--big">
+        <!-- form starts here -->
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="agile-field-txt">
+                <label>
+                    <i class="fa fa-user" aria-hidden="true"></i> Username
+                </label>
+                <input type="text" name="username" placeholder="Username" class="form-control">
+            </div>
+            <div class="agile-field-txt">
+                <label>
+                    <i class="fa fa-envelope" aria-hidden="true"></i> password
+                </label>
+                <input id = "password" type="password" name="password" placeholder="Password" class="form-control" >
+                <div class="agile_label">
+                    <input id="check3" name="check3" type="checkbox" value="show password" onclick="myFunction()">
+                    <label class="check" for="check3">Show password</label>
+                </div>
+            </div>
+            <!-- script for show password -->
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("password");
+                    if (x.type === "password") {
+                        x.type = "text";
+                    } else {
+                        x.type = "password";
+                    }
+                }
+            </script>
+            <!-- //script ends here -->
+            <div class="w3ls-bot">
+                <div class="form-end">
+                    <button class="button" style="vertical-align:middle" type="submit"><span>Login </span></button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+    </div>
+</body>
+
+
+</html>
