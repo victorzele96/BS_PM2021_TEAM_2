@@ -98,13 +98,16 @@ body{
 footer {
   padding: 0px 0px 0px 0px;
   background-color: #333;
-  margin: 0px;
+  /*margin: 0px;*/
+    width: 100%;
+    position: absolute;
+    margin-bottom: auto;
 }
 
 .fa {
-  padding: 20px;
-  font-size: 23px;
-  width: 60px;
+  padding: 15px;
+  font-size: 20px;
+  width: 45px;
   text-align: center;
   text-decoration: none;
   margin: 5px 2px;
