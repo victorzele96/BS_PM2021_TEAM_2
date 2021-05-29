@@ -360,6 +360,7 @@ class DeleteStudentTest(TestCase):
         print("\nCorrect Delete Student Unit Test - ", positive_test_result(test))
 # Delete Student tests
 
+
 # Update Student Details tests
 class UpdateStudentDetailsTest(TestCase):
     """
@@ -420,6 +421,7 @@ class UpdateStudentDetailsTest(TestCase):
         self.assertTrue(test)
         print("\nCorrect Update Student Details Unit Test - ", positive_test_result(test))
 # Update Student Details tests
+
 
 # View Student Details tests
 class ViewStudentDetailsTest(TestCase):
@@ -669,7 +671,7 @@ class StudentRegistrationTest(TestCase):
 
     # unit tests
 
-    def test_unit_correct_student_creation(self, username='student', password='student'):
+    def test_unit_correct_student_creation(self, username='student', password='student', email='student@stude.nt'):
         """
             Create teacher user information testing function with correct input
 
@@ -692,7 +694,7 @@ class StudentRegistrationTest(TestCase):
         self.assertTrue(test_registration)
         print("\nCorrect Student Registration + Login Unit Test - ", positive_test_result(test_registration))
 
-    def test_unit_wrong_username_student_creation(self, username='wrong', password='teacher', email='student@stude.nt'):
+    def test_unit_wrong_username_student_creation(self, username='wrong', password='student', email='student@stude.nt'):
         """
             Create teacher user information testing function with incorrect username input
 
@@ -763,7 +765,6 @@ class NewsTest(TestCase):
     """
         Testing class (Inheriting TestCase class) for creating, viewing and deleting news
     """
-
     news_dict = {
         'title': 'news',
         'body': 'testing our news section',
@@ -790,7 +791,7 @@ class NewsTest(TestCase):
         """
              Deleting the news article after the class finishes
              and printing the testing class end
-         """
+        """
         super(NewsTest, cls).tearDownClass()
         print("\n__News TearDown__")
         cls.user.delete()
