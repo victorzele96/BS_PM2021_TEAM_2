@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="853eb2b9-a146-47a3-81f5-7677a0b1900c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StudyBuddy/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/StudyBuddy/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/StudyBuddy/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/StudyBuddy/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StudyBuddy/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/StudyBuddy/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StudyBuddy/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/StudyBuddy/views.py" afterDir="false" />
     </list>
     <list id="474261d4-752c-46ac-ba1c-171d29b8601e" name="add news button to school navbar and add db.sqlite3 file into .gitignore" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -327,7 +324,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622401825130</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="BSPM2021T2-185, BSPM2021T2-186, BSPM2021T2-189, BSPM2021T2-190, BSPM2021T2-191,BSPM2021T2-194, BSPM2021T2-195.&#10;&#10;Backend : Database">
+      <created>1622472501263</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1622472501263</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -346,7 +350,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add url, view and html for &quot;view_class&quot;" />
     <MESSAGE value="." />
     <MESSAGE value="fix the main branch" />
     <MESSAGE value="fix the student registration views function" />
@@ -371,7 +374,8 @@
     <MESSAGE value="finished doc strings in tests_unit.py file" />
     <MESSAGE value="doc strings in tests_integration.py" />
     <MESSAGE value="add Classroom, Subject and classSubject unit tests and fixed teacher registration unit and integration tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Classroom, Subject and classSubject unit tests and fixed teacher registration unit and integration tests" />
+    <MESSAGE value="BSPM2021T2-185, BSPM2021T2-186, BSPM2021T2-189, BSPM2021T2-190, BSPM2021T2-191,BSPM2021T2-194, BSPM2021T2-195.&#10;&#10;Backend : Database" />
+    <option name="LAST_COMMIT_MESSAGE" value="BSPM2021T2-185, BSPM2021T2-186, BSPM2021T2-189, BSPM2021T2-190, BSPM2021T2-191,BSPM2021T2-194, BSPM2021T2-195.&#10;&#10;Backend : Database" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
