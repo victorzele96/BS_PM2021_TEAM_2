@@ -238,6 +238,16 @@ class Subject_Exercise(models.Model):
         return Subject_Exercise.objects.filter(subject=self.subject).count()
 
 
+class Student_Exercises(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject_exercise = models.OneToOneField(Subject_Exercise, on_delete=models.CASCADE)
+    correct_ans = models.IntegerField()
+    total_amount_of_exercises = models.IntegerField()
+
+    def progress_per_task(self):
+        return self.correct_ans/self.total_amount_of_exercises
+
+
 class Private_Chat(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
     # receiver = models.ForeignKey(User, on_delete=models.CASCADE)
