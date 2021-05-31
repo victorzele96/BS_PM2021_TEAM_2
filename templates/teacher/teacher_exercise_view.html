@@ -5,13 +5,26 @@
 
     <head>
         <link type="text/css" rel="stylesheet" href="{% static 'styles/userList.css' %}" />
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/teacherStyles/exerciseView.css' %}" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 
     <h2 style="text-align: center; font-size: 50px">View Exercises</h2>{% endblock %}
 
 {% block content %}
-    <a href="#" class="fa fa-plus"></a>
+    <h3> Click <a href="#popup1" class="btn fa fa-plus"> </a> to add exercise !</h3>
+
+<div id="popup1" class="overlay">
+	<div class="popup">
+		<h2>Adding exercise</h2>
+		<a class="close" href="#">&times;</a>
+        <form>
+            <div class="content">
+                Thank to pop me out of that button, but now i'm done so you can close this window.
+            </div>
+        </form>
+	</div>
+</div>
 
     <div id="teacher" class="table-wrapper">
         <table class="fl-table">
