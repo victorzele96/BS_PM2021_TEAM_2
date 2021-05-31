@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="853eb2b9-a146-47a3-81f5-7677a0b1900c" name="Default Changelist" comment="" />
+    <list default="true" id="853eb2b9-a146-47a3-81f5-7677a0b1900c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudyBuddy/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/StudyBuddy/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudyBuddy/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/StudyBuddy/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudyBuddy/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/StudyBuddy/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudyBuddy/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/StudyBuddy/views.py" afterDir="false" />
+    </list>
     <list id="474261d4-752c-46ac-ba1c-171d29b8601e" name="add news button to school navbar and add db.sqlite3 file into .gitignore" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -366,5 +372,16 @@
     <MESSAGE value="doc strings in tests_integration.py" />
     <MESSAGE value="add Classroom, Subject and classSubject unit tests and fixed teacher registration unit and integration tests" />
     <option name="LAST_COMMIT_MESSAGE" value="add Classroom, Subject and classSubject unit tests and fixed teacher registration unit and integration tests" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/StudyBuddy/urls.py</url>
+          <line>34</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -42,7 +42,7 @@ urlpatterns = [
 
 
 
-    path("school/my_test", views.my_test, name="my_test"),  # here just for test
+    # path("school/my_test", views.my_test, name="my_test"),  # here just for test
 
 
 
