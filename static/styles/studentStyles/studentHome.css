@@ -2,19 +2,62 @@ body{
 
 }
 
-.container-main{
-    margin: 150px;
-    font-size: 25px;
+.split {
+  height: 40%;
+  width: 20%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+  margin-top: 2%;
 }
 
-.student-container {
-    margin-left: 500px;
+.center{
+  width: 70%;
+  /*background-color: blue;*/
 }
 
-.page-title {
-    text-align: center;
+.right {
+  right: 0;
+    width: 30%;
+  /*background-color: red;*/
 }
 
-* {
-  box-sizing: border-box;
+.tech-slideshow {
+  height: 500px;
+  max-height: 550px;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
 }
+
+.birthday-title{
+    position: absolute;
+    left: 30%;
+}
+
+.tech-slideshow > .mover {
+  height: 600px;
+  max-height: 500px;
+  width: 300px;
+  position: absolute;
+  top: 80%;
+  left: 30%;
+  /*background: #333;*/
+  transform: translate3d(0, 0, 0);
+}
+.tech-slideshow .mover {
+  animation: moveSlideshow 5s linear infinite;
+  /*color: #fff;*/
+}
+
+
+@keyframes moveSlideshow {
+  100% {
+    transform: translateY(-66.6666%);
+  }
+}
+

@@ -12,7 +12,7 @@
 
 {% block content %}
 
-    <div id="teacher" class="table-wrapper">
+    <div>
         <h1>Main Class</h1>
         <table class="fl-table">
             <thead>
@@ -38,8 +38,9 @@
                 {% endfor %}
             <tbody>
         </table>
-
-
+    </div>
+    </br></br></br>
+    <div>
         <h1>Subject</h1>
         <table class="fl-table">
             <thead>
@@ -47,6 +48,7 @@
 
                 <th>Subject Name</th>
                 <th>Duration</th>
+                <th>Add Exercise</th>
                 <th>Add File</th>
             </tr>
             </thead>
@@ -56,6 +58,7 @@
                         <td> {{m2.subject_name}}</td>
                         <td> {{m2.duration}}</td>
 {#                        <td> {{m2.duration}}</td>#}
+                        <td> here will be a button </td>#}
                         <td><a class="" href="{% url 'teacher_file_view' m2.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
 {#                        <td><a class="" href="{% url 'teacher_file_view' m2.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
 
