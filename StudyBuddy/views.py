@@ -489,6 +489,15 @@ def teacherHome(request):
 def add_exercise(request):
     return render(request, '../templates/teacher/addExercise.html')
 
+def teacher_add_exercise(request, pk):
+    # here we will add func off exercise data
+    return render(request, '../templates/teacher/teacher_add_exercise.html')
+
+def teacher_exercise_view(request, pk):
+    # my_subject = Subject_Exercise.objects.filter(subject_id=pk)
+
+    return render(request, '../templates/teacher/teacher_exercise_view.html', {'model': None})
+
 def teacherSchedule(request):
     act_classes = Subject.objects.filter(teacher_id=request.user.id)
     # classroom = Classroom.objects.get()
