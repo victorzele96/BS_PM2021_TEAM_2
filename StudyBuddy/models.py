@@ -55,6 +55,7 @@ class Article(models.Model):
         verbose_name = "Article"
         verbose_name_plural = "Articles"
 
+
 class TeacherForm(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     phone = models.CharField("phone", max_length=10)
@@ -89,14 +90,9 @@ class StudentForm(models.Model):
         super().save(*args, **kwargs)
 
 
-
-
-
-
 class Classroom(models.Model):
     class_name = models.CharField("class name", max_length=50)
     teacher = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-
 
     def str(self):
         return self.class_name
@@ -120,7 +116,6 @@ class StudentClassroom(models.Model):
 
     def str(self):
         return self.class_room
-
 
     def save(self, *args, **kwargs):
         # print("---->>>>>   "+self.objects.get(user_id=self.user.id))
@@ -172,6 +167,7 @@ class ClassSubject(models.Model):
     #     # for admin
     #     verbose_name = "Student connection to Class "
     #     verbose_name_plural = "Classes"
+
 
 class TeacherFile(models.Model):
     subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
