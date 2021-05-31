@@ -5,14 +5,12 @@
 <head>
     <meta charset="UTF-8">
         <link type="text/css" href="{% static 'styles/home.css' %}" rel="stylesheet">
+        <link type="text/css" href="{% static 'styles/activity.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>StudyBuddy</title>
 
 </head>
 <body>
-
-    <div class="container-main" >
-        <div class="xpl-txt"> <p> there going to be some explanation about the school. </p> </div>
-    </div>
 
     <div class="title-heading">
         <h2>NEWS</h2>
@@ -36,30 +34,110 @@
                 </div>
             {% endfor %}
         {% else %}
-            <h1>No Records</h1>
+            <h1>Coming soon</h1>
 
         {% endif %}
     </section>
 
     <div class="title-heading">
-        <h2>Activities</h2>
+        <h2>What We Learn</h2>
     </div>
 
-    <section id="element-list">
+    <div class="container">
+        <div class="card">
+            <div class="face face1">
+                <div class="content">
+                    <img src="https://github.com/Jhonierpc/WebDevelopment/blob/master/CSS%20Card%20Hover%20Effects/img/launch_128.png?raw=true">
+                    <h3>Science</h3>
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="content">
+                    <p>lets learn Science</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="face face1">
+                <div class="content">
+                    <img src="https://github.com/Jhonierpc/WebDevelopment/blob/master/CSS%20Card%20Hover%20Effects/img/design_128.png?raw=true">
+                    <h3>Art</h3>
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="content">
+                    <p>lets learn Science</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="face face1">
+                <div class="content">
+                    <img src="https://github.com/Jhonierpc/WebDevelopment/blob/master/CSS%20Card%20Hover%20Effects/img/code_128.png?raw=true">
+                    <h3>Computer</h3>
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="content">
+                    <p>lets learn Science</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="face face1">
+                <div class="content">
+                    <img src="https://github.com/Jhonierpc/WebDevelopment/blob/master/CSS%20Card%20Hover%20Effects/img/design_128.png?raw=true">
+                    <h3>Math</h3>
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="content">
+                    <p>lets learn math</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="face face1">
+                <div class="content">
+                    <img src="https://github.com/Jhonierpc/WebDevelopment/blob/master/CSS%20Card%20Hover%20Effects/img/design_128.png?raw=true">
+                    <h3>English</h3>
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="content">
+                    <p>lets learn english</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    </section>
+{#    #}
 
     <div class="title-heading">
         <h2>Contact Us</h2>
     </div>
 
-    <section id="element-list">
-        <div class="contact-details">
-            <p> email: StudyBuddy@buddy.com </p>
-            <p> phone: 08-0808085 </p>
-            <p> address: beer-sheva </p>
+    <footer>
+      <br>
+      <div class="container-footer">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div style="color:#ffffff;" class="wow fadeInUp footer-copyright">
+              <div class="contact-details">
+                <h2 class="content-val">
+                    <p> email: StudyBuddy@buddy.com </p>
+                    <p> phone: 08-0808085 </p>
+                    <p> address: beer-sheva </p>
+                    <p> <a href="#" class="fa fa-facebook"></a> </p>
+                    <p> <a href="#" class="fa fa-whatsapp"></a> </p>
+                    <p> <a href="#" class="fa fa-instagram"></a> </p>
+                </h2>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </footer>
 
 </body>
 </html>

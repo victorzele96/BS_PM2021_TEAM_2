@@ -11,16 +11,15 @@
     <h2 style="text-align: center; font-size: 50px">View Schedule</h2>{% endblock %}
 
 {% block content %}
-    <a class="switch-user-view" href="{% url 'upload_file' %}"> Upload File </a>
+
     <div id="teacher" class="table-wrapper">
         <table class="fl-table">
             <thead>
             <tr>
-                <th>File Name</th>
-                <th>Publish Date</th>
-                <th>Download File</th>
-                <th>Delete</th>
-
+                <th>Subject</th>
+                <th>day</th>
+                <th>start_time</th>
+                <th>end_time</th>
 {#                <th>Remove Subject</th>#}
             </tr>
             </thead>
@@ -29,9 +28,8 @@
                     <tr>
                         <td> {{m.subject}}</td>
                         <td> {{m.days}}</td>
-                        <td><a class="" href="#"> Download  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
-                        <td><a class="" href="#"> Delete  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
-
+                        <td> {{m.start_time}}</td>
+                        <td> {{m.end_time}}</td>
 
 
 {#                        <td><a class="" href="{% url 'view_class' s.id %}"> Remove  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}

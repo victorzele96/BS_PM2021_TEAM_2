@@ -13,3 +13,5 @@ admin.site.register(StudentClassroom)
 admin.site.register(Subject)
 admin.site.register(ClassSubject)
 
+admin.site.register(Subject_Exercise)
+

@@ -33,7 +33,7 @@ urlpatterns = [
     path("school/classes", views.view_class_list, name="view_class_list"),
     path("school/classes/create_class", views.create_class, name="create_class"),
     path("school/classes/class/<int:pk>", views.view_class, name="view_class"),
-    # path("school/classes/class/view_class_schedule", views.view_class_schedule, name="view_class_schedule"),
+    path("school/view_class/", views.view_class, name="view_class"),
     # path("school/classes/class/create_class_schedule", views.create_class_schedule, name="create_class_schedule"),
     path("school/classes/class/Add_Student_To_Class", views.Add_Student_To_Class, name="Add_Student_To_Class"),
     path("school/classes/class/View_Sched/<int:pk>", views.View_Sched, name="View_Sched"),
@@ -42,10 +42,10 @@ urlpatterns = [
 
 
 
-    path("school/my_test", views.my_test, name="my_test"),  # here just for test
+    # path("school/my_test", views.my_test, name="my_test"),  # here just for test
 
 
-    path("school/view_class/", views.view_class, name="view_class"),
+
     # url(r'^school/user_details/(?P<username>[\w|\W.-]+)/$', views.del_user, name='del_user'),
 
     # Teacher
@@ -53,12 +53,19 @@ urlpatterns = [
     path("teacher/add-exercise", views.add_exercise, name="add_exercise"),
     path("teacher/teacher_update/<int:pk>", views.teacher_update_from_teacher,
          name="teacher_update_from_teacher"),
+    path("teacher/teacherSchedule", views.teacherSchedule, name="teacherSchedule"),
+    path("teacher/classes", views.view_t_classes, name="view_t_classes"),
+    path("teacher/classes/teacher_exercise_view/<int:pk>", views.teacher_exercise_view, name="teacher_exercise_view"),
+    # path("teacher/classes/teacher_add_exercise/<int:pk>", views.teacher_add_exercise, name="teacher_add_exercise"),
+    path("teacher/classes/teacher_file_view/<int:pk>", views.teacher_file_view, name="teacher_file_view"),
+    path("teacher/classes/teacher_file_view/upload_file/<int:pk>", views.upload_file, name="upload_file"),
 
 
     # Student
     path("student/", views.studentHome, name="studentHome"),
     path("student/student_update/<int:pk>", views.student_update_from_student,
          name="student_update_from_student"),
+    path("student/studentSchedule", views.studentSchedule, name="studentSchedule"),
 
 
 ]

@@ -8,18 +8,20 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 
-    <h2 style="text-align: center; font-size: 50px">View Schedule</h2>{% endblock %}
+    <h2 style="text-align: center; font-size: 50px">View Files</h2>{% endblock %}
 
 {% block content %}
-    <a class="switch-user-view" href="{% url 'upload_file' %}"> Upload File </a>
+    {% if ret_pk %}
+        <a class="switch-user-view" href="{% url 'upload_file' ret_pk %}"> Upload File </a>
+    {% endif %}
     <div id="teacher" class="table-wrapper">
         <table class="fl-table">
             <thead>
             <tr>
-                <th>File Name</th>
-                <th>Publish Date</th>
-                <th>Download File</th>
-                <th>Delete</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Upload Time</th>
+                <th>Remove</th>
 
 {#                <th>Remove Subject</th>#}
             </tr>
@@ -27,10 +29,11 @@
             <tbody>
                 {% for m in model %}
                     <tr>
-                        <td> {{m.subject}}</td>
-                        <td> {{m.days}}</td>
-                        <td><a class="" href="#"> Download  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
-                        <td><a class="" href="#"> Delete  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
+                        <td> {{m.name}}</td>
+                        <td> {{m.description}}</td>
+                        <td> {{m.upload_time}}</td>
+                        <td><a class="" href="#"> Remove  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
+
 
 
 

@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.forms import UserChangeForm
+from datetime import date, datetime
+
+
+
 
 # import myFields
 
@@ -55,25 +59,6 @@ class Article(models.Model):
         verbose_name = "Article"
         verbose_name_plural = "Articles"
 
-    # FOR TEST PURPOSES ONLY  #
-    def getTitle(self):       #
-        return self.title     #
-                              #
-    def getBody(self):        #
-        return self.body      #
-                              #
-    def getDate(self):        #
-        return self.date      #
-                              #
-    def setTitle(self, title):#
-        self.title = title    #
-                              #
-    def setBody(self, body):  #
-        self.body = body      #
-                              #
-    def setDate(self, date):  #
-        self.date = date      #
-    # FOR TEST PURPOSES ONLY  #
 
 class TeacherForm(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
@@ -109,10 +94,6 @@ class StudentForm(models.Model):
         super().save(*args, **kwargs)
 
 
-
-
-
-
 class Classroom(models.Model):
     class_name = models.CharField("class name", max_length=50)
     teacher = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
@@ -139,7 +120,6 @@ class StudentClassroom(models.Model):
 
     def str(self):
         return self.class_room
-
 
     def save(self, *args, **kwargs):
         # print("---->>>>>   "+self.objects.get(user_id=self.user.id))
@@ -180,6 +160,7 @@ class ClassSubject(models.Model):
     days = models.CharField(max_length=9)
     start_time = models.TimeField()
     end_time = models.TimeField(null=True)
+    meeting = models.URLField(max_length=200, null=True)
 
     def str(self):
         return self.class_room + ' -> ' + self.subject
@@ -191,3 +172,99 @@ class ClassSubject(models.Model):
     #     # for admin
     #     verbose_name = "Student connection to Class "
     #     verbose_name_plural = "Classes"
+
+
+class TeacherFile(models.Model):
+    subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=256)
+    description = models.TextField(null=True)
+    file = models.FileField(upload_to='books/')
+    upload_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Exercise(models.Model):
+    question = models.TextField()
+
+    a = models.TextField()
+    b = models.TextField()
+    c = models.TextField()
+    d = models.TextField()
+
+    ans = models.CharField(max_length=1)
+
+    def str(self):
+        return self.question
+
+
+class Subject_Exam(models.Model):
+    subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
+    exercise = models.OneToOneField(Exercise, null=True, on_delete=models.CASCADE)
+
+    description = models.TextField(null=True)
+
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+
+    def duration(self):
+        return self.end_time - self.start_time
+
+    def time_left(self):
+        return self.end_time - datetime.now()
+
+    def get_qws_amount(self):
+        return Subject_Exam.objects.filter(subject=self.subject).count()
+
+
+class Subject_Exercise(models.Model):
+    subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
+    exercise = models.OneToOneField(Exercise, null=True, on_delete=models.CASCADE)
+
+    description = models.TextField(null=True)
+
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+
+    def duration(self):
+        return self.end_time - self.start_time
+
+    def time_left(self):
+        return self.end_time - datetime.now()
+
+    def get_qws_amount(self):
+        return Subject_Exercise.objects.filter(subject=self.subject).count()
+
+
+class Student_Exercises(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject_exercise = models.OneToOneField(Subject_Exercise, on_delete=models.CASCADE)
+    correct_ans = models.IntegerField()
+    total_amount_of_exercises = models.IntegerField()
+
+    def progress_per_task(self):
+        return self.correct_ans/self.total_amount_of_exercises
+
+
+class Private_Chat(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    # receiver = models.ForeignKey(User, on_delete=models.CASCADE)
+    # receiver = models.OneToOneField(User, on_delete=models.CASCADE)
+    receiver_id = models.IntegerField()# integer witch represents user id
+    msg = models.TextField()
+    publish_date = models.DateTimeField('date published')
+
+    def str(self):
+        return self.msg
+
+
+class Class_Chat(models.Model):
+    sender = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    receiver_class = models.ForeignKey(Classroom, null=True, on_delete=models.CASCADE)
+    msg = models.TextField()
+    publish_date = models.DateTimeField('date published')
+
+    def str(self):
+        return self.msg
