@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.forms import UserChangeForm
+from datetime import date, datetime
+
+
+
 
 # import myFields
 
@@ -156,6 +160,7 @@ class ClassSubject(models.Model):
     days = models.CharField(max_length=9)
     start_time = models.TimeField()
     end_time = models.TimeField(null=True)
+    meeting = models.URLField(max_length=200, null=True)
 
     def str(self):
         return self.class_room + ' -> ' + self.subject
@@ -179,3 +184,77 @@ class TeacherFile(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Exercise(models.Model):
+    question = models.TextField()
+
+    a = models.TextField()
+    b = models.TextField()
+    c = models.TextField()
+    d = models.TextField()
+
+    ans = models.CharField(max_length=1)
+
+    def str(self):
+        return self.question
+
+
+class Subject_Exam(models.Model):
+    subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
+    exercise = models.OneToOneField(Exercise, null=True, on_delete=models.CASCADE)
+
+    description = models.TextField(null=True)
+
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+
+    def duration(self):
+        return self.end_time - self.start_time
+
+    def time_left(self):
+        return self.end_time - datetime.now()
+
+    def get_qws_amount(self):
+        return Subject_Exam.objects.filter(subject=self.subject).count()
+
+
+class Subject_Exercise(models.Model):
+    subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
+    exercise = models.OneToOneField(Exercise, null=True, on_delete=models.CASCADE)
+
+    description = models.TextField(null=True)
+
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+
+    def duration(self):
+        return self.end_time - self.start_time
+
+    def time_left(self):
+        return self.end_time - datetime.now()
+
+    def get_qws_amount(self):
+        return Subject_Exercise.objects.filter(subject=self.subject).count()
+
+
+class Private_Chat(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    # receiver = models.ForeignKey(User, on_delete=models.CASCADE)
+    # receiver = models.OneToOneField(User, on_delete=models.CASCADE)
+    receiver_id = models.IntegerField()# integer witch represents user id
+    msg = models.TextField()
+    publish_date = models.DateTimeField('date published')
+
+    def str(self):
+        return self.msg
+
+
+class Class_Chat(models.Model):
+    sender = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    receiver_class = models.ForeignKey(Classroom, null=True, on_delete=models.CASCADE)
+    msg = models.TextField()
+    publish_date = models.DateTimeField('date published')
+
+    def str(self):
+        return self.msg
