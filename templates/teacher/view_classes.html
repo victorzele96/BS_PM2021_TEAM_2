@@ -58,13 +58,19 @@
                         <td> {{m2.subject_name}}</td>
                         <td> {{m2.duration}}</td>
 {#                        <td> {{m2.duration}}</td>#}
-                        <td> here will be a button </td>#}
+                        <td><a href="{% url 'teacher_exercise_view' m2.id %}"><i style="font-size: 25px; color: black" class="fa fa-plus"> </i> </a> </td>
                         <td><a class="" href="{% url 'teacher_file_view' m2.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
 {#                        <td><a class="" href="{% url 'teacher_file_view' m2.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
 
 {#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
                     </tr>
                 {% endfor %}
+{#                <tr>#}
+{#                    <td>check1 </td>#}
+{#                    <td>check2 </td>#}
+{#                    <td><a href="{% url 'teacher_add_exercise' 0 %}"><i style="font-size: 25px; color: black" class="fa fa-plus"> </i> </a> </td>#}
+{#                    <td>check4 </td>#}
+{#                </tr>#}
             <tbody>
         </table>
     </div>
