@@ -1,0 +1,47 @@
+{% extends 'school/schoolHome.html' %}
+
+{% load static %}
+{% block title %}
+
+    <head>
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/userList.css' %}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <h2 style="text-align: center; font-size: 50px">View Exercises</h2>{% endblock %}
+
+{% block content %}
+    <a href="#" class="fa fa-plus"></a>
+
+    <div id="teacher" class="table-wrapper">
+        <table class="fl-table">
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+{#                {% for m in model %}#}
+{#                    <tr>#}
+{#                        <td> {{m.description}}</td>#}
+{#                        <td> {{m.days}}</td>#}
+{#                        <td><a class="" href="#"> Download  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
+{#                        <td><a class="" href="#"> Delete  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
+{#                        #}
+{#                        <td><a class="" href="{% url 'view_class' s.id %}"> Remove  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
+{#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+            <tr>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
