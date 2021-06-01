@@ -139,7 +139,7 @@ class StudentClassroom(models.Model):
 
 class Subject(models.Model):
     subject_name = models.CharField("subject name", max_length=50)
-    teacher = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    teacher = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     # test = models.TimeField
     duration = models.IntegerField(null=True, validators=[MaxValueValidator(4), MinValueValidator(1)])  # review.models
 
