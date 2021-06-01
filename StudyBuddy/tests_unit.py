@@ -1,7 +1,10 @@
+import django
 from django.contrib.auth import authenticate, get_user_model
 from django.test import TestCase
 from StudyBuddy.models import TeacherForm as TeacherExtra, StudentForm as StudentExtra
 from .models import Article, StudentClassroom, Classroom, Subject, ClassSubject
+from .models import Exercise, Subject_Exam, Subject_Exercise, Student_Exercises
+from .models import Private_Chat, Class_Chat
 from .forms import ArticleForm
 from datetime import datetime
 
@@ -899,7 +902,29 @@ class ClassroomTest(TestCase):
             Returns:
                 Boolean: True or False
         """
-        test = (self.classroom.teacher.id == self.teacher_user.id)
+        try:
+            test_classroom = Classroom.objects.get(teacher=self.teacher_user.id)
+            test = (self.classroom.teacher.id == test_classroom.teacher_id)
+        except:
+            test = False
+        self.assertTrue(test)
+        print("\nClassroom Unit Test - ", positive_test_result(test))
+
+    def test_unit_clashes(self):
+        """
+            Check if 2 different class rooms cant have the same teacher
+
+            Returns:
+                Boolean: True or False
+        """
+        try:
+            self.classroom1 = Classroom()
+            self.classroom1.class_name = 'class1'
+            self.classroom1.teacher = self.teacher_user
+            self.classroom1.save()
+            test = False
+        except django.db.utils.IntegrityError:
+            test = True
         self.assertTrue(test)
         print("\nClassroom Unit Test - ", positive_test_result(test))
 # Classroom test
@@ -967,6 +992,25 @@ class SubjectTest(TestCase):
         test = (self.subject.teacher.id == self.teacher_user.id)
         self.assertTrue(test)
         print("\nSubject Unit Test - ", positive_test_result(test))
+
+    def test_unit_clashes(self):
+        """
+            Check if 2 different class rooms cant have the same teacher
+
+            Returns:
+                Boolean: True or False
+        """
+        try:
+            self.subject1 = Subject()
+            self.subject1.subject_name = self.subject.subject_name
+            self.subject1.teacher = self.teacher_user
+            self.subject1.duration = self.subject1.duration
+            self.subject1.save()
+            test = False
+        except django.db.utils.IntegrityError:
+            test = True
+        self.assertTrue(test)
+        print("\nClassroom Unit Test - ", positive_test_result(test))
 # Subject test
 
 
@@ -1017,10 +1061,8 @@ class ClassSubjectTest(TestCase):
         cls.class_subject.subject = cls.subject
         cls.class_subject.class_room = cls.classroom
         cls.class_subject.days = 'Sunday'
-        cls.class_subject.duration = 2
         cls.class_subject.start_time = '08:00'
-        cls.class_subject.end_time = str((int(cls.class_subject.start_time.split(':')[0])
-                                          + cls.class_subject.duration)) + ':' + cls.class_subject.start_time.split(':')[1]
+        cls.class_subject.end_time = '10:00'
         cls.class_subject.meeting = None
         cls.class_subject.save()
 
@@ -1045,9 +1087,10 @@ class ClassSubjectTest(TestCase):
             Returns:
                 Boolean: True or False
         """
-        test = (self.class_subject.subject.teacher.id == self.teacher_user.id
-                and self.class_subject.subject.subject_name == self.subject.subject_name
-                and self.class_subject.class_room.class_name == self.classroom.class_name)
+        class_subject = ClassSubject.objects.get(id=1)
+        test = (self.class_subject.subject.teacher.id == class_subject.subject.teacher.id
+                and self.class_subject.subject.subject_name == class_subject.subject.subject_name
+                and self.class_subject.class_room.class_name == class_subject.class_room.class_name)
         self.assertTrue(test)
         print("\nSubject Unit Test - ", positive_test_result(test))
 
@@ -1060,44 +1103,96 @@ class ClassSubjectTest(TestCase):
                 Boolean: True or False
         """
         try:
-            self.classroom1 = Classroom()
-            self.classroom1.class_name = 'class1'
-            self.classroom1.teacher = self.teacher_user
-            self.classroom1.save()
-            test_class = False
-            print('CANT MAKE CLASS')
-        except:
-            test_class = True
+            class_subject = ClassSubject.objects.get(id=1)
 
-        try:
-            self.subject1 = Subject()
-            self.subject1.subject_name = 'Math'
-            self.subject1.teacher = self.teacher_user
-            self.subject1.duration = 2
-            self.subject1.save()
-            test_subject = False
-        except:
-            test_subject = True
-
-        try:
             self.class_subject1 = ClassSubject()
-            self.class_subject1.subject = cls.subject
-            self.class_subject1.class_room = cls.classroom
-            self.class_subject1.days = 'Sunday'
-            self.class_subject1.duration = 2
-            self.class_subject1.start_time = '08:00'
-            self.class_subject1.end_time = str((int(self.class_subject.start_time.split(':')[0])
-                                              + self.class_subject.duration)) + ':' + self.class_subject.start_time.split(':')[1]
+            self.class_subject1.subject = self.subject
+            self.class_subject1.class_room = self.classroom
+            self.class_subject1.days = class_subject.days
+            self.class_subject1.start_time = class_subject.start_time
+            self.class_subject1.end_time = class_subject.end_time
             self.class_subject1.meeting = None
             self.class_subject1.save()
-            test_class_subject = False
-        except:
-            test_class_subject = True
+            test = False
+        except django.db.utils.IntegrityError:
+            test = True
 
-        test = (test_subject and test_class and test_class_subject)
         self.assertTrue(test)
         print("\nSubject Unit Test - ", positive_test_result(test))
 # ClassSubject test
 
 
+# Exercise test
+class ExerciseTest(TestCase):
+    """
+        Testing class (Inheriting TestCase class) for combining class room and subject
+    """
+    @classmethod
+    def setUpClass(cls):
+        """
+            Creating exercise which can be used in all the functions
+            and printing the testing class start
+        """
+        super(ExerciseTest, cls).setUpClass()
+        print("\n__Exercise SetUp__")
+        print("Module - result")
+        cls.exercise = Exercise()
+        cls.exercise.question = 'is it working?'
+        cls.exercise.a = 'yes'
+        cls.exercise.b = 'no'
+        cls.exercise.c = 'i dont know'
+        cls.exercise.d = 'maybe'
+        cls.exercise.ans = 'a'
+        cls.exercise.save()
+
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+             Deleting the exercise and the subject after the class finishes
+             and printing the testing class end
+        """
+        super(ExerciseTest, cls).tearDownClass()
+        print("\n__Exercise TearDown__")
+        cls.exercise.delete()
+
+    # unit tests
+
+    def test_unit_exercise(self):
+        """
+            Create Exercise testing function
+
+            Returns:
+                Boolean: True or False
+        """
+        exercise = Exercise.objects.get(id=1)
+        test = (self.exercise.question == exercise.question and self.exercise.a == exercise.a
+                and self.exercise.b == exercise.b and self.exercise.c == exercise.c
+                and self.exercise.d == exercise.d and self.exercise.ans == exercise.ans)
+        self.assertTrue(test)
+        print("\nExercise Unit Test - ", positive_test_result(test))
+
+    def test_unit_clashes(self):
+        """
+            Check if different exercises can be created with same fields
+
+            Returns:
+                Boolean: True or False
+        """
+        exercise = Exercise.objects.get(id=1)
+        try:
+            self.exercise1 = Exercise()
+            self.exercise1.question = exercise.question
+            self.exercise1.a = exercise.a
+            self.exercise1.b = exercise.b
+            self.exercise1.c = exercise.c
+            self.exercise1.d = exercise.d
+            self.exercise1.ans = exercise.ans
+            self.exercise1.save()
+            test = True
+        except django.db.utils.IntegrityError:
+            test = False
+        self.assertTrue(test)
+        print("\nExercise Unit Test - ", positive_test_result(test))
+# Exercise test
 
