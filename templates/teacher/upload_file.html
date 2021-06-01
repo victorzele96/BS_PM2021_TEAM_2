@@ -7,9 +7,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Upload File</title>
 </head>
-    <h2 style="text-align: center; font-size: 50px">Add Student To Class</h2>
+    <h2 style="text-align: center; font-size: 50px">Upload File</h2>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/styles/schoolStyles/registerStudent.css"/>
@@ -20,11 +20,13 @@
 <body>
     <div class="w3ls-login box box--big">
         <!-- form starts here -->
-        <form action="" method="POST">
+        <form action="{% url "upload_file" ret_pk %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
 
-            <button class="button" style="vertical-align:middle" type="submit"><span>Submit</span></button>
+            <b>{{ form.file.errors }}</b>
+            <button class="button" style="vertical-align:middle" type="submit"><span>Upload</span></button>
+
         </form>
     </div>
 
