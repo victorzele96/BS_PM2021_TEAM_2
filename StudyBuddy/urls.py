@@ -56,7 +56,7 @@ urlpatterns = [
     path("teacher/teacherSchedule", views.teacherSchedule, name="teacherSchedule"),
     path("teacher/classes", views.view_t_classes, name="view_t_classes"),
     path("teacher/classes/teacher_exercise_view/<int:pk>", views.teacher_exercise_view, name="teacher_exercise_view"),
-    # path("teacher/classes/teacher_add_exercise/<int:pk>", views.teacher_add_exercise, name="teacher_add_exercise"),
+    path("teacher/classes/teacher_add_exercise/<int:pk>", views.teacher_add_exercise, name="teacher_add_exercise"),
     path("teacher/classes/teacher_file_view/<int:pk>", views.teacher_file_view, name="teacher_file_view"),
     path("teacher/classes/teacher_file_view/upload_file/<int:pk>", views.upload_file, name="upload_file"),
 

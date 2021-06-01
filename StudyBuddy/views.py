@@ -491,7 +491,11 @@ def add_exercise(request):
 
 def teacher_add_exercise(request, pk):
     # here we will add func off exercise data
-    return render(request, '../templates/teacher/teacher_add_exercise.html')
+    print("here we go !")
+    print(request.POST)
+    print(pk)
+    return render(request, '../templates/teacher/teacher_exercise_view.html')
+
 
 def teacher_exercise_view(request, pk):
     # my_subject = Subject_Exercise.objects.filter(subject_id=pk)

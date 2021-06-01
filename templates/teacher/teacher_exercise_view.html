@@ -18,11 +18,37 @@
 	<div class="popup">
 		<h2>Adding exercise</h2>
 		<a class="close" href="#">&times;</a>
-        <form>
-            <div class="content">
-                Thank to pop me out of that button, but now i'm done so you can close this window.
+{#           <form action="{% url "upload_file" pk %}" method="POST">       form----------------------------------------------------  #}
+          <form id="form-id" action="{% url "teacher_add_exercise" 96 %}" method="POST">
+              {% csrf_token %}
+
+            <div class="group">
+              <input name="question" type="text" required>
+              <label>Question</label>
             </div>
-        </form>
+
+            <div class="ans">
+              <input name="first_ans" type="text" required>
+              <label>First Answer</label>
+            </div>
+
+            <div class="ans">
+              <input name="second_ans" type="text" required>
+              <label>Second Answer</label>
+            </div>
+
+            <div class="ans">
+              <input name="third_ans_correct" type="text" required>
+              <label>Third Answer - Correct</label>
+            </div>
+
+            <div class="ans">
+              <input name="fourth_ans" type="text" required>
+              <label>Fourth Answer</label>
+            </div>
+              <a type="submit" class="save" onclick="document.forms['form-id'].submit();"> Save </a>
+{#              <button class="save" id="save" type="submit" href="{% url 'teacher_add_exercise' 96 %}"> Save </button>#}
+          </form>
 	</div>
 </div>
 
