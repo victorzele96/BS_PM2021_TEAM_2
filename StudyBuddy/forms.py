@@ -236,18 +236,24 @@ class ClassSubjectForm(forms.ModelForm):
 
 
 class File_Upload_Form(forms.ModelForm):
-    # subject = Subject.objects.none()
-
+    subject = Subject.objects.none()
+    file = forms.FileField(label='Select a file')
 
     class Meta:
         model = TeacherFile
         fields = ('name', 'description', 'file')
 
     def save(self, commit=True):
-        File = super(File_Upload_Form, self).save(commit=False)
-        # class_subject.subject = self.cleaned_data["subject"]
+        act_file = super(File_Upload_Form, self).save(commit=False)
+        # act_file.file = self.cleaned_data["file"]
+        # file.subject = self.cleaned_data["subject"]
 
         if commit:
-            File.upload_time = datetime.now()
-            File.save()
-        return File
+            # act_file.upload_time = datetime.now()
+            act_file.save()
+        return act_file
+
+
+class FileUploadForm(forms.Form):
+    file = forms.FileField(label='Select a file')
+
