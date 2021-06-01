@@ -178,8 +178,11 @@ class TeacherFile(models.Model):
     subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=256)
-    description = models.TextField(null=True)
-    file = models.FileField(upload_to='books/')
+    # description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
+    # description = models.CharField(max_length=256,default=None,null=True)
+    # blank = True
+    file = models.FileField(upload_to='files/')
     upload_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

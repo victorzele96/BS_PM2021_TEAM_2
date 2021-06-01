@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import logout, authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import FileSystemStorage
 from datetime import date, datetime
 
 from .forms import *
@@ -491,7 +492,11 @@ def add_exercise(request):
 
 def teacher_add_exercise(request, pk):
     # here we will add func off exercise data
-    return render(request, '../templates/teacher/teacher_add_exercise.html')
+    print("here we go !")
+    print(request.POST)
+    print(pk)
+    return render(request, '../templates/teacher/teacher_exercise_view.html')
+
 
 def teacher_exercise_view(request, pk):
     # my_subject = Subject_Exercise.objects.filter(subject_id=pk)
@@ -514,28 +519,75 @@ def view_t_classes(request):
 
     return render(request, '../templates/teacher/view_classes.html', {'model': main_class, "model_2": my_subjects})
 
+# def upload_file(request, pk):
+#     if request.method == 'POST':
+#         form = File_Upload_Form(request.POST, request.FILES)
+#         print("------------------                     TEST     upload_file     -----  ID :"+str(pk))
+#         # form.subject = Subject.objects.get(id=pk).id
+#         form.subject = Subject.objects.get(id=pk)
+#         # print(form.subject)
+#         if form.is_valid():
+#             # form.subject = Subject.objects.get(id=pk)
+#
+#             print("------------------                     TEST     upload_file          -----------------------------")
+#             form.save()
+#             return redirect('view_t_classes')
+#         else:
+#             print(form.errors)
+#             # for msg in form.error_messages:
+#             #     messages.error(request, f"{msg}: {form.error_messages[msg]}")
+#             return render(request, '../templates/teacher/upload_file.html', {'form': form})
+#
+#
+#     form = File_Upload_Form()
+#     form.subject = Subject.objects.get(id=pk)
+#     return render(request, '../templates/teacher/upload_file.html', {
+#         'form': form
+#     })
+
+
+def handle_uploaded_file(f):
+    with open('some/file/name.txt', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+
+
 def upload_file(request, pk):
     if request.method == 'POST':
-        form = File_Upload_Form(request.POST, request.FILES)
+        # print(request.POST)
+        # print(request.FILES)
+        # form = FileUploadForm(request.POST)
+        form=File_Upload_Form(request.POST,request.FILES)
+        # form.file=request.POST['file']
+        # print("------------------                     TEST     upload_file     -----  ID :"+str(pk))
+        # form.subject = Subject.objects.get(id=pk).id
+        # form.subject = Subject.objects.get(id=pk)
+        # print(type(request.POST['file']))
         if form.is_valid():
-            form.subject = Subject.objects.get(id=pk)
-            form.save()
+            # newFile=TeacherFile(subject=Subject.objects.get(id=pk), name="TEST", description="Fuck off", file=request.FILES['file'])
+            newFile = TeacherFile(subject=Subject.objects.get(id=pk), name=request.POST['name'], description=request.POST['description'],file=request.FILES['file'])
+            newFile.save()
+            # print("------------------            YES   YES   YES   -------------------")
             return redirect('view_t_classes')
         else:
+            print(form.errors)
             # for msg in form.error_messages:
             #     messages.error(request, f"{msg}: {form.error_messages[msg]}")
-            return render(request, '../templates/teacher/upload_file.html', {'form': form})
+            return render(request, '../templates/teacher/upload_file.html', {'form': form, 'ret_pk':pk})
 
 
     form = File_Upload_Form()
+    # form.subject = Subject.objects.get(id=pk)
     return render(request, '../templates/teacher/upload_file.html', {
-        'form': form
+        'form': form, 'ret_pk':pk
     })
 
 
 
 def teacher_file_view(request, pk):
     model = TeacherFile.objects.filter(subject_id=pk)
+    # ret_pk = Subject.objects.get(id=pk)
     ret_pk = pk
     return render(request, '../templates/teacher/teacher_file_view.html', {
         'model': model, 'ret_pk': ret_pk
