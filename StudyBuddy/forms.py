@@ -257,3 +257,7 @@ class File_Upload_Form(forms.ModelForm):
 class FileUploadForm(forms.Form):
     file = forms.FileField(label='Select a file')
 
+class ExerciseForm(forms.ModelForm):
+    class Meta:
+        model = Exercise
+        fields = '__all__'
