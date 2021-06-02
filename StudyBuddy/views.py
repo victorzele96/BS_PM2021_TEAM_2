@@ -762,7 +762,8 @@ def chat(request):
 
 def view_subject(request, pk):
     connection = ClassSubject.objects.filter(subject_id=pk)
-    return render(request=request, template_name="../templates/teacher/view_subject.html", context={"model": connection})
+    return render(request=request, template_name="../templates/teacher/view_subject.html",
+                  context={"model": connection})
 
 
 def change_meeting_url(request, pk):
