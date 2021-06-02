@@ -275,3 +275,23 @@ class SubjectExerciseForm(forms.ModelForm):
     class Meta:
         model = Subject_Exercise
         fields = ('description', 'start_time', 'end_time')
+
+# class StudentExercisesForm(forms.ModelForm):
+#     ### need two more fields student(key) and subject_exercise(O-T-O_key) to use this form correct
+#     class Meta:
+#         model = Student_Exercises
+#         fields = ('description', 'start_time', 'end_time')
+
+
+class PrivateChatForm(forms.ModelForm):
+    class Meta:
+        model = Private_Chat
+        fields = ('msg', 'publish_date', 'receiver_id')
+
+
+class ClassChatForm(forms.ModelForm):
+    class Meta:
+        model = Class_Chat
+        fields = ('msg', 'publish_date')
+
+
