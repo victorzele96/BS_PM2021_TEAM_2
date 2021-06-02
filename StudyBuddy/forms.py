@@ -261,3 +261,17 @@ class ExerciseForm(forms.ModelForm):
     class Meta:
         model = Exercise
         fields = '__all__'
+
+
+class SubjectExamForm(forms.ModelForm):
+    ### need two more fields subject(key) and exercise(key) to use this form correct
+    class Meta:
+        model = Subject_Exam
+        fields = ('description', 'start_time', 'end_time')
+
+
+class SubjectExerciseForm(forms.ModelForm):
+    ### need two more fields subject(key) and exercise(key) to use this form correct
+    class Meta:
+        model = Subject_Exercise
+        fields = ('description', 'start_time', 'end_time')
