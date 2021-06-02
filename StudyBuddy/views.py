@@ -758,3 +758,15 @@ def login_request(request):
 def chat(request):
     model = Private_Chat.objects.filter(receiver_id=request.user.id)
     return render(request=request, template_name="../templates/chat.html", context={"model": model})
+
+
+def view_subject(request, pk):
+    connection = ClassSubject.objects.filter(subject_id=pk)
+    return render(request=request, template_name="../templates/teacher/view_subject.html", context={"model": connection})
+
+
+def change_meeting_url(request, pk):
+    connection = ClassSubject.objects.get(id=pk)
+    connection.meeting = "some url "
+    connection.save()
+    return redirect('view_subject')
