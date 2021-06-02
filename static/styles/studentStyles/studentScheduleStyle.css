@@ -1,0 +1,99 @@
+body {
+}
+table {
+  height: 30%;
+  left: 10%;
+  margin: 20px auto;
+  overflow-y: scroll;
+  position: static;
+  width: 50%;
+  border-width: 5px;
+  /*border-color: green;*/
+  border-style: solid;
+  border-collapse: collapse;
+}
+
+thead th {
+  background: #444444;
+  color: #B8B7B7;
+  font-family: verdana;
+  font-size: 16px;
+  font-weight: 100;
+  letter-spacing: 1px;
+}
+
+tr {
+  background: #f4f7f8;
+  line-height: 22px;
+  border-bottom: 1px solid #FFF;
+  margin-bottom: 5px;
+}
+
+th, td {
+  font-family: verdana;
+  width: 30%;
+  /*font-weight: 400;*/
+  font-size: 15px;
+  padding: 30px;
+  text-align: center;
+  border: 3px solid #C7C7C7;
+}
+
+.top-row{
+  text-align: center;
+  font-size: 18px;
+  padding: 20px 7px 20px 7px;
+  border: 0.1px solid #444444;
+}
+
+.light-gray{
+  background-color: #BBBABF;
+}
+
+.darker-gray{
+  background-color: #A8A8AB;
+}
+
+.math{
+  background-color: #A8B192;
+}
+
+.english{
+  background-color: #A094A9;
+}
+
+.excel{
+  background-color: #C5A58E;
+}
+
+.fitness{
+  background-color: #3C6DA5;
+}
+
+.history{
+  background-color: #C3C998;
+}
+
+.art{
+  background-color: #748AA3;
+}
+
+.physics{
+  background-color: #B78C93;
+}
+
+.etiquette{
+  background-color: #70A33C;
+}
+
+.lab{
+  background-color: #BE986B;
+}
+
+.chemistry{
+  background-color: #AB7472;
+}
+
+.none{
+  background-color: #C2B9BA;
+}

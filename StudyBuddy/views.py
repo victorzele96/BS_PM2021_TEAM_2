@@ -612,9 +612,13 @@ def studentSchedule(request):
     # class_connection = Subject.objects.get(user_id=request.user.id)
     class_connection = StudentClassroom.objects.get(user_id=request.user.id)
 
+    time = ['08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 AM',
+            '13:00 AM', '14:00 AM', '15:00 AM', '16:00 AM']
+    days = [1, 2, 3, 4, 5, 6]
+
     # classroom = Classroom.objects.get()
     model = ClassSubject.objects.filter(id=class_connection.class_room.id)
-    return render(request, '../templates/student/studentSchedule.html', {'model': model})
+    return render(request, '../templates/student/studentSchedule.html', {'model': model, 'time': time, 'days': days})
 
 
 ##########################################################################################

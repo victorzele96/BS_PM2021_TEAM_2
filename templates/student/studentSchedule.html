@@ -4,7 +4,8 @@
 {% block title %}
 
     <head>
-        <link type="text/css" rel="stylesheet" href="{% static 'styles/userList.css' %}" />
+{#        <link type="text/css" rel="stylesheet" href="{% static 'styles/userList.css' %}" />#}
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/studentStyles/studentScheduleStyle.css' %}" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 
@@ -12,32 +13,36 @@
 
 {% block content %}
 
-    <div id="teacher" class="table-wrapper">
-        <table class="fl-table">
+{#    <div id="teacher" class="table-wrapper">#}
+        <table>
             <thead>
-            <tr>
-                <th>Subject</th>
-                <th>day</th>
-                <th>start_time</th>
-                <th>end_time</th>
-{#                <th>Remove Subject</th>#}
-            </tr>
+              <tr>
+                <th scope="col" class="top-row" style="text-align: center">Time</th>
+                <th scope="col" class="top-row">Sun</th>
+                <th scope="col" class="top-row">Mon</th>
+                <th scope="col" class="top-row">Tue</th>
+                <th scope="col" class="top-row">Wed</th>
+                <th scope="col" class="top-row">Thu</th>
+                <th scope="col" class="top-row">Fri</th>
+              </tr>
             </thead>
             <tbody>
-                {% for m in model %}
-                    <tr>
-                        <td> {{m.subject}}</td>
-                        <td> {{m.days}}</td>
-                        <td> {{m.start_time}}</td>
-                        <td> {{m.end_time}}</td>
+               {% for t in time %}
+                  <tr>
+                    <th scope="row" class="light-gray">{{ t }}</th>
+                      {% for d in days %}
 
-
-{#                        <td><a class="" href="{% url 'view_class' s.id %}"> Remove  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
-
-{#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
-                    </tr>
-                {% endfor %}
-            <tbody>
-        </table>
-    </div>
+                        <td rowspan='1'class="math">Math<br>Teacher 1</td>
+{#                        <td rowspan='1'class="art">Arts<br>Teacher 5</td>#}
+{#                        <td rowspan='1'class="math">Math<br>Teacher 1</td>#}
+{#                        <td rowspan='1'class="lab">Science Lab<br>Teacher 1</td>#}
+{#                        <td rowspan='1'class="fitness">Fitness & Sport<br>Teacher 7</td>#}
+{#                        <td rowspan='1'class="fitness">Fitness & Sport<br>Teacher 7</td>#}
+                      {% endfor %}
+                  </tr>
+               {% endfor %}
+            </tbody>
+      </table>
+    </br></br></br>
+{#    </div>#}
 {% endblock %}
