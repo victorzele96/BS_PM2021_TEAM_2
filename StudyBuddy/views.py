@@ -22,9 +22,6 @@ from .models import ClassSubject
 from .models import Subject
 
 
-
-
-
 # Home Section
 def home(request):
     print(request.user.username)
@@ -261,10 +258,12 @@ def teacher_update_from_teacher(request, pk):
             user.save()
             extra = extra_details.save(commit=False)
             extra.save()
-            return render(request, '../templates/teacher/teacherHome.html')# ----------------------------------logout when password change
+            return render(request,
+                          '../templates/teacher/teacherHome.html')  # ----------------------------------logout when password change
         else:
             print("The user didn\'t changed !")
     return render(request, '../templates/school/teacher_update.html', context=details)
+
 
 @staff_member_required
 def del_user(request, username):
@@ -297,10 +296,7 @@ def view_class(request, pk):
         # list_of_ids.append(User.objects.get(id=c.user.id))
     user = User.objects.filter(id__in=list_of_ids)
 
-
-    return render(request, '../templates/school/class/viewClass.html', {'user': user,'obj': obj})
-
-
+    return render(request, '../templates/school/class/viewClass.html', {'user': user, 'obj': obj})
 
 
 ############################################################################################
@@ -329,8 +325,6 @@ def Add_Student_To_Class(request):
     return render(request, '../templates/school/class/add_student_to_class.html', {"form": form})
 
 
-
-
 def add_subject_to_class(request):
     if request.method == "POST":
         form = ClassSubjectForm(request.POST)
@@ -353,14 +347,9 @@ def add_subject_to_class(request):
     return render(request, '../templates/school/class/add_subject_to_class.html', {"form": form})
 
 
-
-
-
 def view_class_list(request):
     model = Classroom.objects.all()
     return render(request, '../templates/school/class/view_class_list.html', {'model': model})
-
-
 
 
 def View_Sched(request, pk):
@@ -369,8 +358,6 @@ def View_Sched(request, pk):
     subject_list = ClassSubject.objects.filter(subject=pk)
 
     connection = ClassSubject.objects.get(subject=pk)
-
-
 
     # connection = StudentClassroom.objects.filter(class_room=pk)
     # users = User.objects.filter(id__criteria=connection.user)
@@ -384,8 +371,6 @@ def View_Sched(request, pk):
     #     # list_of_ids.append(User.objects.get(id=c.user.id))
     # user = User.objects.filter(id__in=list_of_ids)
 
-
-
     return render(request, '../templates/school/class/view_sched.html', {'subject_list': subject_list})
 
     list_of_ids = []
@@ -395,13 +380,7 @@ def View_Sched(request, pk):
         # list_of_ids.append(User.objects.get(id=c.user.id))
     user = User.objects.filter(id__in=list_of_ids)
 
-
-
     return render(request, '../templates/school/class/viewClass.html', {'user': user})
-
-
-
-
 
 
 ## create class room
@@ -426,7 +405,6 @@ def View_Sched(request, pk):
 #                   context={"form": form})
 
 def create_class(request):
-
     if request.method == "POST":
         form = ClassroomForm(request.POST)
 
@@ -436,7 +414,6 @@ def create_class(request):
             new_class = form.save(commit=False)
             new_class.save()
             # form.teacher = User.objects.get(id=form.teacher)
-
 
             # form.date = datetime.now()
             # new_class = form.save()
@@ -477,9 +454,6 @@ def create_class(request):
 #                   context={"form": form})
 
 
-
-
-
 ##########################################################################################
 
 # Staff Section
@@ -487,8 +461,10 @@ def create_class(request):
 def teacherHome(request):
     return render(request, '../templates/teacher/teacherHome.html')
 
+
 def add_exercise(request):
     return render(request, '../templates/teacher/addExercise.html')
+
 
 def teacher_add_exercise(request, pk):
     # here we will add func off exercise data
@@ -503,6 +479,7 @@ def teacher_exercise_view(request, pk):
 
     return render(request, '../templates/teacher/teacher_exercise_view.html', {'model': None})
 
+
 def teacherSchedule(request):
     act_classes = Subject.objects.filter(teacher_id=request.user.id)
     # classroom = Classroom.objects.get()
@@ -513,11 +490,13 @@ def teacherSchedule(request):
     # model = ClassSubject.objects.filter(class_room__id=act_classes.all())
     return render(request, '../templates/teacher/teacherSchedule.html', {'model': complex_model})
 
+
 def view_t_classes(request):
     main_class = Classroom.objects.filter(teacher=request.user)
     my_subjects = Subject.objects.filter(teacher=request.user)
 
     return render(request, '../templates/teacher/view_classes.html', {'model': main_class, "model_2": my_subjects})
+
 
 # def upload_file(request, pk):
 #     if request.method == 'POST':
@@ -552,13 +531,12 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 
 
-
 def upload_file(request, pk):
     if request.method == 'POST':
         # print(request.POST)
         # print(request.FILES)
         # form = FileUploadForm(request.POST)
-        form=File_Upload_Form(request.POST,request.FILES)
+        form = File_Upload_Form(request.POST, request.FILES)
         # form.file=request.POST['file']
         # print("------------------                     TEST     upload_file     -----  ID :"+str(pk))
         # form.subject = Subject.objects.get(id=pk).id
@@ -566,7 +544,8 @@ def upload_file(request, pk):
         # print(type(request.POST['file']))
         if form.is_valid():
             # newFile=TeacherFile(subject=Subject.objects.get(id=pk), name="TEST", description="Fuck off", file=request.FILES['file'])
-            newFile = TeacherFile(subject=Subject.objects.get(id=pk), name=request.POST['name'], description=request.POST['description'],file=request.FILES['file'])
+            newFile = TeacherFile(subject=Subject.objects.get(id=pk), name=request.POST['name'],
+                                  description=request.POST['description'], file=request.FILES['file'])
             newFile.save()
             # print("------------------            YES   YES   YES   -------------------")
             return redirect('view_t_classes')
@@ -574,15 +553,13 @@ def upload_file(request, pk):
             print(form.errors)
             # for msg in form.error_messages:
             #     messages.error(request, f"{msg}: {form.error_messages[msg]}")
-            return render(request, '../templates/teacher/upload_file.html', {'form': form, 'ret_pk':pk})
-
+            return render(request, '../templates/teacher/upload_file.html', {'form': form, 'ret_pk': pk})
 
     form = File_Upload_Form()
     # form.subject = Subject.objects.get(id=pk)
     return render(request, '../templates/teacher/upload_file.html', {
-        'form': form, 'ret_pk':pk
+        'form': form, 'ret_pk': pk
     })
-
 
 
 def teacher_file_view(request, pk):
@@ -592,7 +569,6 @@ def teacher_file_view(request, pk):
     return render(request, '../templates/teacher/teacher_file_view.html', {
         'model': model, 'ret_pk': ret_pk
     })
-
 
 
 # def upload_file(request):
@@ -605,10 +581,21 @@ def teacher_file_view(request, pk):
 # Student Section
 ##########################################################################################
 def studentHome(request):
-    return render(request, '../templates/student/studentHome.html')
+    student_class = StudentClassroom.objects.get(user_id=request.user.id)
+    all_students_in_class = StudentClassroom.objects.filter(class_room_id=student_class.class_room.id)
+
+    birthdays = []
+    for student in all_students_in_class:
+        std = StudentExtra.objects.get(user_id=student.user.id)
+        if std.birth_date.day == datetime.today().day and std.birth_date.month == datetime.today().month:
+            birthdays.append(std.birth_date.strftime('%x') + " " + std.user.first_name + " " + std.user.last_name)
+
+    print(birthdays)
+
+    return render(request, '../templates/student/studentHome.html', {'birthdays': birthdays})
+
 
 def studentSchedule(request):
-
     # class_connection = Subject.objects.get(user_id=request.user.id)
     class_connection = StudentClassroom.objects.get(user_id=request.user.id)
 
@@ -664,8 +651,9 @@ def login_request(request):
     return render(request=request,
                   template_name="login.html",
                   context={"form": form})
-##########################################################################################
 
+
+##########################################################################################
 
 
 ## here just to tests
@@ -736,7 +724,6 @@ def login_request(request):
 #                   context={"form": form})
 
 
-
 # ### subject test
 #
 # def my_test(request):
@@ -771,7 +758,9 @@ def view_subject(request, pk):
 
 
 def change_meeting_url(request, pk):
-    connection = ClassSubject.objects.get(id=pk)
-    connection.meeting = "some url "
-    connection.save()
-    return redirect('view_subject')
+    print(pk)  # didnt get the right id of the object and when submit all data disappear
+    print(request.POST)
+    # connection = ClassSubject.objects.get(id=pk)
+    # connection.meeting = "some url "
+    # connection.save()
+    return redirect('view_subject', pk)

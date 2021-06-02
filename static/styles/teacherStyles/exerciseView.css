@@ -34,18 +34,31 @@
   padding: 20px;
   background: #fff;
   border-radius: 5px;
-  width: 60%;
+  width: 25%;
   height: 65%;
   position: relative;
   transition: all 5s ease-in-out;
 }
 
-.popup h2 {
+.popup-met {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 25%;
+  height: 35%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup h2,
+.popup-met h2 {
   margin-top: 0;
   color: #333;
   font-family: Tahoma, Arial, sans-serif;
 }
-.popup .close {
+.popup .close,
+.popup-met .close {
   position: absolute;
   top: 20px;
   right: 30px;
@@ -55,10 +68,12 @@
   text-decoration: none;
   color: #333;
 }
-.popup .close:hover {
+.popup .close:hover,
+.popup-met .close:hover{
   color: royalblue;
 }
-.popup .content {
+.popup .content,
+.popup-met .content{
   max-height: 30%;
   overflow: auto;
 }
@@ -89,7 +104,12 @@
 .ans{
   position:relative;
   margin-bottom:45px;
-  left: 5%;
+  left: 10%;
+}
+.meeting{
+  position:relative;
+  margin-top: 200px;
+  left: 30%;
 }
 input {
   font-size:18px;
@@ -163,7 +183,7 @@ input:focus ~ .bar:before, input:focus ~ .bar:after {
 
 .save {
     position:absolute;
-    left: 55%;
+    left: 25%;
     /*display: inline-block;*/
     text-decoration: none;
     border-radius: 4px;
