@@ -23,15 +23,15 @@
                 <th>start_time</th>
                 <th>end_time</th>
                 <th>meeting</th>
-                <th>Chage meeting</th>
+                <th>change meeting</th>
 
             </tr>
             </thead>
             <tbody>
                 {% for m2 in model %}
                     <tr>
-                        <td> {{m2.subject}}</td>
-                        <td> {{m2.class_room}}</td>
+                        <td> {{m2.subject.subject_name}}</td>
+                        <td> {{m2.class_room.class_name}}</td>
                         <td> {{m2.days}}</td>
                         <td> {{m2.start_time}}</td>
                         <td> {{m2.end_time}}</td>
