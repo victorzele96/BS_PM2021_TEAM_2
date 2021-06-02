@@ -276,6 +276,7 @@ class SubjectExerciseForm(forms.ModelForm):
         model = Subject_Exercise
         fields = ('description', 'start_time', 'end_time')
 
+
 # class StudentExercisesForm(forms.ModelForm):
 #     ### need two more fields student(key) and subject_exercise(O-T-O_key) to use this form correct
 #     class Meta:

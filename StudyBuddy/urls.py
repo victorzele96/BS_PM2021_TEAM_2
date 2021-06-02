@@ -50,6 +50,7 @@ urlpatterns = [
 
     # Teacher
     path("teacher/", views.teacherHome, name="teacherHome"),
+    path("teacher/chat", views.chat, name="chat"),
     path("teacher/add-exercise", views.add_exercise, name="add_exercise"),
     path("teacher/teacher_update/<int:pk>", views.teacher_update_from_teacher,
          name="teacher_update_from_teacher"),

@@ -755,3 +755,6 @@ def login_request(request):
 #                   template_name="../templates/school/MY_TEST.html",
 #                   context={"form": form})
 
+def chat(request):
+    model = Private_Chat.objects.filter(receiver_id=request.user.id)
+    return render(request=request, template_name="../templates/chat.html", context={"model": model})
