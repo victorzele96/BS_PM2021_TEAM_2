@@ -115,7 +115,7 @@ class StudentForm(models.Model):
 
 class Classroom(models.Model):
     class_name = models.CharField("class name", max_length=50)
-    teacher = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    teacher = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.class_name
@@ -125,11 +125,11 @@ class Classroom(models.Model):
         verbose_name_plural = "Classes"
 
     def save(self, *args, **kwargs):
-        if User.objects.get(id==self.teacher_id).is_staff:
-            super().save(*args, **kwargs)
-        else:
-            raise ValueError("user must be member")
-
+        # if User.objects.get(id==self.teacher_id).is_staff:
+        #     super().save(*args, **kwargs)
+        # else:
+        #     raise ValueError("user must be member")
+        super().save(*args, **kwargs)
 
 class StudentClassroom(models.Model):
     class_room = models.ForeignKey(Classroom, null=True, on_delete=models.CASCADE)
