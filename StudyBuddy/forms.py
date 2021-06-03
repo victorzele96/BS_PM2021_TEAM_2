@@ -77,9 +77,10 @@ class TeacherUserForm(UserCreationForm):
 class ClassroomForm(forms.ModelForm):
     classroom = Classroom.objects.all()
     list_of_ids = []
-    for c in classroom:
-        list_of_ids.append(c.teacher.id)
-    user = User.objects.filter(id__in=list_of_ids)
+    if classroom:
+        for c in classroom:
+            list_of_ids.append(c.teacher.id)
+        user = User.objects.filter(id__in=list_of_ids)
 
     list_id = []
     for temp_obj in (User.objects.filter(is_staff=True) & User.objects.filter(is_superuser=False)):
@@ -109,8 +110,9 @@ class ClassroomForm(forms.ModelForm):
 class StudentClassroomForm(forms.ModelForm):
     Sclassroom = StudentClassroom.objects.all()
     list_of_ids = []
-    for c in Sclassroom:
-        list_of_ids.append(c.user_id)
+    if Sclassroom:
+        for c in Sclassroom:
+            list_of_ids.append(c.user_id)
     usert = User.objects.filter(id__in=list_of_ids)
 
     list_id = []
