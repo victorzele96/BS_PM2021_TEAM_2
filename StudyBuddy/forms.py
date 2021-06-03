@@ -74,79 +74,79 @@ class TeacherUserForm(UserCreationForm):
 
 ###################################   NEW  ##################################################
 #
-# class ClassroomForm(forms.ModelForm):
-#     classroom = Classroom.objects.all()
-#     list_of_ids = []
-#     for c in classroom:
-#         list_of_ids.append(c.teacher.id)
-#     user = User.objects.filter(id__in=list_of_ids)
-#
-#     list_id = []
-#     for temp_obj in (User.objects.filter(is_staff=True) & User.objects.filter(is_superuser=False)):
-#         if temp_obj not in user:
-#             list_id.append(temp_obj.id)
-#     qs = User.objects.filter(id__in=list_id)
-#
-#     teacher = forms.ModelChoiceField(
-#         queryset=qs,
-#         initial=0
-#     )
-#
-#     class Meta:
-#         model = Classroom
-#         # fields = ("class_name","teacher")
-#         fields = ("class_name",)
-#
-#     #
-#     def save(self, commit=True):
-#         classroom = super(ClassroomForm, self).save(commit=False)
-#         classroom.teacher = self.cleaned_data["teacher"]
-#         if commit:
-#             classroom.save()
-#         return classroom
+class ClassroomForm(forms.ModelForm):
+    classroom = Classroom.objects.all()
+    list_of_ids = []
+    for c in classroom:
+        list_of_ids.append(c.teacher.id)
+    user = User.objects.filter(id__in=list_of_ids)
+
+    list_id = []
+    for temp_obj in (User.objects.filter(is_staff=True) & User.objects.filter(is_superuser=False)):
+        if temp_obj not in user:
+            list_id.append(temp_obj.id)
+    qs = User.objects.filter(id__in=list_id)
+
+    teacher = forms.ModelChoiceField(
+        queryset=qs,
+        initial=0
+    )
+
+    class Meta:
+        model = Classroom
+        # fields = ("class_name","teacher")
+        fields = ("class_name",)
+
+    #
+    def save(self, commit=True):
+        classroom = super(ClassroomForm, self).save(commit=False)
+        classroom.teacher = self.cleaned_data["teacher"]
+        if commit:
+            classroom.save()
+        return classroom
 
 #
-# class StudentClassroomForm(forms.ModelForm):
-#     Sclassroom = StudentClassroom.objects.all()
-#     list_of_ids = []
-#     for c in Sclassroom:
-#         list_of_ids.append(c.user_id)
-#     usert = User.objects.filter(id__in=list_of_ids)
-#
-#     list_id = []
-#     for temp_obj in (User.objects.filter(is_staff=False) & User.objects.filter(is_superuser=False)):
-#         if temp_obj not in usert:
-#             list_id.append(temp_obj.id)
-#     # qs = User.objects.filter(id__in=list_id)
-#
-#     class_room = forms.ModelChoiceField(
-#         # queryset=User.objects.get(is_staff=True, is_superuser=False),
-#         queryset=Classroom.objects.all(),
-#         initial=0
-#     )
-#
-#     user = forms.ModelChoiceField(
-#         # queryset=User.objects.get(is_staff=True, is_superuser=False),
-#         # queryset=User.objects.filter(is_staff=False),
-#         queryset=User.objects.filter(id__in=list_id),
-#         initial=0
-#     )
-#
-#     class Meta:
-#         model = StudentClassroom
-#         fields = ("class_room", "user")
-#
-#     def save(self, commit=True):
-#         sc = super(StudentClassroomForm, self).save(commit=False)
-#         sc.class_room = self.cleaned_data["class_room"]
-#         sc.student = self.cleaned_data["user"]
-#         if commit:
-#             # if not StudentClassroom.objects.get(user_id=sc.student.id):
-#             #     sc.save()
-#             # else:
-#             # raise ValueError("user must be a student")
-#             sc.save()
-#         return sc
+class StudentClassroomForm(forms.ModelForm):
+    Sclassroom = StudentClassroom.objects.all()
+    list_of_ids = []
+    for c in Sclassroom:
+        list_of_ids.append(c.user_id)
+    usert = User.objects.filter(id__in=list_of_ids)
+
+    list_id = []
+    for temp_obj in (User.objects.filter(is_staff=False) & User.objects.filter(is_superuser=False)):
+        if temp_obj not in usert:
+            list_id.append(temp_obj.id)
+    # qs = User.objects.filter(id__in=list_id)
+
+    class_room = forms.ModelChoiceField(
+        # queryset=User.objects.get(is_staff=True, is_superuser=False),
+        queryset=Classroom.objects.all(),
+        initial=0
+    )
+
+    user = forms.ModelChoiceField(
+        # queryset=User.objects.get(is_staff=True, is_superuser=False),
+        # queryset=User.objects.filter(is_staff=False),
+        queryset=User.objects.filter(id__in=list_id),
+        initial=0
+    )
+
+    class Meta:
+        model = StudentClassroom
+        fields = ("class_room", "user")
+
+    def save(self, commit=True):
+        sc = super(StudentClassroomForm, self).save(commit=False)
+        sc.class_room = self.cleaned_data["class_room"]
+        sc.student = self.cleaned_data["user"]
+        if commit:
+            # if not StudentClassroom.objects.get(user_id=sc.student.id):
+            #     sc.save()
+            # else:
+            # raise ValueError("user must be a student")
+            sc.save()
+        return sc
 
 
 class SubjectForm(forms.ModelForm):
