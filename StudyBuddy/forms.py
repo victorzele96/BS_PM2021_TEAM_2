@@ -75,21 +75,22 @@ class TeacherUserForm(UserCreationForm):
 ###################################   NEW  ##################################################
 #
 class ClassroomForm(forms.ModelForm):
-    classroom = Classroom.objects.all()
-    list_of_ids = []
-    if classroom:
-        for c in classroom:
-            list_of_ids.append(c.teacher.id)
-        user = User.objects.filter(id__in=list_of_ids)
-
-    list_id = []
-    for temp_obj in (User.objects.filter(is_staff=True) & User.objects.filter(is_superuser=False)):
-        if temp_obj not in user:
-            list_id.append(temp_obj.id)
-    qs = User.objects.filter(id__in=list_id)
+    # classroom = Classroom.objects.all()
+    # list_of_ids = []
+    # if classroom:
+    #     for c in classroom:
+    #         list_of_ids.append(c.teacher.id)
+    #     user = User.objects.filter(id__in=list_of_ids)
+    #
+    # list_id = []
+    # for temp_obj in (User.objects.filter(is_staff=True) & User.objects.filter(is_superuser=False)):
+    #     if temp_obj not in user:
+    #         list_id.append(temp_obj.id)
+    # qs = User.objects.filter(id__in=list_id)
 
     teacher = forms.ModelChoiceField(
-        queryset=qs,
+        # queryset=qs,
+        queryset=User.objects.filter(is_staff=False) & User.objects.filter(is_superuser=False),
         initial=0
     )
 
