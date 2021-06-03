@@ -405,31 +405,29 @@ def View_Sched(request, pk):
 #                   context={"form": form})
 
 def create_class(request):
-    if request.method == "POST":
-        form = ClassroomForm(request.POST)
+    classroom = Classroom.objects.all()
+    teacher_list = []
+    for cr in classroom:
+        teacher_list.append(User.objects.get(id=cr.teacher_id))
+    other_teacher_list_temp = User.objects.filter(is_staff=True) & User.objects.filter(is_superuser=False)
+    other_teacher_list=[u for u in other_teacher_list_temp]
 
-        if form.is_valid():
-            # form.teacher = User.objects.get(id=form.teacher)
-            # form.date = datetime.now()
-            new_class = form.save(commit=False)
-            new_class.save()
-            # form.teacher = User.objects.get(id=form.teacher)
-
-            # form.date = datetime.now()
-            # new_class = form.save()
-
-            messages.success(request, f"New article: {new_class} has been saved")
-
-            return redirect('view_class_list')
-
-        else:
-            for msg in form.error_messages:
-                messages.error(request, f"{msg}: {form.error_messages[msg]}")
-
-            return render(request, '../templates/school/class/create_class.html', {"form": form})
-
-    form = ClassroomForm()
-    return render(request, '../templates/school/class/create_class.html', {"form": form})
+    if teacher_list != other_teacher_list:
+        if request.method == "POST":
+            form = ClassroomForm(request.POST)
+            if form.is_valid():
+                new_class = form.save(commit=False)
+                new_class.save()
+                messages.success(request, f"New article: {new_class} has been saved")
+                return redirect('view_class_list')
+            else:
+                for msg in form.error_messages:
+                    messages.error(request, f"{msg}: {form.error_messages[msg]}")
+                return render(request, '../templates/school/class/create_class.html', {"form": form})
+        form = ClassroomForm()
+        return render(request, '../templates/school/class/create_class.html', {"form": form})
+    else:
+        return HttpResponse("No teacher to add !!!!!!!!!!")
 
 
 ## create class room
