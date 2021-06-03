@@ -44,7 +44,20 @@
                             <td> <a href="#popup1"> <i style="font-size: 25px; color: black" class="fa fa-edit"></i> </a></td>
 {#                        <td><a class="" href="{% url 'change_meeting_url' m2.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
 {#                        <td><a class="" href="{% url 'teacher_file_view' m2.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
-
+                            <div id="popup1" class="overlay">
+                                <div class="popup-met">
+                                    <h2>Change meeting</h2>
+                                    <a class="close" href="#">&times;</a>
+                                    <form id="form-id" action="{% url "change_meeting_url" m2.id %}" method="POST">
+                                      {% csrf_token %}
+                                        <div class="ans">
+                                            <input name="met-url" type="text" required>
+                                            <label>meeting url</label>
+                                        </div>
+                                        <a type="submit" class="save" onclick="document.forms['form-id'].submit();"> Save </a>
+                                    </form>
+                                </div>
+                            </div>
 {#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
                     </tr>
                 {% endfor %}
