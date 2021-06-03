@@ -98,7 +98,7 @@ class Classroom(models.Model):
     class_name = models.CharField("class name", max_length=50)
     teacher = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
 
-    def str(self):
+    def __str__(self):
         return self.class_name
 
     class Meta:
