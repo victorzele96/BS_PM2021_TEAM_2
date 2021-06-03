@@ -90,7 +90,7 @@ class ClassroomForm(forms.ModelForm):
 
     teacher = forms.ModelChoiceField(
         # queryset=qs,
-        queryset=User.objects.filter(is_staff=False) & User.objects.filter(is_superuser=False),
+        queryset=User.objects.filter(is_staff=True) & User.objects.filter(is_superuser=False),
         initial=0
     )
 
@@ -109,18 +109,18 @@ class ClassroomForm(forms.ModelForm):
 
 #
 class StudentClassroomForm(forms.ModelForm):
-    Sclassroom = StudentClassroom.objects.all()
-    list_of_ids = []
-    if Sclassroom:
-        for c in Sclassroom:
-            list_of_ids.append(c.user_id)
-    usert = User.objects.filter(id__in=list_of_ids)
-
-    list_id = []
-    for temp_obj in (User.objects.filter(is_staff=False) & User.objects.filter(is_superuser=False)):
-        if temp_obj not in usert:
-            list_id.append(temp_obj.id)
-    # qs = User.objects.filter(id__in=list_id)
+    # Sclassroom = StudentClassroom.objects.all()
+    # list_of_ids = []
+    # if Sclassroom:
+    #     for c in Sclassroom:
+    #         list_of_ids.append(c.user_id)
+    # usert = User.objects.filter(id__in=list_of_ids)
+    #
+    # list_id = []
+    # for temp_obj in (User.objects.filter(is_staff=False) & User.objects.filter(is_superuser=False)):
+    #     if temp_obj not in usert:
+    #         list_id.append(temp_obj.id)
+    # # qs = User.objects.filter(id__in=list_id)
 
     class_room = forms.ModelChoiceField(
         # queryset=User.objects.get(is_staff=True, is_superuser=False),
@@ -131,7 +131,8 @@ class StudentClassroomForm(forms.ModelForm):
     user = forms.ModelChoiceField(
         # queryset=User.objects.get(is_staff=True, is_superuser=False),
         # queryset=User.objects.filter(is_staff=False),
-        queryset=User.objects.filter(id__in=list_id),
+        # queryset=User.objects.filter(id__in=list_id),
+        queryset = User.objects.filter(is_staff=True),
         initial=0
     )
 
