@@ -313,7 +313,7 @@ def Add_Student_To_Class(request):
 
             messages.success(request, f"New new_connection: {new_connection} has been saved")
 
-            return redirect('view_class')
+            return redirect('view_class', new_connection.class_room.id)
 
         else:
             for msg in form.error_messages:

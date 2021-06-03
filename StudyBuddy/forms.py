@@ -7,8 +7,6 @@ from django.contrib.auth.models import User
 from datetime import date, datetime
 
 
-
-
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
@@ -29,6 +27,7 @@ class StudentForm(forms.ModelForm):
         "type": "date",
         "placeholder": "YYYY-MM-DD"
     }))
+
     class Meta:
         model = StudentForm
         fields = ('grade', 'birth_date', 'personalPhone', 'parentName_M', 'parentPhone_M', 'parentName_F',
@@ -73,12 +72,9 @@ class TeacherUserForm(UserCreationForm):
         return user
 
 
-
-
 ###################################   NEW  ##################################################
 
 class ClassroomForm(forms.ModelForm):
-
     classroom = Classroom.objects.all()
     list_of_ids = []
     for c in classroom:
@@ -100,6 +96,7 @@ class ClassroomForm(forms.ModelForm):
         model = Classroom
         # fields = ("class_name","teacher")
         fields = ("class_name",)
+
     #
     def save(self, commit=True):
         classroom = super(ClassroomForm, self).save(commit=False)
@@ -110,36 +107,46 @@ class ClassroomForm(forms.ModelForm):
 
 
 class StudentClassroomForm(forms.ModelForm):
+    Sclassroom = StudentClassroom.objects.all()
+    list_of_ids = []
+    for c in Sclassroom:
+        list_of_ids.append(c.user_id)
+    usert = User.objects.filter(id__in=list_of_ids)
+
+    list_id = []
+    for temp_obj in (User.objects.filter(is_staff=False) & User.objects.filter(is_superuser=False)):
+        if temp_obj not in usert:
+            list_id.append(temp_obj.id)
+    # qs = User.objects.filter(id__in=list_id)
+
     class_room = forms.ModelChoiceField(
         # queryset=User.objects.get(is_staff=True, is_superuser=False),
         queryset=Classroom.objects.all(),
         initial=0
     )
 
-    student = forms.ModelChoiceField(
+    user = forms.ModelChoiceField(
         # queryset=User.objects.get(is_staff=True, is_superuser=False),
-        queryset=User.objects.filter(is_staff=False),
+        # queryset=User.objects.filter(is_staff=False),
+        queryset=User.objects.filter(id__in=list_id),
         initial=0
     )
 
-
-
     class Meta:
         model = StudentClassroom
-        fields = ("class_room","student")
+        fields = ("class_room", "user")
 
     def save(self, commit=True):
         sc = super(StudentClassroomForm, self).save(commit=False)
         sc.class_room = self.cleaned_data["class_room"]
-        # sc.user = self.cleaned_data["student"]
-        sc.student = self.cleaned_data["student"]
+        sc.student = self.cleaned_data["user"]
         if commit:
-            if not StudentClassroom.objects.get(user_id=sc.student.id):
-                sc.save()
-            else:
-                raise ValueError("user must be a student")
+            # if not StudentClassroom.objects.get(user_id=sc.student.id):
+            #     sc.save()
+            # else:
+            # raise ValueError("user must be a student")
+            sc.save()
         return sc
-
 
 
 class SubjectForm(forms.ModelForm):
@@ -149,7 +156,8 @@ class SubjectForm(forms.ModelForm):
         initial=0
     )
 
-    duration = forms.IntegerField(label='Duration', required=True, validators=[MinValueValidator(1), MaxValueValidator(4)])
+    duration = forms.IntegerField(label='Duration', required=True,
+                                  validators=[MinValueValidator(1), MaxValueValidator(4)])
 
     class Meta:
         model = Subject
@@ -162,8 +170,6 @@ class SubjectForm(forms.ModelForm):
         if commit:
             subject.save()
         return subject
-
-
 
 
 DAYS_OF_WEEK = (
@@ -218,7 +224,6 @@ class ClassSubjectForm(forms.ModelForm):
         choices=DAYS_OF_WEEK
     )
 
-
     class Meta:
         model = ClassSubject
         # widgets = {'day': forms.CheckboxSelectMultiple}
@@ -235,7 +240,7 @@ class ClassSubjectForm(forms.ModelForm):
         # class_subject.end_time = class_subject.start_time + forms.TimeField(
         #     datetime.time(class_subject.subject.duration, 0, 0))
         # class_subject.end_time = class_subject.start_time + time(class_subject.subject.duration, 0, 0)
-        class_subject.end_time = class_subject.start_time+(timedelta(hours=class_subject.subject.duration))
+        class_subject.end_time = class_subject.start_time + (timedelta(hours=class_subject.subject.duration))
         print(class_subject.start_time)
         if commit:
             # print("class_subject.start_time    >>>>" + class_subject.start_time)
@@ -266,6 +271,7 @@ class File_Upload_Form(forms.ModelForm):
 
 class FileUploadForm(forms.Form):
     file = forms.FileField(label='Select a file')
+
 
 class ExerciseForm(forms.ModelForm):
     class Meta:
@@ -304,5 +310,3 @@ class ClassChatForm(forms.ModelForm):
     class Meta:
         model = Class_Chat
         fields = ('msg', 'publish_date')
-
-
