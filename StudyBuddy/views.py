@@ -758,12 +758,14 @@ def view_subject(request, pk):
 
 
 def change_meeting_url(request, pk):
-    # print(pk)  # didnt get the right id of the object and when submit all data disappear
-    # print(request.POST['met-url'])
-    connection = ClassSubject.objects.filter(subject_id=pk)
-    # connection = ClassSubject.objects.get(id=pk)
+    print(pk)  # didnt get the right id of the object and when submit all data disappear
+    print(request.POST['met-url'])
+    # connection = ClassSubject.objects.filter(subject_id=pk)
+    connection = ClassSubject.objects.get(id=pk)
+    print(connection)
     connection.meeting = request.POST['met-url']
     print(connection.meeting)
-    # connection.save()
-    return render(request=request, template_name="../templates/teacher/view_subject.html",
-                  context={"model": connection})
+    connection.save()
+    return redirect('view_subject', pk)
+    # return render(request=request, template_name="../templates/teacher/view_subject.html",
+    #               context={"model": connection})
