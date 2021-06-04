@@ -29,14 +29,11 @@
                 </li>
                 <li><a href="{% url 'user_details' %}" class="details-btn">User Details</a></li>
                 <li><a href="#" class="progress-btn">Students Progress</a></li>
-                <li><a href="#" class="schedule-btn">Schedule</a></li>
                 <li class="dropdown">
                 <a href="javascript:void(0)" class="dropbtn">Class</a>
                 <div class="dropdown-content">
                     <a class="reg-teacher-btn" type="submit" href="{% url 'create_class' %}">Create Class</a>
                     <a class="reg-teacher-btn" type="submit" href="{% url 'view_class_list' %}">View Class List</a>
-{#                    <a class="reg-student-btn" type="submit" href="#">Create Schedule</a>#}
-{#                    <a class="reg-student-btn" type="submit" href="{% url 'register_teacher' %}">View Schedule</a>#}
                 </div>
                 </li>
                 <li class="dropdown">
@@ -46,7 +43,6 @@
                         <a class="send-msg-btn" type="submit" href="#">Send System Message</a>
                     </div>
                 </li>
-                <li><a href="#" class="documents-btn">Documents</a></li>
 
 {#<td><a class="" href="{% url 'view_class' m.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
             {% else %}
@@ -69,8 +65,6 @@
                     <li><a href="{% url 'studentHome' %}" class="navbar-brand">Study Buddy</a></li>
                     <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'studentHome' %}" class="dropbtn">{{user.username|title}}</a></li>
                     <li><a href="{% url 'studentSchedule' %}" class="schedule-btn">My Schedule</a></li>
-                    <li><a href="#" class="exams-hw-btn">Exams and HW</a></li>
-                    <li><a href="#" class="exercise-btn">Exercise</a></li>
                     <li><a href="#" class="progress-btn">View Progress</a></li>
                     <li><a href="{% url 'student_update_from_student' user.id %}" class="details-btn">User Details</a></li>
                     <li class="dropdown">
@@ -80,8 +74,6 @@
                             <a class="send-msg-btn" type="submit" href="#">Send Message</a>
                         </div>
                     </li>
-                    <li><a href="#" class="documents-btn">Documents</a></li>
-
                 {%   endif %}
             {% endif %}
         {% else %}

@@ -309,8 +309,24 @@ class PrivateChatForm(forms.ModelForm):
         model = Private_Chat
         fields = ('msg', 'publish_date', 'receiver_id')
 
+    def save(self, commit=True):
+        private_chat = super(PrivateChatForm, self).save(commit=False)
+
+        if commit:
+            private_chat.publish_date = datetime.now()
+            private_chat.save()
+        return private_chat
+
 
 class ClassChatForm(forms.ModelForm):
     class Meta:
         model = Class_Chat
         fields = ('msg', 'publish_date')
+
+    def save(self, commit=True):
+        class_chat = super(ClassChatForm, self).save(commit=False)
+
+        if commit:
+            class_chat.publish_date = datetime.now()
+            class_chat.save()
+        return class_chat
