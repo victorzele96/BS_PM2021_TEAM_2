@@ -65,6 +65,7 @@
                     <li><a href="{% url 'studentHome' %}" class="navbar-brand">Study Buddy</a></li>
                     <li style="font-size: 20px;color: lightblue"> Welcome:<a href="{% url 'studentHome' %}" class="dropbtn">{{user.username|title}}</a></li>
                     <li><a href="{% url 'studentSchedule' %}" class="schedule-btn">My Schedule</a></li>
+                    <li><a href="{% url 'my_class' %}" class="schedule-btn">My Class</a></li>
                     <li><a href="#" class="progress-btn">View Progress</a></li>
                     <li><a href="{% url 'student_update_from_student' user.id %}" class="details-btn">User Details</a></li>
                     <li class="dropdown">

@@ -673,6 +673,48 @@ def studentSchedule(request):
     return render(request, '../templates/student/studentSchedule.html', {'model': model, 'time': time, 'days': days})
 
 
+def my_class(request):
+    sc = StudentClassroom.objects.get(user=request.user)
+    print(sc)
+    # sc.class_room
+    cr = Classroom.objects.get(id=sc.class_room.id)
+    print(cr)
+    teacher_id = cr.teacher_id
+    print(teacher_id)
+    teacher = User.objects.get(id=teacher_id)
+    print(teacher)
+
+    # list_of_ids = []
+    # for s in cr:
+    #     list_of_ids.append(s.subject.id)
+    # sub_1 = ClassSubject.objects.filter(id__in=list_of_ids)
+    # print(sub_1)
+
+    cs = ClassSubject.objects.filter(class_room=cr.id)
+    print(cs)
+
+    list_of_ids = []
+    for s in cs:
+        list_of_ids.append(s.id)
+
+
+    sub=Subject.objects.filter(id__in=list_of_ids)
+    print(sub)
+    # print(type(cr))
+    print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    print(sub)
+    print(sub.first())
+    print(type(sub))
+
+
+    return render(request, '../templates/student/my_class/my_class.html', {
+        'StudentClassroom': sc,
+        'Classroom': cr,
+        'Teacher': teacher,
+        'ClassSubject': cs,
+        'Subject': sub})
+
+
 ##########################################################################################
 
 

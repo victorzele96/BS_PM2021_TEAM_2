@@ -369,8 +369,6 @@ class PrivateChatForm(forms.Form):
 class PrivateChatReceiveForm(forms.Form):
 
     msg = forms.CharField(widget=forms.Textarea)
-
-
     class Meta:
         fields = ('msg',)
 
@@ -381,8 +379,6 @@ class PrivateChatReceiveForm(forms.Form):
             msg.publish_date = datetime.now()
             msg.save()
         return msg
-
-
 
 
     def save(self, commit=True):
