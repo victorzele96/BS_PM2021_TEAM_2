@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <link type="text/css" href="{% static 'styles/studentStyles/studentHome.css' %}" rel="stylesheet">
     <title>Title</title>
+    {% block head %}
+    {% endblock %}
 </head>
 <body>
 {#        {% block title %}<h1 class="page-title">this is admin page hello you!</h1>{% endblock %}#}
@@ -15,9 +17,6 @@
     <div class="split center">
 
     </div>
-
-
-
 
     <div class="split right">
       <div class="tech-slideshow">
