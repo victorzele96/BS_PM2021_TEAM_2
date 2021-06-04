@@ -11,29 +11,32 @@
 {#        {% block title %}<h1 class="page-title">this is admin page hello you!</h1>{% endblock %}#}
 {#        {% block content %}#}
 {#        {% endblock %}#}
+{% block content %}
+    <div class="split center">
 
-<div class="split center">
-
-</div>
-
-
-<div class="split right">
-  <div class="tech-slideshow">
-    <div class="birthday-title">
-      <h3>BirthDay</h3>
     </div>
-    <div class="mover">
-        {% if birthdays %}
-            {% for b in birthdays %}
-                <p> {{ b }} </p>
-            {% endfor %}
-        {% endif %}
-{#      <p>arie fishman 17/04/95 a5</p>#}
-{#      <p>lena chuprina 10/04/95 z12</p>#}
-{#      <p>victor zelentsov 12/06/96 z12</p>#}
+
+
+
+
+    <div class="split right">
+      <div class="tech-slideshow">
+        <div class="birthday-title">
+          <h3>BirthDay</h3>
+        </div>
+        <div class="mover">
+            {% if birthdays %}
+                {% for b in birthdays %}
+                    <p> {{ b }} </p>
+                {% endfor %}
+            {% endif %}
+    {#      <p>arie fishman 17/04/95 a5</p>#}
+    {#      <p>lena chuprina 10/04/95 z12</p>#}
+    {#      <p>victor zelentsov 12/06/96 z12</p>#}
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+{% endblock %}
 
 </body>
 </html>
