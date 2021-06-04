@@ -281,7 +281,11 @@ class ExerciseForm(forms.ModelForm):
     class Meta:
         model = Exercise
         fields = '__all__'
-
+    def save(self,commit=True):
+        act_ex = super(ExerciseForm, self).save(commit=False)
+        if commit:
+            act_ex.save()
+        return act_ex
 
 class SubjectExamForm(forms.ModelForm):
     ### need two more fields subject(key) and exercise(key) to use this form correct
@@ -291,10 +295,26 @@ class SubjectExamForm(forms.ModelForm):
 
 
 class SubjectExerciseForm(forms.ModelForm):
+    description = forms.TextInput()
+    start_time = forms.DateTimeField()
+    end_time = forms.DateTimeField()
     ### need two more fields subject(key) and exercise(key) to use this form correct
     class Meta:
         model = Subject_Exercise
         fields = ('description', 'start_time', 'end_time')
+
+    def save(self, commit=True):
+        new_form = super(SubjectExerciseForm, self).save(commit=False)
+        self.description = self.cleaned_data["description"]
+        self.start_time = self.cleaned_data["start_time"]
+        self.end_time = self.cleaned_data["end_time"]
+        # act_file.file = self.cleaned_data["file"]
+        # file.subject = self.cleaned_data["subject"]
+
+        if commit:
+            # act_file.upload_time = datetime.now()
+            new_form.save()
+        return new_form
 
 
 # class StudentExercisesForm(forms.ModelForm):
@@ -304,10 +324,66 @@ class SubjectExerciseForm(forms.ModelForm):
 #         fields = ('description', 'start_time', 'end_time')
 
 
-class PrivateChatForm(forms.ModelForm):
+class PrivateChatForm(forms.Form):
+    # my_id = None
+    # if not my_id:
+    #     receiver_id = forms.ModelChoiceField(
+    #         # queryset=User.objects.get(is_staff=True, is_superuser=False),
+    #         # queryset=User.objects.all(),
+    #         queryset=User.objects.all().difference(User.objects.filter(id=my_id)),
+    #
+    #         initial=0
+    #     )
+    # # else:
+    receiver_id = forms.ModelChoiceField(
+            # queryset=User.objects.get(is_staff=True, is_superuser=False),
+            queryset=User.objects.all(),
+            # queryset=User.objects.filter(id !=),
+
+            initial=0
+    )
+    # print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    # print(my_id)
+    msg = forms.CharField(widget=forms.Textarea)
+
+    #
+    # forms.MultipleChoiceField
+
+    # def get_my_id(self, my_id):
+    #     self.my_id = my_id
+
     class Meta:
-        model = Private_Chat
-        fields = ('msg', 'publish_date', 'receiver_id')
+        # model = Private_Chat
+        fields = ('msg', 'receiver_id')
+
+    def save(self, commit=True):
+        msg = super(PrivateChatForm, self).save(commit=False)
+        user = self.cleaned_data["receiver_id"]
+        msg.receiver_id = user.id
+        if commit:
+            msg.publish_date = datetime.now()
+            msg.save()
+        return msg
+
+
+class PrivateChatReceiveForm(forms.Form):
+
+    msg = forms.CharField(widget=forms.Textarea)
+
+
+    class Meta:
+        fields = ('msg',)
+
+    def save(self, commit=True):
+        msg = super(PrivateChatForm, self).save(commit=False)
+
+        if commit:
+            msg.publish_date = datetime.now()
+            msg.save()
+        return msg
+
+
+
 
     def save(self, commit=True):
         private_chat = super(PrivateChatForm, self).save(commit=False)

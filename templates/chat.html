@@ -39,20 +39,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>sende test</td>
-                            <td>msg test</td>
-                            <td>publish_date test</td>
-                            <td>recive test</td>
+{#                        <tr>#}
+{#                            <td>sender test</td>#}
+{#                            <td>msg test</td>#}
+{#                            <td>publish_date test</td>#}
+{#                            <td>receive test</td>#}
             {#                <th>Remove Subject</th>#}
-                        </tr>
+{#                        </tr>#}
                         {% for m in model %}
                             <tr>
                                 <td> {{m.sender}}</td>
                                 <td> {{m.msg}}</td>
                                 <td> {{m.publish_date}}</td>
                                 {#           Need to add pk: m.sender.id                     #}
-                                <td><a class="" href="#"> Send Msg  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
+                                <td><a class="" href="{% url 'receive' m.sender.id  %}"> Receive  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
 
         {#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
                             </tr>
@@ -75,20 +75,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>sende test</td>
-                            <td>msg test</td>
-                            <td>publish_date test</td>
-                            <td>recive test</td>
+{#                        <tr>#}
+{#                            <td>sender test</td>#}
+{#                            <td>msg test</td>#}
+{#                            <td>publish_date test</td>#}
+{#                            <td>receive test</td>#}
             {#                <th>Remove Subject</th>#}
-                        </tr>
+{#                        </tr>#}
                         {% for m in model %}
                             <tr>
                                 <td> {{m.sender}}</td>
                                 <td> {{m.msg}}</td>
                                 <td> {{m.publish_date}}</td>
                                 {#           Need to add pk: m.sender.id                     #}
-                                <td><a class="" href="#"> Send Msg  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
+                                <td><a class="" href="{% url 'receive' m.sender.id  %}"> Receive  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
 
         {#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
                             </tr>
@@ -111,20 +111,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>sende test</td>
-                            <td>msg test</td>
-                            <td>publish_date test</td>
-                            <td>recive test</td>
+{#                        <tr>#}
+{#                            <td>sender test</td>#}
+{#                            <td>msg test</td>#}
+{#                            <td>publish_date test</td>#}
+{#                            <td>receive test</td>#}
             {#                <th>Remove Subject</th>#}
-                        </tr>
+{#                        </tr>#}
                         {% for m in model %}
                             <tr>
                                 <td> {{m.sender}}</td>
                                 <td> {{m.msg}}</td>
                                 <td> {{m.publish_date}}</td>
                                 {#           Need to add pk: m.sender.id                     #}
-                                <td><a class="" href="#"> Send Msg  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
+                                <td><a class="" href="{% url 'receive' m.sender.id  %}"> Receive  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
 
         {#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
                             </tr>
