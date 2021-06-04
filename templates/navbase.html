@@ -39,8 +39,8 @@
                 <li class="dropdown">
                     <a href="javascript:void(0)" class="dropbtn">Messages</a>
                     <div class="dropdown-content">
-                        <a class="view-msg-btn" type="submit" href="#">View User Messages</a>
-                        <a class="send-msg-btn" type="submit" href="#">Send System Message</a>
+                        <a class="view-msg-btn" type="submit" href="{% url 'chat' %}">View Messages</a>
+                            <a class="send-msg-btn" type="submit" href="{% url 'send_msg' %}">Send Message</a>
                     </div>
                 </li>
 
@@ -58,7 +58,7 @@
                         <a href="javascript:void(0)" class="dropbtn">Messages</a>
                         <div class="dropdown-content">
                             <a class="view-msg-btn" type="submit" href="{% url 'chat' %}">View Messages</a>
-                            <a class="send-msg-btn" type="submit" href="#">Send Message</a>
+                            <a class="send-msg-btn" type="submit" href="{% url 'send_msg' %}">Send Message</a>
                         </div>
                     </li>
                 {% else %} {# student user #}
@@ -70,8 +70,8 @@
                     <li class="dropdown">
                         <a href="javascript:void(0)" class="dropbtn">Messages</a>
                         <div class="dropdown-content">
-                            <a class="view-msg-btn" type="submit" href="#">View Messages</a>
-                            <a class="send-msg-btn" type="submit" href="#">Send Message</a>
+                            <a class="view-msg-btn" type="submit" href="{% url 'chat' %}">View Messages</a>
+                            <a class="send-msg-btn" type="submit" href="{% url 'send_msg' %}">Send Message</a>
                         </div>
                     </li>
                 {%   endif %}

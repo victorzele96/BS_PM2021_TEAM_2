@@ -18,8 +18,8 @@
 	<div class="popup">
 		<h2>Adding exercise</h2>
 		<a class="close" href="#">&times;</a>
-{#           <form action="{% url "upload_file" pk %}" method="POST">       form----------------------------------------------------  #}
-          <form id="form-id" action="{% url "teacher_add_exercise" 96 %}" method="POST">
+
+          <form id="form-id" action="{% url "teacher_add_exercise" ret_pk %}" method="POST">
               {% csrf_token %}
 
             <div class="group">
@@ -28,24 +28,28 @@
             </div>
 
             <div class="ans">
-              <input name="first_ans" type="text" required>
+              <input name="a" type="text" required>
               <label>First Answer</label>
             </div>
 
             <div class="ans">
-              <input name="second_ans" type="text" required>
+              <input name="b" type="text" required>
               <label>Second Answer</label>
             </div>
 
             <div class="ans">
-              <input name="third_ans_correct" type="text" required>
+              <input name="c" type="text" required>
               <label>Third Answer - Correct</label>
             </div>
 
             <div class="ans">
-              <input name="fourth_ans" type="text" required>
+              <input name="d" type="text" required>
               <label>Fourth Answer</label>
             </div>
+                <div class="ans">
+                    <input name="ans" type="text" required>
+                    <label>Answer</label>
+                </div>
               <a type="submit" class="save" onclick="document.forms['form-id'].submit();"> Save </a>
 {#              <button class="save" id="save" type="submit" href="{% url 'teacher_add_exercise' 96 %}"> Save </button>#}
           </form>
@@ -56,10 +60,12 @@
         <table class="fl-table">
             <thead>
             <tr>
-                <th>Description</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Delete</th>
+                <th>Question</th>
+                <th>A</th>
+                <th>B</th>
+                <th>C</th>
+                <th>D</th>
+                <th>ans</th>
             </tr>
             </thead>
             <tbody>
@@ -74,12 +80,16 @@
 {#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
 {#                    </tr>#}
 {#                {% endfor %}#}
-            <tr>
-                <td>a</td>
-                <td>a</td>
-                <td>a</td>
-                <td>a</td>
-            </tr>
+            {% for m in model %}
+                <tr>
+                    <td>{{m.question}}</td>
+                    <td>{{m.a}}</td>
+                    <td>{{m.b}}</td>
+                    <td>{{m.c}}</td>
+                    <td>{{m.d}}</td>
+                    <td>{{m.ans}}</td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

@@ -51,17 +51,23 @@ urlpatterns = [
     # Teacher
     path("teacher/", views.teacherHome, name="teacherHome"),
     path("teacher/chat", views.chat, name="chat"),
+    path("teacher/chat/receive/<int:pk>", views.receive, name="receive"),
+    path("teacher/send_msg", views.send_msg, name="send_msg"),
     path("teacher/add-exercise", views.add_exercise, name="add_exercise"),
     path("teacher/teacher_update/<int:pk>", views.teacher_update_from_teacher,
          name="teacher_update_from_teacher"),
     path("teacher/teacherSchedule", views.teacherSchedule, name="teacherSchedule"),
     path("teacher/classes", views.view_t_classes, name="view_t_classes"),
     path("teacher/classes/view_subject/<int:pk>", views.view_subject, name="view_subject"),
+    path("teacher/classes/teacher_task_view/<int:pk>", views.teacher_task_view, name="teacher_task_view"),
+    path("teacher/classes/teacher_add_task/<int:pk>", views.teacher_add_task, name="teacher_add_task"),
+    ###################################   -------------------------------   ##################################
     path("teacher/classes/change_meeting_url/<int:pk>", views.change_meeting_url, name="change_meeting_url"),
     path("teacher/classes/teacher_exercise_view/<int:pk>", views.teacher_exercise_view, name="teacher_exercise_view"),
     path("teacher/classes/teacher_add_exercise/<int:pk>", views.teacher_add_exercise, name="teacher_add_exercise"),
     path("teacher/classes/teacher_file_view/<int:pk>", views.teacher_file_view, name="teacher_file_view"),
     path("teacher/classes/teacher_file_view/upload_file/<int:pk>", views.upload_file, name="upload_file"),
+
 
 
     # Student

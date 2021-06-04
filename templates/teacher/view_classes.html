@@ -58,7 +58,8 @@
                         <td><a href="{% url 'view_subject' m2.id %}">{{m2.subject_name}}<i style="font-size: 25px; color: black" > </i> </a> </td>
                         <td> {{m2.duration}}</td>
 {#                        <td> {{m2.duration}}</td>#}
-                        <td><a href="{% url 'teacher_exercise_view' m2.id %}"><i style="font-size: 25px; color: black" class="fa fa-plus"> </i> </a> </td>
+                        <td><a href="{% url 'teacher_task_view' m2.id %}"><i style="font-size: 25px; color: black" class="fa fa-plus"> </i> </a> </td>
+{#                        <td><a href="{% url 'teacher_exercise_view' m2.id %}"><i style="font-size: 25px; color: black" class="fa fa-plus"> </i> </a> </td>#}
                         <td><a class="" href="{% url 'teacher_file_view' m2.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>
 {#                        <td><a class="" href="{% url 'teacher_file_view' m2.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
 

@@ -373,14 +373,14 @@ def View_Sched(request, pk):
 
     return render(request, '../templates/school/class/view_sched.html', {'subject_list': subject_list})
 
-    list_of_ids = []
-    for c in connection:
-        # user = user | c.user
-        list_of_ids.append(c.user.id)
-        # list_of_ids.append(User.objects.get(id=c.user.id))
-    user = User.objects.filter(id__in=list_of_ids)
-
-    return render(request, '../templates/school/class/viewClass.html', {'user': user})
+    # list_of_ids = []
+    # for c in connection:
+    #     # user = user | c.user
+    #     list_of_ids.append(c.user.id)
+    #     # list_of_ids.append(User.objects.get(id=c.user.id))
+    # user = User.objects.filter(id__in=list_of_ids)
+    #
+    # return render(request, '../templates/school/class/viewClass.html', {'user': user})
 
 
 ## create class room
@@ -468,17 +468,80 @@ def add_exercise(request):
 
 def teacher_add_exercise(request, pk):
     # here we will add func off exercise data
-    print("here we go !")
-    print(request.POST)
-    print(pk)
-    return render(request, '../templates/teacher/teacher_exercise_view.html')
+    form = ExerciseForm(request.POST)
+    if form.is_valid():
+        obj = form.save()
+        task = Subject_Exercise.objects.get(id=pk)
+        print(task)
+        task.exercise_id = obj.id
+        task.save()
+        new_task = Subject_Exercise(subject=task.subject,
+                                    description=task.description,
+                                    start_time=task.start_time,
+                                    end_time=task.end_time)
+        new_task.save()
+        pk = new_task.subject_id
+        return redirect('teacher_exercise_view', pk)
+    else:
+        return HttpResponse('you are loser !!! try again')
+
+    # return redirect('teacher_exercise_view', pk)
+    #
+    #
+    #
+    # print(request.POST)
+    # print(pk)
+    # return render(request, '../templates/teacher/teacher_exercise_view.html')
+
+
+def teacher_add_task(request, pk):
+    # form = SubjectExerciseForm()
+    form = SubjectExerciseForm(request.POST)
+    if form.is_valid():
+        # print(request.POST['description'])
+        new_task = Subject_Exercise(subject=Subject.objects.get(id=pk),
+                               description=request.POST['description'],
+                               start_time=request.POST['start_time'],
+                               end_time=request.POST['end_time'])
+        new_task.save()
+        return redirect('teacher_task_view', pk)
+
+    else:
+        return HttpResponse('you are loser !!! try again')
+        # return HttpResponse(form.start_time.errors)
+
+    # subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
+    # exercise = models.OneToOneField(Exercise, null=True, on_delete=models.CASCADE)
+    #
+    # description = models.TextField(null=True)
+    #
+    # start_time = models.DateTimeField()
+    # end_time = models.DateTimeField()
+
+
+
+
+
 
 
 def teacher_exercise_view(request, pk):
-    # my_subject = Subject_Exercise.objects.filter(subject_id=pk)
+    my_subject = Subject_Exercise.objects.filter(subject_id=pk)
+    # print("---->  ", my_subject)
+    list_of_ids = []
+    for s in my_subject:
+        # user = user | c.user
+        list_of_ids.append(s.exercise_id)
+        # list_of_ids.append(User.objects.get(id=c.user.id))
+    # print("---->  " , list_of_ids)
+    ex = Exercise.objects.filter(id__in=list_of_ids)
+    ret_pk = pk
+    return render(request, '../templates/teacher/teacher_exercise_view.html', {'model': ex, 'ret_pk': ret_pk})
 
-    return render(request, '../templates/teacher/teacher_exercise_view.html', {'model': None})
 
+def teacher_task_view(request, pk):
+    tasks = Subject_Exercise.objects.filter(subject_id=pk)
+    ret_pk = pk
+    return render(request, '../templates/teacher/teacher_task_view.html', {'model_2': tasks, 'ret_pk': ret_pk})
 
 def teacherSchedule(request):
     act_classes = Subject.objects.filter(teacher_id=request.user.id)
@@ -569,6 +632,8 @@ def teacher_file_view(request, pk):
     return render(request, '../templates/teacher/teacher_file_view.html', {
         'model': model, 'ret_pk': ret_pk
     })
+
+
 
 
 # def upload_file(request):
@@ -750,6 +815,30 @@ def chat(request):
     model = Private_Chat.objects.filter(receiver_id=request.user.id)
     return render(request=request, template_name="../templates/chat.html", context={"model": model})
 
+def send_msg(request):
+    if request.method == 'POST':
+        form = PrivateChatForm(request.POST)
+        form.my_id = request.user.id
+        # print(form)
+        # print("&&&&&&&&&&&&&&&&&*^(*^*&T^*&^%&*T&^RT&^R&^%&(^%*&%*&^*&%R&^")
+        # print(request.POST)
+
+
+        if form.is_valid():
+            new_msg = Private_Chat(sender=request.user, receiver_id=request.POST['receiver_id'],
+                                   msg=request.POST['msg'], publish_date=datetime.now())
+            new_msg.save()
+            return redirect('send_msg')
+        else:
+            print(form.errors)
+            return HttpResponse('you are loser !!! try again')
+
+
+    form = PrivateChatForm()
+    print(request.user.id)
+    form.my_id = request.user.id
+    return render(request=request, template_name="../templates/send_msg.html", context={"form": form})
+
 
 def view_subject(request, pk):
     connection = ClassSubject.objects.filter(subject_id=pk)
@@ -769,3 +858,25 @@ def change_meeting_url(request, pk):
     return redirect('view_subject', pk)
     # return render(request=request, template_name="../templates/teacher/view_subject.html",
     #               context={"model": connection})
+
+
+def receive(request, pk):
+    if request.method == 'POST':
+        form = PrivateChatReceiveForm(request.POST)
+        print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+        print(type(pk))
+        print(pk)
+        if form.is_valid():
+            new_msg = Private_Chat(sender=request.user, receiver_id=pk,
+                                   msg=request.POST['msg'], publish_date=datetime.now())
+            new_msg.save()
+            return redirect('chat')
+        else:
+            print(form.errors)
+            return HttpResponse('you are loser !!! try again')
+
+
+    form = PrivateChatReceiveForm()
+
+    return render(request=request, template_name="../templates/receive.html", context={"form": form})
+
