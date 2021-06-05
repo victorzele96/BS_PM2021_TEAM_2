@@ -660,6 +660,8 @@ def studentHome(request):
     return render(request, '../templates/student/studentHome.html', {'birthdays': birthdays})
 
 
+import datetime
+
 def studentSchedule(request):
     # class_connection = Subject.objects.get(user_id=request.user.id)
     class_connection = StudentClassroom.objects.get(user_id=request.user.id)
@@ -673,6 +675,65 @@ def studentSchedule(request):
 
     # arr[time.len()][days.len()][]
 
+    # obj_dic = {1: [], 2: [], 3: [], 4: [], 5: []}
+    obj_dic = {1: {datetime.time(8,0,0): None,
+                   datetime.time(9,0,0): None,
+                   datetime.time(10,0,0): None,
+                   datetime.time(11,0,0): None,
+                   datetime.time(12,0,0): None,
+                   datetime.time(13,0,0): None,
+                   datetime.time(14,0,0): None,
+                   datetime.time(15,0,0): None,
+                   datetime.time(16,0,0): None},
+               2: {datetime.time(8,0,0): None,
+                   datetime.time(9,0,0): None,
+                   datetime.time(10,0,0): None,
+                   datetime.time(11,0,0): None,
+                   datetime.time(12,0,0): None,
+                   datetime.time(13,0,0): None,
+                   datetime.time(14,0,0): None,
+                   datetime.time(15,0,0): None,
+                   datetime.time(16,0,0): None},
+               3: {datetime.time(8, 0, 0): None,
+                   datetime.time(9, 0, 0): None,
+                   datetime.time(10, 0, 0): None,
+                   datetime.time(11, 0, 0): None,
+                   datetime.time(12, 0, 0): None,
+                   datetime.time(13, 0, 0): None,
+                   datetime.time(14, 0, 0): None,
+                   datetime.time(15, 0, 0): None,
+                   datetime.time(16, 0, 0): None},
+               4: {datetime.time(8, 0, 0): None,
+                   datetime.time(9, 0, 0): None,
+                   datetime.time(10, 0, 0): None,
+                   datetime.time(11, 0, 0): None,
+                   datetime.time(12, 0, 0): None,
+                   datetime.time(13, 0, 0): None,
+                   datetime.time(14, 0, 0): None,
+                   datetime.time(15, 0, 0): None,
+                   datetime.time(16, 0, 0): None},
+               5: {datetime.time(8, 0, 0): None,
+                   datetime.time(9, 0, 0): None,
+                   datetime.time(10, 0, 0): None,
+                   datetime.time(11, 0, 0): None,
+                   datetime.time(12, 0, 0): None,
+                   datetime.time(13, 0, 0): None,
+                   datetime.time(14, 0, 0): None,
+                   datetime.time(15, 0, 0): None,
+                   datetime.time(16, 0, 0): None}}
+
+    rev_obj_dic = {8: {1: None, 2: None, 3: None, 4: None, 5: None},
+                   9: {1: None, 2: None, 3: None, 4: None, 5: None},
+                   10: {1: None, 2: None, 3: None, 4: None, 5: None},
+                   11: {1: None, 2: None, 3: None, 4: None, 5: None},
+                   12: {1: None, 2: None, 3: None, 4: None, 5: None},
+                   13: {1: None, 2: None, 3: None, 4: None, 5: None},
+                   14: {1: None, 2: None, 3: None, 4: None, 5: None},
+                   15: {1: None, 2: None, 3: None, 4: None, 5: None},
+                   16: {1: None, 2: None, 3: None, 4: None, 5: None},
+                   }
+
+
     obj_arr = []
     # inner_arr=[]
     for cs in model:
@@ -680,45 +741,145 @@ def studentSchedule(request):
         start_time = cs.start_time
         end_time = cs.end_time
         day = cs.days
-        if day == 1:
+
+        print(day)
+        print(type(day))
+
+
+        if day == '1':
             day = 1
-        elif day == 2:
+        elif day == '2':
             day = 2
-        elif day == 3:
+        elif day == '3':
             day = 3
-        elif day == 4:
+        elif day == '4':
             day = 4
-        elif day == 5:
+        elif day == '5':
             day = 5
         else:
             day = None
 
-        if start_time =='08:00 AM' and end_time !='08:00 AM':
-            start_time = '09:00 AM'
-        if start_time =='09:00 AM' and end_time !='09:00 AM':
-            start_time = '10:00 AM'
-        if start_time =='10:00 AM' and end_time !='10:00 AM':
-            start_time = '11:00 AM'
-        if start_time =='11:00 AM' and end_time !='11:00 AM':
-            start_time = '12:00 AM'
-        if start_time =='12:00 AM' and end_time !='12:00 AM':
-            start_time = '13:00 AM'
-        if start_time =='13:00 AM' and end_time !='13:00 AM':
-            start_time = '14:00 AM'
-        if start_time =='14::00 AM' and end_time !='14::00 AM':
-            start_time = '15:00 AM'
-        if start_time =='15:00 AM' and end_time !='15:00 AM':
-            start_time = '16:00 AM'
+        # datetime.time(8,00,00)
+
+        # print(datetime.time(8,0,0))
+        # print(start_time)
+        # print(type(start_time))
+        # print(end_time)
+
+        if start_time == datetime.time(8,0,0) and end_time != datetime.time(8,0,0):
+            if day != None:
+                obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
+                obj_arr.append(obj)
+                # obj_dic[day].append({start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}})
+                # obj_dic[day] = {start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}}
+                obj_dic[day][start_time] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+                rev_obj_dic[8][day] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+
+                # obj_dic[day][datetime.time(8,0,0)] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+
+            # obj_dic = {'day': {day: {start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}}}}
+
+
+            start_time = datetime.time(9,0,0)
+
+        if start_time == datetime.time(9,0,0) and end_time != datetime.time(9,0,0):
+            if day != None:
+                obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
+                obj_arr.append(obj)
+                # obj_dic[day].append({start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}})
+                obj_dic[day][start_time] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+                rev_obj_dic[9][day] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+
+            start_time = datetime.time(10,0,0)
+
+        if start_time == datetime.time(10,0,0) and end_time != datetime.time(10,0,0):
+            if day != None:
+                obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
+                obj_arr.append(obj)
+                # obj_dic[day].append({start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}})
+                obj_dic[day][start_time] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+                rev_obj_dic[10][day] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+            start_time = datetime.time(11,0,0)
+
+        if start_time == datetime.time(11,0,0) and end_time != datetime.time(11,0,0):
+            if day != None:
+                obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
+                obj_arr.append(obj)
+                # obj_dic[day].append({start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}})
+                obj_dic[day][start_time] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+                rev_obj_dic[11][day] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+            start_time = datetime.time(12,0,0)
+
+        if start_time == datetime.time(12,0,0) and end_time != datetime.time(12,0,0):
+            if day != None:
+                obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
+                obj_arr.append(obj)
+                # obj_dic[day].append({start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}})
+                obj_dic[day][start_time] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+                rev_obj_dic[12][day] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+            start_time = datetime.time(13,0,0)
+
+        if start_time == datetime.time(13,0,0) and end_time != datetime.time(13,0,0):
+            if day != None:
+                obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
+                obj_arr.append(obj)
+                # obj_dic[day].append({start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}})
+                obj_dic[day][start_time] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+                rev_obj_dic[13][day] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+            start_time = datetime.time(14,0,0)
+
+        if start_time == datetime.time(14,0,0) and end_time != datetime.time(14,0,0):
+            if day != None:
+                obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
+                obj_arr.append(obj)
+                # obj_dic[day].append({start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}})
+                obj_dic[day][start_time] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+                rev_obj_dic[14][day] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+            start_time = datetime.time(15,0,0)
+
+        if start_time == datetime.time(15,0,0) and end_time != datetime.time(15,0,0):
+            if day != None:
+                obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
+                obj_arr.append(obj)
+                # obj_dic[day].append({start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}})
+                obj_dic[day][start_time] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+                rev_obj_dic[15][day] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+            start_time = datetime.time(16,0,0)
+
+        if start_time == datetime.time(16,0,0) and end_time != datetime.time(16,0,0):
+            if day != None:
+                obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
+                obj_arr.append(obj)
+                # obj_dic[day].append({start_time: {'subject_name': subject_name, 'subject_id': cs.subject.id}})
+                obj_dic[day][start_time] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+                rev_obj_dic[16][day] = {'subject_name': subject_name, 'subject_id': cs.subject.id}
+            start_time = datetime.time(17,0,0)
+
         else:
             start_time = None
-
-        obj = {'day': day, 'start_time': start_time}
-        print(obj["day"])
-        print(type(obj["day"]))
-        obj_arr.append(obj)
+            # obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
+            # obj_arr.append(obj)
 
 
-    return render(request, '../templates/student/studentSchedule.html', {'model': model, 'time': time, 'days': days})
+        # obj = {'day': day, 'start_time': start_time}
+        # print(obj["day"])
+        # print(type(obj["day"]))
+        # obj_arr.append(obj)
+    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    print("")
+    print(obj_arr)
+    print("")
+    print("")
+    print(obj_dic)
+    print("")
+    print("")
+    print(rev_obj_dic)
+    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+
+
+    return render(request, '../templates/student/studentSchedule.html', {'model': model, 'time': time, 'days': days, 'obj_arr': obj_arr, 'obj_dic': obj_dic, 'rev_obj_dic': rev_obj_dic})
 
 
 def my_class(request):
