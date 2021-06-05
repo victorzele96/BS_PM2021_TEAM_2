@@ -14,27 +14,57 @@
 {% endblock %}
 
 {% block content %}
-    <div>
-        <h1>Subject</h1>
+    <h1>{{ subject.subject_name }}</h1>
+    <a class="switch-user-view" href="{% url 'receive' teacher.id  %}"> Send Msg to {{ teacher.username }} </a>
+    <div class="table-wrapper">
+
         <table class="fl-table">
             <thead>
             <tr>
 
-                <th>Subject Name</th>
-                <th>meeting</th>
+
+                <th>Zoom meeting</th>
 
 
             </tr>
             </thead>
             <tbody>
-                <td>Subject Name</td>
-                <td>meeting</td>
-{#                <tr>#}
-{#                    <td>check1 </td>#}
-{#                    <td>check2 </td>#}
-{#                    <td><a href="{% url 'teacher_add_exercise' 0 %}"><i style="font-size: 25px; color: black" class="fa fa-plus"> </i> </a> </td>#}
-{#                    <td>check4 </td>#}
-{#                </tr>#}
+
+                {% if subject_class.meeting %}
+                    <td><a href="{{subject_class.meeting}}">lesson meeting</a></td>
+                {% else %}
+                    <td> No meeting</td>
+                {% endif %}
+            <tbody>
+        </table>
+    </div>
+    <h1> Files </h1>
+    <div class="table-wrapper">
+
+        <table class="fl-table">
+            <thead>
+            <tr>
+
+
+                <th>File</th>
+                <th>Description</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+
+                {% if files %}
+                    {% for file in files %}
+                        <tr>
+                            <td><a href="{% url 'download' file.id %}">{{ file.name }}</a></td>
+{#                            <td><a href="{{ file.file.url }}" download="{{ file.file.url }}">{{ file.name }}</a></td>#}
+                            <td> {{ file.description }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td> No Files</td>
+                {% endif %}
             <tbody>
         </table>
     </div>

@@ -1,6 +1,9 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+from django.conf import settings
+import os
+
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -335,11 +338,11 @@ def add_subject_to_class(request):
 
             messages.success(request, f"New new_connection: {new_connection} has been saved")
 
-            return redirect('view_class')
+            return redirect('view_class', new_connection.class_room.id)
 
         else:
-            for msg in form.error_messages:
-                messages.error(request, f"{msg}: {form.error_messages[msg]}")
+            # for msg in form.error_messages:
+            #     messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
             return render(request, '../templates/school/class/add_subject_to_class.html', {"form": form})
 
@@ -672,7 +675,7 @@ def studentSchedule(request):
     days = [1, 2, 3, 4, 5, 6]
 
     # classroom = Classroom.objects.get()
-    model = ClassSubject.objects.filter(id=class_connection.class_room.id)
+    model = ClassSubject.objects.filter(class_room_id=class_connection.class_room.id)
 
     # arr[time.len()][days.len()][]
 
@@ -734,6 +737,9 @@ def studentSchedule(request):
                    16: {1: None, 2: None, 3: None, 4: None, 5: None},
                    }
 
+    for key, val in rev_obj_dic.items():
+        for d in val.keys():
+            rev_obj_dic[key][d] = {'subject_name': None, 'subject_id': None}
 
     obj_arr = []
     # inner_arr=[]
@@ -743,12 +749,10 @@ def studentSchedule(request):
         end_time = cs.end_time
         day = cs.days
 
-        print(day)
-        print(type(day))
+        # print(day)
+        # print(type(day))
 
-        for key,val in rev_obj_dic.items():
-            for d in val.keys():
-                rev_obj_dic[key][d]= {'subject_name': None, 'subject_id': None}
+
 
 
 
@@ -873,18 +877,18 @@ def studentSchedule(request):
         # print(obj["day"])
         # print(type(obj["day"]))
         # obj_arr.append(obj)
-    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-    print("")
-    print(obj_arr)
-    print("")
-    print("")
-    print(obj_dic)
-    print("")
-    print("")
-    print(rev_obj_dic)
-    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-    print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    # print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    # print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    # print("")
+    # print(obj_arr)
+    # print("")
+    # print("")
+    # print(obj_dic)
+    # print("")
+    # print("")
+    # print(rev_obj_dic)
+    # print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    # print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
 
 
@@ -892,54 +896,62 @@ def studentSchedule(request):
     return render(request, '../templates/student/studentSchedule.html', {'model': model, 'time': time, 'days': days, 'obj_arr': obj_arr, 'obj_dic': obj_dic, 'rev_obj_dic': rev_obj_dic})
 
 
-def s_view_subject(request,pk):
-
-    return render(request, '../templates/student/s_view_subject.html', {"model":Subject.objects.get(id=pk)})
+def s_view_subject(request, pk):
+    subject = Subject.objects.get(id=pk)
+    student_classroom = StudentClassroom.objects.get(user_id=request.user.id)
+    my_classroom = Classroom.objects.get(id=student_classroom.class_room.id)
+    subject_class = ClassSubject.objects.get(subject_id=pk, class_room_id=my_classroom.id)
+    files = TeacherFile.objects.filter(subject_id=pk)
+    teacher= User.objects.get(id=subject.teacher_id)
+    return render(request, '../templates/student/s_view_subject.html', {"subject": subject, 'subject_class': subject_class, 'files': files, 'teacher': teacher})
 
 
 def my_class(request):
-    # sc = StudentClassroom.objects.get(user=request.user)
-    # # print(sc)
-    # # sc.class_room
-    # cr = Classroom.objects.get(id=sc.class_room.id)
-    # print(cr)
-    # teacher_id = cr.teacher_id
-    # print(teacher_id)
-    # teacher = User.objects.get(id=teacher_id)
-    # print(teacher)
-    #
-    # # list_of_ids = []
-    # # for s in cr:
-    # #     list_of_ids.append(s.subject.id)
-    # # sub_1 = ClassSubject.objects.filter(id__in=list_of_ids)
-    # # print(sub_1)
-    #
-    # cs = ClassSubject.objects.filter(class_room=cr.id)
-    # print(cs)
-    #
-    # list_of_ids = []
-    # for s in cs:
-    #     list_of_ids.append(s.id)
-    #
-    #
-    # sub=Subject.objects.filter(id__in=list_of_ids)
-    # print(sub)
-    # # print(type(cr))
-    # print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-    # print(sub)
-    # print(sub.first())
-    # print(type(sub))
+    class_id = StudentClassroom.objects.get(user_id=request.user.id).class_room.id
+    classroom = Classroom.objects.get(id=class_id)
+    students_ids = StudentClassroom.objects.filter(class_room_id=class_id)
+
+    list_of_ids = []
+    for s in students_ids:
+        if s.user.id != request.user.id:
+            list_of_ids.append(s.user.id)
+    user = User.objects.filter(id__in=list_of_ids)
+
+    class_chat= Class_Chat.objects.filter(receiver_class_id=classroom.id)
+
+    return render(request, '../templates/student/my_class/my_class.html', {'classroom': classroom, 'users': user, 'class_chat': class_chat})
 
 
-    # return render(request, '../templates/student/my_class/my_class.html', {
-    #     'StudentClassroom': sc,
-    #     'Classroom': cr,
-    #     'Teacher': teacher,
-    #     'ClassSubject': cs,
-    #     'Subject': sub})
 
-    return render(request, '../templates/student/my_class/my_class.html', {})
+def class_msg(request, pk):
+    if request.method == 'POST':
+        form = ClassChatReceiveForm(request.POST)
 
+        if form.is_valid():
+            new_msg = Class_Chat(sender=request.user, receiver_class=Classroom.objects.get(id=pk),
+                                   msg=request.POST['msg'], publish_date=datetime.now())
+            new_msg.save()
+            return redirect('my_class')
+        else:
+            print(form.errors)
+            return HttpResponse('you are loser !!! try again')
+
+    form = PrivateChatReceiveForm()
+
+    return render(request=request, template_name="../templates/receive.html", context={"form": form})
+
+
+
+def download(request, pk):
+    act_file = TeacherFile.objects.get(id=pk)
+    file_path = os.path.join(settings.MEDIA_ROOT, str(act_file.file))
+
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
 
 ##########################################################################################
 
@@ -1036,25 +1048,25 @@ def login_request(request):
 #
 # ### subject test
 #
-# def my_test(request):
-#     if request.method == 'POST':
-#         form = SubjectForm(request.POST)
-#         if form.is_valid():
-#             # form.teacher=User.objects.get(id=form.teacher)
-#
-#             obj = form.save(commit=False)
-#             obj.save()
-#             return redirect('/school')
-#
-#         else:
-#             messages.error(request, "Invalid username or password.")
-#             return render(request=request,
-#                           template_name="../templates/school/MY_TEST.html",
-#                           context={"form": form})
-#     form = SubjectForm()
-#     return render(request=request,
-#                   template_name="../templates/school/MY_TEST.html",
-#                   context={"form": form})
+def my_test(request):
+    if request.method == 'POST':
+        form = SubjectForm(request.POST)
+        if form.is_valid():
+            # form.teacher=User.objects.get(id=form.teacher)
+
+            obj = form.save(commit=False)
+            obj.save()
+            return redirect('/school')
+
+        else:
+            messages.error(request, "Invalid username or password.")
+            return render(request=request,
+                          template_name="../templates/school/create_subject.html",
+                          context={"form": form})
+    form = SubjectForm()
+    return render(request=request,
+                  template_name="../templates/school/create_subject.html",
+                  context={"form": form})
 
 
 # ### subject test
