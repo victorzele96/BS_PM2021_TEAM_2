@@ -14,6 +14,39 @@
 {% block content %}
 
 {#    <div id="teacher" class="table-wrapper">#}
+{#        <table>#}
+{#            <thead>#}
+{#              <tr>#}
+{#                <th scope="col" class="top-row" style="text-align: center">Time</th>#}
+{#                <th scope="col" class="top-row">Sun</th>#}
+{#                <th scope="col" class="top-row">Mon</th>#}
+{#                <th scope="col" class="top-row">Tue</th>#}
+{#                <th scope="col" class="top-row">Wed</th>#}
+{#                <th scope="col" class="top-row">Thu</th>#}
+{#                <th scope="col" class="top-row">Fri</th>#}
+{#              </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{#               {% for t in time %}#}
+{#                  <tr>#}
+{#                    <th scope="row" class="light-gray">{{ t }}</th>#}
+{#                      {% for d in days %}#}
+{#                        {%  %}#}
+{#                        <td rowspan='1'class="math">Math<br>Teacher 1</td>#}
+{#                        <td rowspan='1'class="art">Arts<br>Teacher 5</td>#}
+{#                        <td rowspan='1'class="math">Math<br>Teacher 1</td>#}
+{#                        <td rowspan='1'class="lab">Science Lab<br>Teacher 1</td>#}
+{#                        <td rowspan='1'class="fitness">Fitness & Sport<br>Teacher 7</td>#}
+{#                        <td rowspan='1'class="fitness">Fitness & Sport<br>Teacher 7</td>#}
+{#                      {% endfor %}#}
+{#                  </tr>#}
+{#               {% endfor %}#}
+{#            </tbody>#}
+{#      </table>#}
+{#    </br></br></br>#}
+{#    </div>#}
+
+
         <table>
             <thead>
               <tr>
@@ -27,22 +60,52 @@
               </tr>
             </thead>
             <tbody>
+{#                {% for key,val in obj_dic %}#}
+{#                  {% if key == 1 %}#}
+{#                        {% if val[datetime.time(8, 0)] != None %}#}
+{#                        {% if key == 1 %}#}
+{#                        {% endif %}#}
+{#                    {% elif key == 2 %}#}
+{#                    {% elif key == 3 %}#}
+{#                    {% elif key == 4 %}#}
+{#                    {% elif key == 5 %}#}
+{#                    {% endif %}#}
+{##}
+{##}
+{#                {% endfor %}#}
+
+                {% for time in rev_obj_dic %}
+                    {% if time == 8 %}
+
+                    {% elif time == 9  %}
+                    {% elif time == 10  %}
+                    {% elif time == 11  %}
+                    {% elif time == 12  %}
+                    {% elif time == 13  %}
+                    {% elif time == 14  %}
+                    {% elif time == 15  %}
+                    {% elif time == 16  %}
+                    {% endif %}
+
+
+                {% endfor %}
+
+
+
                {% for t in time %}
                   <tr>
                     <th scope="row" class="light-gray">{{ t }}</th>
                       {% for d in days %}
-{#                        {%  %}#}
+
                         <td rowspan='1'class="math">Math<br>Teacher 1</td>
-{#                        <td rowspan='1'class="art">Arts<br>Teacher 5</td>#}
-{#                        <td rowspan='1'class="math">Math<br>Teacher 1</td>#}
-{#                        <td rowspan='1'class="lab">Science Lab<br>Teacher 1</td>#}
-{#                        <td rowspan='1'class="fitness">Fitness & Sport<br>Teacher 7</td>#}
-{#                        <td rowspan='1'class="fitness">Fitness & Sport<br>Teacher 7</td>#}
+
                       {% endfor %}
                   </tr>
                {% endfor %}
             </tbody>
       </table>
     </br></br></br>
-{#    </div>#}
+
+
+
 {% endblock %}
