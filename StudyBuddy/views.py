@@ -887,7 +887,14 @@ def studentSchedule(request):
     print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
 
+
+
     return render(request, '../templates/student/studentSchedule.html', {'model': model, 'time': time, 'days': days, 'obj_arr': obj_arr, 'obj_dic': obj_dic, 'rev_obj_dic': rev_obj_dic})
+
+
+def s_view_subject(request,pk):
+
+    return render(request, '../templates/student/s_view_subject.html', {"model":Subject.objects.get(id=pk)})
 
 
 def my_class(request):

@@ -1,0 +1,83 @@
+{% extends 'school/schoolHome.html' %}
+
+{% load static %}
+{% block title %}
+
+    <head>
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/userList.css' %}" />
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/teacherStyles/exerciseView.css' %}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <h2 style="text-align: center; font-size: 50px">View Task</h2>{% endblock %}
+
+{% block content %}
+    <h3> Click <a href="#popup1" class="btn fa fa-plus"> </a> to add exercise !</h3>
+
+    <div id="popup1" class="overlay">
+        <div class="popup">
+            <h2>Adding exercise</h2>
+            <a class="close" href="#">&times;</a>
+    {#           <form action="{% url "upload_file" pk %}" method="POST">       form----------------------------------------------------  #}
+              <form id="form-id" action="{% url "teacher_add_task" ret_pk %}" method="POST">
+                  {% csrf_token %}
+
+                    <div class="ans">
+                      <input name="description" type="text" required>
+                      <label>Description</label>
+                    </div>
+
+                    <div class="ans">
+                      <input name="start_time" type="date" required>
+                      <label>Start Time</label>
+                    </div>
+
+                    <div class="ans">
+                      <input name="end_time" type="date" required>
+                      <label>End Time</label>
+                    </div>
+                      <a type="submit" class="save" onclick="document.forms['form-id'].submit();"> Save </a>
+        {#              <button class="save" id="save" type="submit" href="{% url 'teacher_add_exercise' 96 %}"> Save </button>#}
+              </form>
+        </div>
+    </div>
+
+
+
+    <div id="teacher" class="table-wrapper">
+        <table class="fl-table">
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Edit</th>
+                <th>Delete</th>
+
+            </tr>
+            </thead>
+            <tbody>
+{#                {% for m in model %}#}
+{#                    <tr>#}
+{#                        <td> {{m.description}}</td>#}
+{#                        <td> {{m.days}}</td>#}
+{#                        <td><a class="" href="#"> Download  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
+{#                        <td><a class="" href="#"> Delete  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
+{#                        #}
+{#                        <td><a class="" href="{% url 'view_class' s.id %}"> Remove  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
+{#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+            {% for m2 in model_2 %}
+                <tr>
+                    <td>{{ m2.description }}</td>
+                    <td>{{ m2.start_time }}</td>
+                    <td>{{ m2.end_time }}</td>
+                    <td><a href="{% url 'teacher_exercise_view' m2.id %}"><i style="font-size: 25px; color: black" class="fa fa-plus"> </i> </a> </td>
+                    <td>remove</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
