@@ -74,6 +74,8 @@ urlpatterns = [
     path("student/", views.studentHome, name="studentHome"),
     path("student/student_update/<int:pk>", views.student_update_from_student,
          name="student_update_from_student"),
+
+    path("student/s_view_subject/<int:pk>", views.s_view_subject, name="s_view_subject"),
     path("student/studentSchedule", views.studentSchedule, name="studentSchedule"),
     path("student/my_class", views.my_class, name="my_class"),
 
