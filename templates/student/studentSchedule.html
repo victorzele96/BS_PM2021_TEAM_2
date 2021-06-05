@@ -56,7 +56,7 @@
                 <th scope="col" class="top-row">Tue</th>
                 <th scope="col" class="top-row">Wed</th>
                 <th scope="col" class="top-row">Thu</th>
-                <th scope="col" class="top-row">Fri</th>
+{#                <th scope="col" class="top-row">Fri</th>#}
               </tr>
             </thead>
             <tbody>
@@ -75,33 +75,45 @@
 {#                {% endfor %}#}
 
                 {% for time in rev_obj_dic %}
-                    {% if time == 8 %}
+                    <tr>
+                        {% if time == 8 %}
+                            <th scope="row" class="light-gray">{{ time }}</th>#}
+                            {% for day in time %}
+                                {% for sub,id in day%}
+                                    {% if sub != None %}
+{#                                        <td rowspan='1'class="math">{{ sub }}<br>{{ id}}</td>#}
+                                        <td rowspan='1'class="math">break<br>break</td>
+                                    {% else %}
+                                        <td rowspan='1'class="math">break<br>break</td>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
 
-                    {% elif time == 9  %}
-                    {% elif time == 10  %}
-                    {% elif time == 11  %}
-                    {% elif time == 12  %}
-                    {% elif time == 13  %}
-                    {% elif time == 14  %}
-                    {% elif time == 15  %}
-                    {% elif time == 16  %}
-                    {% endif %}
+                        {% elif time == 9  %}
+                        {% elif time == 10  %}
+                        {% elif time == 11  %}
+                        {% elif time == 12  %}
+                        {% elif time == 13  %}
+                        {% elif time == 14  %}
+                        {% elif time == 15  %}
+                        {% elif time == 16  %}
+                        {% endif %}
 
-
+                    </tr>
                 {% endfor %}
 
 
 
-               {% for t in time %}
-                  <tr>
-                    <th scope="row" class="light-gray">{{ t }}</th>
-                      {% for d in days %}
-
-                        <td rowspan='1'class="math">Math<br>Teacher 1</td>
-
-                      {% endfor %}
-                  </tr>
-               {% endfor %}
+{#               {% for t in time %}#}
+{#                  <tr>#}
+{#                    <th scope="row" class="light-gray">{{ t }}</th>#}
+{#                      {% for d in days %}#}
+{##}
+{#                        <td rowspan='1'class="math">Math<br>Teacher 1</td>#}
+{##}
+{#                      {% endfor %}#}
+{#                  </tr>#}
+{#               {% endfor %}#}
             </tbody>
       </table>
     </br></br></br>
