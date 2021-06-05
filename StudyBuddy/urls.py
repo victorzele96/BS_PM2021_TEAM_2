@@ -50,8 +50,8 @@ urlpatterns = [
 
     # Teacher
     path("teacher/", views.teacherHome, name="teacherHome"),
-    path("teacher/chat", views.chat, name="chat"),
-    path("teacher/chat/receive/<int:pk>", views.receive, name="receive"),
+    path("chat", views.chat, name="chat"),
+    path("chat/receive/<int:pk>", views.receive, name="receive"),
     path("teacher/send_msg", views.send_msg, name="send_msg"),
     path("teacher/add-exercise", views.add_exercise, name="add_exercise"),
     path("teacher/teacher_update/<int:pk>", views.teacher_update_from_teacher,

@@ -670,6 +670,54 @@ def studentSchedule(request):
 
     # classroom = Classroom.objects.get()
     model = ClassSubject.objects.filter(id=class_connection.class_room.id)
+
+    # arr[time.len()][days.len()][]
+
+    obj_arr = []
+    # inner_arr=[]
+    for cs in model:
+        subject_name = cs.subject.subject_name
+        start_time = cs.start_time
+        end_time = cs.end_time
+        day = cs.days
+        if day == 1:
+            day = 1
+        elif day == 2:
+            day = 2
+        elif day == 3:
+            day = 3
+        elif day == 4:
+            day = 4
+        elif day == 5:
+            day = 5
+        else:
+            day = None
+
+        if start_time =='08:00 AM' and end_time !='08:00 AM':
+            start_time = '09:00 AM'
+        if start_time =='09:00 AM' and end_time !='09:00 AM':
+            start_time = '10:00 AM'
+        if start_time =='10:00 AM' and end_time !='10:00 AM':
+            start_time = '11:00 AM'
+        if start_time =='11:00 AM' and end_time !='11:00 AM':
+            start_time = '12:00 AM'
+        if start_time =='12:00 AM' and end_time !='12:00 AM':
+            start_time = '13:00 AM'
+        if start_time =='13:00 AM' and end_time !='13:00 AM':
+            start_time = '14:00 AM'
+        if start_time =='14::00 AM' and end_time !='14::00 AM':
+            start_time = '15:00 AM'
+        if start_time =='15:00 AM' and end_time !='15:00 AM':
+            start_time = '16:00 AM'
+        else:
+            start_time = None
+
+        obj = {'day': day, 'start_time': start_time}
+        print(obj["day"])
+        print(type(obj["day"]))
+        obj_arr.append(obj)
+
+
     return render(request, '../templates/student/studentSchedule.html', {'model': model, 'time': time, 'days': days})
 
 
