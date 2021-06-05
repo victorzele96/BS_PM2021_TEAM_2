@@ -5,7 +5,7 @@ from StudyBuddy.models import TeacherForm as TeacherExtra, StudentForm as Studen
 from .models import Article, StudentClassroom, Classroom, Subject, ClassSubject
 from .models import Exercise, Subject_Exam, Subject_Exercise, Student_Exercises
 from .models import Subject_Exam, Subject_Exercise, Student_Exercises
-from .forms import ArticleForm, PrivateChatForm, ClassChatForm
+from .forms import ArticleForm, PrivateChatTestForm, ClassChatTestForm
 from datetime import datetime
 from django.utils import timezone
 
@@ -148,7 +148,6 @@ class LoginTest(TestCase):
         self.assertFalse(test)
         print("\nWrong Input Login Unit Test - ", negative_test_result(test))
         return test
-
 # Login tests
 
 
@@ -160,16 +159,30 @@ class DeleteTeacherTest(TestCase):
     @classmethod
     def setUpClass(cls):
         """
-            Printing the testing class start
+            Creating teacher user that can be used in all the test methods in the class
+            and printing the testing class start
         """
         super(DeleteTeacherTest, cls).setUpClass()
+        cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher', first_name='tea',
+                                                           last_name='cher', email='teacher@teach.er')
+        cls.teacher.is_superuser = False
+        cls.teacher.is_staff = True
+        cls.teacher.save()
+
+        cls.teacher_extra = TeacherExtra()
+        cls.teacher_extra.user = cls.teacher
+        cls.teacher_extra.phone = '0521234567'
+        cls.teacher_extra.subjects = 'math'
+
+        cls.teacher_extra.save()
         print("\n__Delete Teacher SetUp__")
         print("Module - result")
 
     @classmethod
     def tearDownClass(cls):
         """
-            Printing the testing class end
+            Deleting the teacher user at the end of class actions
+            and printing the testing class end
         """
         super(DeleteTeacherTest, cls).tearDownClass()
         print("\n__Delete Teacher TearDown__")
@@ -183,14 +196,28 @@ class DeleteTeacherTest(TestCase):
             Returns:
                 Boolean: True or False
         """
-        self.teacher = get_user_model().objects.create_user(username='teacher', password='teacher',
-                                                            email='teacher@teach.er', first_name='tea',
-                                                            last_name='cher')
-        self.teacher.save()
-        if self.teacher is not None:
-            self.teacher.delete()
-            self.teacher = None
-        test = self.teacher is None
+        try:
+            teacher_extra = TeacherExtra.objects.get(id=1)
+            teacher_extra.delete()
+        except:
+            test = False
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            teacher.delete()
+        except:
+            test = False
+
+        try:
+            teacher_extra = TeacherExtra.objects.get(id=1)
+            test = False
+        except:
+            test = True
+
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            test = False
+        except:
+            test = True
 
         self.assertTrue(test)
         print("\nCorrect Delete Teacher Unit Test - ", positive_test_result(test))
@@ -211,10 +238,19 @@ class UpdateTeacherDetailsTest(TestCase):
         super(UpdateTeacherDetailsTest, cls).setUpClass()
         print("\n__Update Teacher Details SetUp__")
         print("Module - result")
-        cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher',
-                                                           email='teacher@teach.er', first_name='tea',
-                                                           last_name='cher')
+
+        cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher', first_name='tea',
+                                                           last_name='cher', email='teacher@teach.er')
+        cls.teacher.is_superuser = False
+        cls.teacher.is_staff = True
         cls.teacher.save()
+
+        cls.teacher_extra = TeacherExtra()
+        cls.teacher_extra.user = cls.teacher
+        cls.teacher_extra.phone = '0521234567'
+        cls.teacher_extra.subjects = 'math'
+
+        cls.teacher_extra.save()
 
     @classmethod
     def tearDownClass(cls):
@@ -224,39 +260,295 @@ class UpdateTeacherDetailsTest(TestCase):
         """
         super(UpdateTeacherDetailsTest, cls).tearDownClass()
         print("\n__Update Teacher Details TearDown__")
+        cls.teacher_extra.delete()
         cls.teacher.delete()
 
     # unit test
 
-    def test_unit_update_teacher_details(self, username='notTeacher', password='notTeacher',
-                                         email='notTeacher@teach.er', first_name='not', last_name='teacher'):
+    def test_unit_update_teacher_username(self, username='notTeacher'):
         """
             Update teacher user information testing function
 
             Args:
                 username (String): username input which is set as notTeacher by default
-                password (String): password input which is set as notTeacher by default
+
+            Returns:
+                Boolean: True or False
+        """
+        test = False
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            teacher.username = username
+            teacher.save()
+        except:
+            test = False
+
+        try:
+            teacher_extra = TeacherExtra.objects.get(id=1)
+        except:
+            test = False
+
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            if (teacher.username == username
+                    and teacher.password == self.teacher.password
+                    and teacher.email == self.teacher.email
+                    and teacher.first_name == self.teacher.first_name
+                    and teacher.last_name == self.teacher.last_name
+                    and teacher_extra.phone == self.teacher_extra.phone
+                    and teacher_extra.subjects == self.teacher_extra.subjects):
+                test = True
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Update Teacher Username Unit Test - ", positive_test_result(test))
+
+    def test_unit_update_teacher_email(self, email='notTeacher@teach.er'):
+        """
+            Update teacher user information testing function
+
+            Args:
                 email (String): email input which is set as notTeacher@teach.er by default
+
+            Returns:
+                Boolean: True or False
+        """
+        test = False
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            teacher.email = email
+            teacher.save()
+        except:
+            test = False
+
+        try:
+         teacher_extra = TeacherExtra.objects.get(id=1)
+        except:
+            test = False
+
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            if (teacher.username == self.teacher.username
+                    and teacher.password == self.teacher.password
+                    and teacher.email == email
+                    and teacher.first_name == self.teacher.first_name
+                    and teacher.last_name == self.teacher.last_name
+                    and teacher_extra.phone == self.teacher_extra.phone
+                    and teacher_extra.subjects == self.teacher_extra.subjects):
+                test = True
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Update Teacher Email Unit Test - ", positive_test_result(test))
+
+    def test_unit_update_teacher_first_name(self, first_name='not'):
+        """
+            Update teacher user information testing function
+
+            Args:
                 first_name (String): first name input which is set as not by default
+
+            Returns:
+                Boolean: True or False
+        """
+        test = False
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            teacher.first_name = first_name
+            teacher.save()
+        except:
+            test = False
+
+        try:
+         teacher_extra = TeacherExtra.objects.get(id=1)
+        except:
+            test = False
+
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            if (teacher.username == self.teacher.username
+                    and teacher.password == self.teacher.password
+                    and teacher.email == self.teacher.email
+                    and teacher.first_name == first_name
+                    and teacher.last_name == self.teacher.last_name
+                    and teacher_extra.phone == self.teacher_extra.phone
+                    and teacher_extra.subjects == self.teacher_extra.subjects):
+                test = True
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Update Teacher First Name Unit Test - ", positive_test_result(test))
+
+    def test_unit_update_teacher_last_name(self, last_name='not'):
+        """
+            Update teacher user information testing function
+
+            Args:
                 last_name (String): last name input which is set as teacher by default
 
             Returns:
                 Boolean: True or False
         """
-        if self.teacher is not None:
-            self.teacher.username = username
-            self.teacher.password = password
-            self.teacher.email = email
-            self.teacher.first_name = first_name
-            self.teacher.last_name = last_name
+        test = False
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            teacher.last_name = last_name
+            teacher.save()
+        except:
+            test = False
 
-            self.teacher.save()
+        try:
+         teacher_extra = TeacherExtra.objects.get(id=1)
+        except:
+            test = False
 
-        test = (self.teacher.username == username and self.teacher.password == password and self.teacher.email == email
-                and self.teacher.first_name == first_name and self.teacher.last_name == last_name)
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            if (teacher.username == self.teacher.username
+                    and teacher.password == self.teacher.password
+                    and teacher.email == self.teacher.email
+                    and teacher.first_name == self.teacher.first_name
+                    and teacher.last_name == last_name
+                    and teacher_extra.phone == self.teacher_extra.phone
+                    and teacher_extra.subjects == self.teacher_extra.subjects):
+                test = True
+        except:
+            test = False
 
         self.assertTrue(test)
-        print("\nCorrect Update Teacher Details Unit Test - ", positive_test_result(test))
+        print("\nCorrect Update Teacher Last Name Unit Test - ", positive_test_result(test))
+
+    def test_unit_update_teacher_phone(self, phone='0541239856'):
+        """
+            Update teacher user information testing function
+
+            Args:
+                phone (String): username input which is set as 0541239856 by default
+
+            Returns:
+                Boolean: True or False
+        """
+        test = False
+        try:
+            teacher = get_user_model().objects.get(id=1)
+        except:
+            test = False
+
+        try:
+         teacher_extra = TeacherExtra.objects.get(id=1)
+         teacher_extra.phone = phone
+         teacher_extra.save()
+        except:
+            test = False
+
+        try:
+            teacher_extra = TeacherExtra.objects.get(id=1)
+            if (teacher.username == self.teacher.username
+                    and teacher.password == self.teacher.password
+                    and teacher.email == self.teacher.email
+                    and teacher.first_name == self.teacher.first_name
+                    and teacher.last_name == self.teacher.last_name
+                    and teacher_extra.phone == phone
+                    and teacher_extra.subjects == self.teacher_extra.subjects):
+                test = True
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Update Teacher Phone Unit Test - ", positive_test_result(test))
+
+    def test_unit_update_teacher_subjects(self, subjects='english'):
+        """
+            Update teacher user information testing function
+
+            Args:
+                subjects (String): username input which is set as english by default
+
+            Returns:
+                Boolean: True or False
+        """
+        test = False
+        try:
+            teacher = get_user_model().objects.get(id=1)
+        except:
+            test = False
+
+        try:
+         teacher_extra = TeacherExtra.objects.get(id=1)
+         teacher_extra.subjects = subjects
+         teacher_extra.save()
+        except:
+            test = False
+
+        try:
+            teacher_extra = TeacherExtra.objects.get(id=1)
+            if (teacher.username == self.teacher.username
+                    and teacher.password == self.teacher.password
+                    and teacher.email == self.teacher.email
+                    and teacher.first_name == self.teacher.first_name
+                    and teacher.last_name == self.teacher.last_name
+                    and teacher_extra.phone == self.teacher_extra.phone
+                    and teacher_extra.subjects == subjects):
+                test = True
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Update Teacher Subjects Unit Test - ", positive_test_result(test))
+
+    def test_unit_update_teacher_information(self, username='notTeacher', email='notTeacher@teach.er',
+                                             first_name='not', last_name='not',
+                                             phone='0541239856', subjects='english'):
+        """
+            Update teacher user information testing function
+
+            Args:
+                username (String): username input which is set as notTeacher by default
+                email (String): email input which is set as notTeacher@teach.er by default
+                first_name (String): first name input which is set as not by default
+                last_name (String): last name input which is set as teacher by default
+                phone (String): last name input which is set as 0541239856 by default
+                subjects (String): last name input which is set as english by default
+
+            Returns:
+                Boolean: True or False
+        """
+        test = False
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            teacher.username = username
+            teacher.email = email
+            teacher.first_name = first_name
+            teacher.last_name = last_name
+        except:
+            test = False
+
+        try:
+         teacher_extra = TeacherExtra.objects.get(id=1)
+         teacher_extra.phone = phone
+         teacher_extra.subjects = subjects
+         teacher_extra.save()
+        except:
+            test = False
+
+        try:
+            teacher_extra = TeacherExtra.objects.get(id=1)
+            if (teacher.username == username
+                    and teacher.password == self.teacher.password
+                    and teacher.email == email
+                    and teacher.first_name == first_name
+                    and teacher.last_name == last_name
+                    and teacher_extra.phone == phone
+                    and teacher_extra.subjects == subjects):
+                test = True
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Update Teacher Information Unit Test - ", positive_test_result(test))
 # Update Teacher Details tests
 
 
@@ -275,17 +567,18 @@ class ViewTeacherDetailsTest(TestCase):
         print("\n__View Teacher Details SetUp__")
         print("Module - result")
 
-        cls.user_dict = {
-            'username': 'teacher',
-            'password': 'teacher',
-            'email': 'teacher@teach.er',
-            'first_name': 'tea',
-            'last_name': 'cher',
-        }
-
-        cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher',
-                                                           email='teacher@teach.er', first_name='tea', last_name='cher')
+        cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher', first_name='tea',
+                                                           last_name='cher', email='teacher@teach.er')
+        cls.teacher.is_superuser = False
+        cls.teacher.is_staff = True
         cls.teacher.save()
+
+        cls.teacher_extra = TeacherExtra()
+        cls.teacher_extra.user = cls.teacher
+        cls.teacher_extra.phone = '0521234567'
+        cls.teacher_extra.subjects = 'math'
+
+        cls.teacher_extra.save()
 
     @classmethod
     def tearDownClass(cls):
@@ -295,29 +588,25 @@ class ViewTeacherDetailsTest(TestCase):
         """
         super(ViewTeacherDetailsTest, cls).tearDownClass()
         print("\n__View Teacher Details TearDown__")
+        cls.teacher_extra.delete()
         cls.teacher.delete()
 
     # unit test
 
-    def test_unit_view_teacher_details(self, username='teacher', password='teacher', email='teacher@teach.er',
-                                       first_name='tea', last_name='cher'):
+    def test_unit_view_teacher_details(self):
         """
             View teacher user information testing function
-
-            Args:
-                username (String): username input which is set as teacher by default
-                password (String): password input which is set as teacher by default
-                email (String): email input which is set as teacher@teach.er by default
-                first_name (String): first name input which is set as tea by default
-                last_name (String): last name input which is set as cher by default
 
             Returns:
                 Boolean: True or False
         """
         teacher = get_user_model().objects.get(id=1)
+        teacher_extra = TeacherExtra.objects.get(id=1)
+
         test = (self.teacher.username == teacher.username and self.teacher.email == teacher.email
-                and self.teacher.first_name == teacher.first_name
-                and self.teacher.last_name == teacher.last_name)
+                and self.teacher.password == teacher.password and self.teacher.first_name == teacher.first_name
+                and self.teacher.last_name == teacher.last_name and self.teacher_extra.phone == teacher_extra.phone
+                and self.teacher_extra.subjects == teacher_extra.subjects)
 
         self.assertTrue(test)
         print("\nCorrect View Teacher Details Unit Test - ", positive_test_result(test))
@@ -332,16 +621,36 @@ class DeleteStudentTest(TestCase):
     @classmethod
     def setUpClass(cls):
         """
-            Printing the testing class start
+            Creating student user that can be used in all the test methods in the class
+            and printing the testing class start
         """
         super(DeleteStudentTest, cls).setUpClass()
+
+        cls.student = get_user_model().objects.create_user(username='student', password='student',
+                                                           email='student@stude.nt', first_name='stud',
+                                                           last_name='ent')
+        cls.student.is_superuser = False
+        cls.student.is_staff = False
+        cls.student.save()
+
+        cls.student_extra = StudentExtra()
+        cls.student_extra.user = cls.student
+        cls.student_extra.grade = 'A1'
+        cls.student_extra.birth_date = '1995-05-01'
+        cls.student_extra.phone = '0521454567'
+        cls.student_extra.parentName_F = 'bob'
+        cls.student_extra.parentPhone_F = '052987125'
+        cls.student_extra.parentName_M = 'bella'
+        cls.student_extra.parentPhone_M = '0529871256'
+
         print("\n__Delete Student SetUp__")
         print("Module - result")
 
     @classmethod
     def tearDownClass(cls):
         """
-            Printing the testing class end
+            Deleting the student user at the end of class actions
+            and printing the testing class end
         """
         super(DeleteStudentTest, cls).tearDownClass()
         print("\n__Delete Student TearDown__")
@@ -355,14 +664,28 @@ class DeleteStudentTest(TestCase):
             Returns:
                 Boolean: True or False
         """
-        self.student = get_user_model().objects.create_user(username='student', password='student',
-                                                            email='student@stude.nt', first_name='stud',
-                                                            last_name='ent')
-        self.student.save()
-        if self.student is not None:
-            self.student.delete()
-            self.student = None
-        test = self.student is None
+        try:
+            student_extra = StudentExtra.objects.get(id=1)
+            student_extra.delete()
+        except:
+            test = False
+        try:
+            student = get_user_model().objects.get(id=1)
+            student.delete()
+        except:
+            test = False
+
+        try:
+            student_extra = TeacherExtra.objects.get(id=1)
+            test = False
+        except:
+            test = True
+
+        try:
+            student = get_user_model().objects.get(id=1)
+            test = False
+        except:
+            test = True
 
         self.assertTrue(test)
         print("\nCorrect Delete Student Unit Test - ", positive_test_result(test))
@@ -383,9 +706,24 @@ class UpdateStudentDetailsTest(TestCase):
         super(UpdateStudentDetailsTest, cls).setUpClass()
         print("\n__Update Student Details SetUp__")
         print("Module - result")
+
         cls.student = get_user_model().objects.create_user(username='student', password='student',
-                                                           email='student@stude.nt', first_name='stud', last_name='ent')
+                                                           email='student@stude.nt', first_name='stud',
+                                                           last_name='ent')
+        cls.student.is_superuser = False
+        cls.student.is_staff = False
         cls.student.save()
+
+        cls.student_extra = StudentExtra()
+        cls.student_extra.user = cls.student
+        cls.student_extra.grade = 'A1'
+        cls.student_extra.birth_date = '1995-05-01'
+        cls.student_extra.personalPhone = '0521454567'
+        cls.student_extra.parentName_F = 'bob'
+        cls.student_extra.parentPhone_F = '052987125'
+        cls.student_extra.parentName_M = 'bella'
+        cls.student_extra.parentPhone_M = '0529871256'
+        cls.student_extra.save()
 
     @classmethod
     def tearDownClass(cls):
@@ -395,39 +733,506 @@ class UpdateStudentDetailsTest(TestCase):
         """
         super(UpdateStudentDetailsTest, cls).tearDownClass()
         print("\n__Update Student Details TearDown__")
+        cls.student_extra.delete()
         cls.student.delete()
 
     # unit test
 
-    def test_unit_update_student_details(self, username='notStudent', password='notStudent',
-                                         email='notStudent@stude.nt', first_name='not', last_name='student'):
+    def test_unit_update_student_username(self, username='notStudent'):
         """
-            Update student user information testing function
+            Update teacher user information testing function
 
             Args:
-                username (String): username input which is set as notStudent by default
-                password (String): password input which is set as notStudent by default
-                email (String): email input which is set as notStudent@stude.nt by default
-                first_name (String): first name input which is set as not by default
-                last_name (String): last name input which is set as student by default
+                username (String): username input which is set as notTeacher by default
 
             Returns:
                 Boolean: True or False
         """
-        if self.student is not None:
-            self.student.username = username
-            self.student.password = password
-            self.student.email = email
-            self.student.first_name = first_name
-            self.student.last_name = last_name
+        test = False
+        try:
+            student = get_user_model().objects.get(id=1)
+            student.username = username
+            student.save()
+        except:
+            test = False
 
-            self.student.save()
+        try:
+            student_extra = StudentExtra.objects.get(id=1)
+        except:
+            test = False
 
-        test = (self.student.username == username and self.student.password == password and self.student.email == email
-                and self.student.first_name == first_name and self.student.last_name == last_name)
+        try:
+            student = get_user_model().objects.get(id=1)
+            if (student.username == username
+                    and student.password == self.student.password
+                    and student.email == self.student.email
+                    and student.first_name == self.student.first_name
+                    and student.last_name == self.student.last_name
+                    and student_extra.grade == self.student_extra.grade
+                    and student_extra.personalPhone == self.student_extra.personalPhone
+                    and student_extra.parentName_F == self.student_extra.parentName_F
+                    and student_extra.parentPhone_F == self.student_extra.parentPhone_F
+                    and student_extra.parentName_M == self.student_extra.parentName_M
+                    and student_extra.parentPhone_M == self.student_extra.parentPhone_M):
+                test = True
+        except:
+            test = False
 
         self.assertTrue(test)
-        print("\nCorrect Update Student Details Unit Test - ", positive_test_result(test))
+        print("\nCorrect Update Student Username Unit Test - ", positive_test_result(test))
+
+    def test_unit_update_student_email(self, email='student@stude.nt'):
+        """
+            Update teacher user information testing function
+
+            Args:
+                email (String): email input which is set as student@stude.nt by default
+
+            Returns:
+                Boolean: True or False
+        """
+        test = False
+        try:
+            student = get_user_model().objects.get(id=1)
+            student.email = email
+            student.save()
+        except:
+            test = False
+
+        try:
+            student_extra = StudentExtra.objects.get(id=1)
+        except:
+            test = False
+
+        try:
+            student = get_user_model().objects.get(id=1)
+            if (student.username == self.student.username
+                    and student.password == self.student.password
+                    and student.email == email
+                    and student.first_name == self.student.first_name
+                    and student.last_name == self.student.last_name
+                    and student_extra.grade == self.student_extra.grade
+                    and student_extra.personalPhone == self.student_extra.personalPhone
+                    and student_extra.parentName_F == self.student_extra.parentName_F
+                    and student_extra.parentPhone_F == self.student_extra.parentPhone_F
+                    and student_extra.parentName_M == self.student_extra.parentName_M
+                    and student_extra.parentPhone_M == self.student_extra.parentPhone_M):
+                test = True
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Update Student Email Unit Test - ", positive_test_result(test))
+
+    def test_unit_update_student_first_name(self, first_name='not'):
+        """
+            Update teacher user information testing function
+
+            Args:
+                first_name (String): first name input which is set as not by default
+
+            Returns:
+                Boolean: True or False
+        """
+        test = False
+        try:
+            student = get_user_model().objects.get(id=1)
+            student.first_name = first_name
+            student.save()
+        except:
+            test = False
+
+        try:
+            student_extra = StudentExtra.objects.get(id=1)
+        except:
+            test = False
+
+        try:
+            student = get_user_model().objects.get(id=1)
+            if (student.username == self.student.username
+                    and student.password == self.student.password
+                    and student.email == self.student.email
+                    and student.first_name == first_name
+                    and student.last_name == self.student.last_name
+                    and student_extra.grade == self.student_extra.grade
+                    and student_extra.personalPhone == self.student_extra.personalPhone
+                    and student_extra.parentName_F == self.student_extra.parentName_F
+                    and student_extra.parentPhone_F == self.student_extra.parentPhone_F
+                    and student_extra.parentName_M == self.student_extra.parentName_M
+                    and student_extra.parentPhone_M == self.student_extra.parentPhone_M):
+                test = True
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Update Student First Name Unit Test - ", positive_test_result(test))
+
+    def test_unit_update_student_last_name(self, last_name='not'):
+        """
+            Update teacher user information testing function
+
+            Args:
+                last_name (String): last name input which is set as teacher by default
+
+            Returns:
+                Boolean: True or False
+        """
+        test = False
+        try:
+            student = get_user_model().objects.get(id=1)
+            student.last_name = last_name
+            student.save()
+        except:
+            test = False
+
+        try:
+            student_extra = StudentExtra.objects.get(id=1)
+        except:
+            test = False
+
+        try:
+            student = get_user_model().objects.get(id=1)
+            if (student.username == self.student.username
+                    and student.password == self.student.password
+                    and student.email == self.student.email
+                    and student.first_name == self.student.first_name
+                    and student.last_name == last_name
+                    and student_extra.grade == self.student_extra.grade
+                    and student_extra.personalPhone == self.student_extra.personalPhone
+                    and student_extra.parentName_F == self.student_extra.parentName_F
+                    and student_extra.parentPhone_F == self.student_extra.parentPhone_F
+                    and student_extra.parentName_M == self.student_extra.parentName_M
+                    and student_extra.parentPhone_M == self.student_extra.parentPhone_M):
+                test = True
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Update Teacher Last Name Unit Test - ", positive_test_result(test))
+
+    # def test_unit_update_student_grade(self, grade='A2'):
+    #     """
+    #         Update teacher user information testing function
+    #
+    #         Args:
+    #             grade (String): username input which is set as A2 by default
+    #
+    #         Returns:
+    #             Boolean: True or False
+    #     """
+    #     test = False
+    #     try:
+    #         student = get_user_model().objects.get(id=1)
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra.objects.get(id=1)
+    #         student_extra.grade = grade
+    #         student_extra.save()
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         teacher_extra = TeacherExtra.objects.get(id=1)
+    #         if (student.username == self.teacher.username
+    #                 and student.password == self.student.password
+    #                 and student.email == self.student.email
+    #                 and student.first_name == self.student.first_name
+    #                 and student.last_name == self.student.last_name
+    #                 and student_extra.grade == grade
+    #                 and student_extra.personalPhone == self.student_extra.personalPhone
+    #                 and student_extra.parentName_F == self.student_extra.parentName_F
+    #                 and student_extra.parentPhone_F == self.student_extra.parentPhone_F
+    #                 and student_extra.parentName_M == self.student_extra.parentName_M
+    #                 and student_extra.parentPhone_M == self.student_extra.parentPhone_M):
+    #             test = True
+    #     except:
+    #         test = False
+    #
+    #     self.assertTrue(test)
+    #     print("\nCorrect Update Teacher Grade Unit Test - ", positive_test_result(test))
+    #
+    # def test_unit_update_student_phone(self, personalPhone='0541239856'):
+    #     """
+    #         Update teacher user information testing function
+    #
+    #         Args:
+    #             personalPhone (String): username input which is set as 0541239856 by default
+    #
+    #         Returns:
+    #             Boolean: True or False
+    #     """
+    #     test = False
+    #     try:
+    #         student = get_user_model().objects.get(id=1)
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra.objects.get(id=1)
+    #         student_extra.personalPhone = personalPhone
+    #         student_extra.save()
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra().objects.get(id=1)
+    #         if (student.username == self.student.username
+    #                 and student.password == self.student.password
+    #                 and student.email == self.student.email
+    #                 and student.first_name == self.student.first_name
+    #                 and student.last_name == self.student.last_name
+    #                 and student_extra.grade == self.student_extra.grade
+    #                 and student_extra.personalPhone == personalPhone
+    #                 and student_extra.parentName_F == self.student_extra.parentName_F
+    #                 and student_extra.parentPhone_F == self.student_extra.parentPhone_F
+    #                 and student_extra.parentName_M == self.student_extra.parentName_M
+    #                 and student_extra.parentPhone_M == self.student_extra.parentPhone_M):
+    #             test = True
+    #     except:
+    #         test = False
+    #
+    #     self.assertTrue(test)
+    #     print("\nCorrect Update Student Phone Unit Test - ", positive_test_result(test))
+    #
+    # def test_unit_update_student_father_name(self, parentName_F='notBob'):
+    #     """
+    #         Update teacher user information testing function
+    #
+    #         Args:
+    #             parentName_F (String): username input which is set as notBob by default
+    #
+    #         Returns:
+    #             Boolean: True or False
+    #     """
+    #     test = False
+    #     try:
+    #         student = get_user_model().objects.get(id=1)
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra.objects.get(id=1)
+    #         student_extra.parentName_F = parentName_F
+    #         student_extra.save()
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra().objects.all()
+    #         if (student.username == self.student.username
+    #                 and student.password == self.student.password
+    #                 and student.email == self.student.email
+    #                 and student.first_name == self.student.first_name
+    #                 and student.last_name == self.student.last_name
+    #                 and student_extra.grade == self.student_extra.grade
+    #                 and student_extra.personalPhone == self.student_extra.personalPhone
+    #                 and student_extra.parentName_F == parentName_F
+    #                 and student_extra.parentPhone_F == self.student_extra.parentPhone_F
+    #                 and student_extra.parentName_M == self.student_extra.parentName_M
+    #                 and student_extra.parentPhone_M == self.student_extra.parentPhone_M):
+    #             test = True
+    #     except:
+    #         test = False
+    #
+    #     self.assertTrue(test)
+    #     print("\nCorrect Update Student Father Name Unit Test - ", positive_test_result(test))
+    #
+    # def test_unit_update_student_father_phone(self, parentPhone_F='0529871324'):
+    #     """
+    #         Update teacher user information testing function
+    #
+    #         Args:
+    #             parentPhone_F (String): username input which is set as 0529871324 by default
+    #
+    #         Returns:
+    #             Boolean: True or False
+    #     """
+    #     test = False
+    #     try:
+    #         student = get_user_model().objects.get(id=1)
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra.objects.get(id=1)
+    #         student_extra.parentPhone_F = parentPhone_F
+    #         student_extra.save()
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra().objects.get(id=1)
+    #         if (student.username == self.student.username
+    #                 and student.password == self.student.password
+    #                 and student.email == self.student.email
+    #                 and student.first_name == self.student.first_name
+    #                 and student.last_name == self.student.last_name
+    #                 and student_extra.grade == self.student_extra.grade
+    #                 and student_extra.personalPhone == self.student_extra.personalPhone
+    #                 and student_extra.parentName_F == self.student_extra.parentName_F
+    #                 and student_extra.parentPhone_F == parentPhone_F
+    #                 and student_extra.parentName_M == self.student_extra.parentName_M
+    #                 and student_extra.parentPhone_M == self.student_extra.parentPhone_M):
+    #             test = True
+    #     except:
+    #         test = False
+    #
+    #     self.assertTrue(test)
+    #     print("\nCorrect Update Student Father Phone Unit Test - ", positive_test_result(test))
+    #
+    # def test_unit_update_student_mother_name(self, parentName_M='notBella'):
+    #     """
+    #         Update teacher user information testing function
+    #
+    #         Args:
+    #             parentName_M (String): username input which is set as notBella by default
+    #
+    #         Returns:
+    #             Boolean: True or False
+    #     """
+    #     test = False
+    #     try:
+    #         student = get_user_model().objects.get(id=1)
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra.objects.get(id=1)
+    #         student_extra.parentName_M = parentName_M
+    #         student_extra.save()
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra().objects.get(id=1)
+    #         if (student.username == self.student.username
+    #                 and student.password == self.student.password
+    #                 and student.email == self.student.email
+    #                 and student.first_name == self.student.first_name
+    #                 and student.last_name == self.student.last_name
+    #                 and student_extra.grade == self.student_extra.grade
+    #                 and student_extra.personalPhone == self.student_extra.personalPhone
+    #                 and student_extra.parentName_F == self.student_extra.parentName_F
+    #                 and student_extra.parentPhone_F == self.student_extra.parentPhone_F
+    #                 and student_extra.parentName_M == parentName_M
+    #                 and student_extra.parentPhone_M == self.student_extra.parentPhone_M):
+    #             test = True
+    #     except:
+    #         test = False
+    #
+    #     self.assertTrue(test)
+    #     print("\nCorrect Update Student Mother Name Unit Test - ", positive_test_result(test))
+    #
+    # def test_unit_update_student_mother_phone(self, parentPhone_M='0529571256'):
+    #     """
+    #         Update teacher user information testing function
+    #
+    #         Args:
+    #             parentPhone_M (String): username input which is set as 0529571256 by default
+    #
+    #         Returns:
+    #             Boolean: True or False
+    #     """
+    #     test = False
+    #     try:
+    #         student = get_user_model().objects.get(id=1)
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra.objects.get(id=1)
+    #         student_extra.parentPhone_M = parentPhone_M
+    #         student_extra.save()
+    #     except:
+    #         test = False
+    #
+    #     try:
+    #         student_extra = StudentExtra().objects.get(id=1)
+    #         if (student.username == self.student.username
+    #                 and student.password == self.student.password
+    #                 and student.email == self.student.email
+    #                 and student.first_name == self.student.first_name
+    #                 and student.last_name == self.student.last_name
+    #                 and student_extra.grade == self.student_extra.grade
+    #                 and student_extra.personalPhone == self.student_extra.personalPhone
+    #                 and student_extra.parentName_F == self.student_extra.parentName_F
+    #                 and student_extra.parentPhone_F == self.student_extra.parentPhone_F
+    #                 and student_extra.parentName_M == self.student_extra.parentName_M
+    #                 and student_extra.parentPhone_M == parentPhone_M):
+    #             test = True
+    #     except:
+    #         test = False
+    #
+    #     self.assertTrue(test)
+    #     print("\nCorrect Update Student Mother Phone Unit Test - ", positive_test_result(test))
+    #
+    def test_unit_update_student_information(self, username='notTeacher', email='notTeacher@teach.er',
+                                             first_name='not', last_name='not', grade='A1', personalPhone='0541239856',
+                                             parentName_F='notBob', parentPhone_F='0529871324',
+                                             parentName_M='notBella', parentPhone_M='0529571256'):
+        """
+            Update teacher user information testing function
+
+            Args:
+                username (String): username input which is set as notTeacher by default
+                email (String): email input which is set as notTeacher@teach.er by default
+                first_name (String): first name input which is set as not by default
+                last_name (String): last name input which is set as not by default
+                grade (String): last name input which is set as A1 by default
+                personalPhone (String): last name input which is set as 0541239856 by default
+                parentName_F (String): last name input which is set as notBob by default
+                parentPhone_F (String): last name input which is set as 0529871324 by default
+                parentName_M (String): last name input which is set as notBella by default
+                parentPhone_M (String): last name input which is set as 0529571256 by default
+
+            Returns:
+                Boolean: True or False
+        """
+        test = False
+        try:
+            student = get_user_model().objects.get(id=1)
+            student.username= username
+            student.email = email
+            student.first_name = first_name
+            student.last_name = last_name
+            student.save()
+        except:
+            test = False
+
+        try:
+            student_extra = StudentExtra.objects.get(id=1)
+            student_extra.grade = grade
+            student_extra.personalPhone = personalPhone
+            student_extra.parentName_F = parentName_F
+            student_extra.parentPhone_F = parentPhone_F
+            student_extra.parentName_M = parentName_M
+            student_extra.parentPhone_M = parentPhone_M
+            student_extra.save()
+        except:
+            test = False
+
+        try:
+            student = get_user_model().objects.get(id=1)
+            # student_extra = StudentExtra().objects.get(id=1)
+            if (student.username == username
+                    and student.password == self.student.password
+                    and student.email == email
+                    and student.first_name == first_name
+                    and student.last_name == last_name):
+                    # and student_extra.grade == grade
+                    # and student_extra.personalPhone == personalPhone
+                    # and student_extra.parentName_F == parentName_F
+                    # and student_extra.parentPhone_F == parentPhone_F
+                    # and student_extra.parentName_M == parentName_M
+                    # and student_extra.parentPhone_M == parentPhone_M):
+                test = True
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Update Student Information Unit Test - ", positive_test_result(test))
 # Update Student Details tests
 
 
@@ -446,17 +1251,23 @@ class ViewStudentDetailsTest(TestCase):
         print("\n__View Student Details SetUp__")
         print("Module - result")
 
-        cls.user_dict = {
-            'username': 'student',
-            'password': 'student',
-            'email': 'student@stude.nt',
-            'first_name': 'stud',
-            'last_name': 'ent',
-        }
-
         cls.student = get_user_model().objects.create_user(username='student', password='student',
-                                                           email='student@stude.nt', first_name='stud', last_name='ent')
+                                                           email='student@stude.nt', first_name='stud',
+                                                           last_name='ent')
+        cls.student.is_superuser = False
+        cls.student.is_staff = False
         cls.student.save()
+
+        cls.student_extra = StudentExtra()
+        cls.student_extra.user = cls.student
+        cls.student_extra.grade = 'A1'
+        cls.student_extra.birth_date = '1995-05-01'
+        cls.student_extra.personalPhone = '0521454567'
+        cls.student_extra.parentName_F = 'bob'
+        cls.student_extra.parentPhone_F = '052987125'
+        cls.student_extra.parentName_M = 'bella'
+        cls.student_extra.parentPhone_M = '0529871256'
+        cls.student_extra.save()
 
     @classmethod
     def tearDownClass(cls):
@@ -466,29 +1277,30 @@ class ViewStudentDetailsTest(TestCase):
         """
         super(ViewStudentDetailsTest, cls).tearDownClass()
         print("\n__View Student Details TearDown__")
+        cls.student_extra.delete()
         cls.student.delete()
 
     # unit test
 
-    def test_unit_view_student_details(self, username='student', password='student', email='student@stude.nt',
-                                       first_name='stud', last_name='ent'):
+    def test_unit_view_student_details(self):
         """
             View student user information testing function
-
-            Args:
-                username (String): username input which is set as student by default
-                password (String): password input which is set as student by default
-                email (String): email input which is set as student@stude.nt by default
-                first_name (String): first name input which is set as stud by default
-                last_name (String): last name input which is set as ent by default
 
             Returns:
                 Boolean: True or False
         """
         student = get_user_model().objects.get(id=1)
+        student_extra = StudentExtra.objects.get(id=1)
+
         test = (self.student.username == student.username and self.student.email == student.email
-                and self.student.first_name == student.first_name
-                and self.student.last_name == student.last_name)
+                and self.student.password == student.password and self.student.first_name == student.first_name
+                and self.student.last_name == student.last_name
+                and self.student_extra.grade == student_extra.grade
+                and self.student_extra.personalPhone == student_extra.personalPhone
+                and self.student_extra.parentName_M == student_extra.parentName_M
+                and self.student_extra.parentPhone_M == student_extra.parentPhone_M
+                and self.student_extra.parentName_F == student_extra.parentName_F
+                and self.student_extra.parentPhone_F == student_extra.parentPhone_F)
 
         self.assertTrue(test)
         print("\nCorrect View Student Details Unit Test - ", positive_test_result(test))
@@ -503,43 +1315,26 @@ class TeacherRegistrationTest(TestCase):
     @classmethod
     def setUpClass(cls):
         """
-            Creating a teacher user which can be used in all the functions
-            and printing the testing class start
+            Printing the testing class start
         """
+        cls.teacher = None
+        cls.teacher_extra = None
         super(TeacherRegistrationTest, cls).setUpClass()
         print("\n__Teacher Registration SetUp__")
         print("Module - result")
-        cls.teacher = TeacherExtra()
-        cls.teacher.username = 'teacher'
-        cls.teacher.password1 = 'teacher'
-        cls.teacher.password2 = 'teacher'
-        cls.teacher.first_name = 'tea'
-        cls.teacher.last_name = 'cher'
-        cls.teacher.email = 'teacher@teach.er'
-        cls.teacher.phone = '0521234567'
-        cls.teacher.subjects = 'math'
-
-        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
-                                                                password=cls.teacher.password1, email=cls.teacher.email,
-                                                                first_name=cls.teacher.first_name,
-                                                                last_name=cls.teacher.last_name)
-        cls.teacher_user.is_superuser = False
-        cls.teacher_user.is_staff = True
-        cls.teacher_user.save()
 
     @classmethod
     def tearDownClass(cls):
         """
-            Deleting the teacher user after the class finishes
-            and printing the testing class end
+            Printing the testing class end
         """
         super(TeacherRegistrationTest, cls).tearDownClass()
         print("\n__Teacher Registration TearDown__")
-        cls.teacher_user.delete()
 
     # unit tests
 
-    def test_unit_correct_teacher_creation(self, username='teacher', password='teacher', email='teacher@teach.er'):
+    def test_unit_correct_teacher_creation(self, username='teacher', password='teacher', email='teacher@teach.er',
+                                           first_name='tea', last_name='cher'):
         """
             Create teacher user information testing function with correct input
 
@@ -547,84 +1342,89 @@ class TeacherRegistrationTest(TestCase):
                 username (String): username input which is set as teacher by default
                 password (String): password input which is set as teacher by default
                 email (String): email input which is set as teacher@teach.er by default
+                first_name (String): password input which is set as tea by default
+                last_name (String): email input which is set as cher by default
 
             Returns:
                 Boolean: True or False
         """
-        user = get_user_model().objects.get(username='teacher')
-        test_registration = False
-        if user is not None:
-            test_registration = (self.teacher_user.username == user.username
-                                 and self.teacher_user.password == user.password
-                                 and self.teacher_user.email == user.email
-                                 and self.teacher_user.first_name == user.first_name
-                                 and self.teacher_user.last_name == user.last_name)
-        self.assertTrue(test_registration)
-        print("\nCorrect Teacher Registration + Login Unit Test - ", positive_test_result(test_registration))
-        return test_registration
+        self.teacher = get_user_model().objects.create_user(username=username, password=password, email=email,
+                                                            first_name=first_name, last_name=last_name)
+        self.teacher.is_superuser = False
+        self.teacher.is_staff = True
+        self.teacher.save()
 
-    def test_unit_wrong_username_teacher_creation(self, username='wrong', password='teacher', email='teacher@teach.er'):
+        self.teacher_extra = TeacherExtra()
+        self.teacher_extra.user = self.teacher
+        self.teacher_extra.phone = '0521234567'
+        self.teacher_extra.subjects = 'math'
+
+        self.teacher_extra.save()
+
+        try:
+            teacher = get_user_model().objects.get(id=1)
+            teacher_extra = TeacherExtra.objects.get(id=1)
+            test = (self.teacher.username == teacher.username
+                    and self.teacher.password == teacher.password
+                    and self.teacher.email == teacher.email
+                    and self.teacher.first_name == teacher.first_name
+                    and self.teacher.last_name == teacher.last_name
+                    and self.teacher_extra.phone == teacher_extra.phone
+                    and self.teacher_extra.subjects == teacher_extra.subjects)
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Teacher Registration + Login Unit Test - ", positive_test_result(test))
+        return teacher, teacher_extra
+
+    def test_unit_existing_email_teacher_creation(self, username='teacher', password='teacher',
+                                                  email='teacher@teach.er', first_name='tea', last_name='cher'):
         """
-            Create teacher user information testing function with incorrect username input
+            Create teacher user information testing function with already existing email address
 
             Args:
-                username (String): username input which is set as wrong by default
+                username (String): username input which is set as teach by default
                 password (String): password input which is set as teacher by default
                 email (String): email input which is set as teacher@teach.er by default
 
             Returns:
                 Boolean: True or False
         """
-        user = get_user_model().objects.get(username='teacher')
-        test_registration = False
-        if user is not None:
-            test_registration = (self.teacher_user.username == username
-                                 and self.teacher_user.password == password
-                                 and self.teacher_user.email == email)
-        self.assertFalse(test_registration)
-        print("\nWrong Username Teacher Registration + Login Unit Test - ", negative_test_result(test_registration))
+        self.teacher = get_user_model().objects.create_user(username=username, password=password, email=email,
+                                                            first_name=first_name, last_name=last_name)
+        self.teacher.is_superuser = False
+        self.teacher.is_staff = True
+        self.teacher.save()
 
-    def test_unit_wrong_password_teacher_creation(self, username='teacher', password='wrong', email='teacher@teach.er'):
-        """
-            Create teacher user information testing function with incorrect password input
+        self.teacher_extra = TeacherExtra()
+        self.teacher_extra.user = self.teacher
+        self.teacher_extra.phone = '0521234567'
+        self.teacher_extra.subjects = 'math'
 
-            Args:
-                username (String): username input which is set as teacher by default
-                password (String): password input which is set as wrong by default
-                email (String): email input which is set as teacher@teach.er by default
+        self.teacher_extra.save()
 
-            Returns:
-                Boolean: True or False
-        """
-        user = get_user_model().objects.get(username='teacher')
-        test_registration = False
-        if user is not None:
-            test_registration = (self.teacher_user.username == username
-                                 and self.teacher_user.password == password
-                                 and self.teacher_user.email == email)
-        self.assertFalse(test_registration)
-        print("\nWrong Password Teacher Registration + Login Unit Test - ", negative_test_result(test_registration))
+        test = False
 
-    def test_unit_wrong_input_teacher_creation(self, username='wrong', password='wrong', email='teacher@teach.er'):
-        """
-            Create teacher user information testing function with incorrect username and password inputs
+        try:
+            self.teacher1 = get_user_model().objects.create_user(username=username, password=password, email=email,
+                                                                 first_name=first_name, last_name=last_name)
+            self.teacher1.is_superuser = False
+            self.teacher1.is_staff = True
+            self.teacher1.save()
 
-            Args:
-                username (String): username input which is set as wrong by default
-                password (String): password input which is set as wrong by default
-                email (String): email input which is set as teacher@teach.er by default
+            self.teacher1_extra = TeacherExtra()
+            self.teacher1_extra.user = self.teacher1
+            self.teacher1_extra.phone = self.teacher_extra.phone
+            self.teacher1_extra.subjects = self.teacher_extra.subjects
 
-            Returns:
-                Boolean: True or False
-        """
-        user = get_user_model().objects.get(username='teacher')
-        test_registration = False
-        if user is not None:
-            test_registration = (self.teacher_user.username == username
-                                 and self.teacher_user.password == password
-                                 and self.teacher_user.email == email)
-        self.assertFalse(test_registration)
-        print("\nWrong Password Teacher Registration + Login Unit Test - ", negative_test_result(test_registration))
+            self.teacher1_extra.save()
+        except:
+            test = False
+
+        print("\nAlready Existing Email Address Teacher Registration + Login Unit Test - ",
+              negative_test_result(test))
+
 # Teacher Registration test
 
 
@@ -636,49 +1436,24 @@ class StudentRegistrationTest(TestCase):
     @classmethod
     def setUpClass(cls):
         """
-            Creating a student user which can be used in all the functions
-            and printing the testing class start
+            Printing the testing class start
         """
         super(StudentRegistrationTest, cls).setUpClass()
         print("\n__Student Registration SetUp__")
         print("Module - result")
-        cls.student = StudentExtra()
-        cls.student.username = 'student'
-        cls.student.password1 = 'student'
-        cls.student.password2 = 'student'
-        cls.student.first_name = 'stud'
-        cls.student.last_name = 'ent'
-        cls.student.email = 'student@stude.nt'
-        cls.student.phone = '0521454567'
-        cls.student.birth_date = '1995-05-01'
-        cls.student.parentName_F = 'bob'
-        cls.student.parentPhone_F = '052987125'
-        cls.student.parentName_M = 'bella'
-        cls.student.parentPhone_M = '0529871256'
-
-        cls.student.is_superuser = False
-        cls.student.is_staff = False
-
-        cls.student_user = get_user_model().objects.create_user(username=cls.student.username,
-                                                                password=cls.student.password1, email=cls.student.email,
-                                                                first_name=cls.student.first_name,
-                                                                last_name=cls.student.last_name)
-
-        cls.student.save()
 
     @classmethod
     def tearDownClass(cls):
         """
-            Deleting the student user after the class finishes
-            and printing the testing class end
+            Printing the testing class end
         """
         super(StudentRegistrationTest, cls).tearDownClass()
         print("\n__Student Registration TearDown__")
-        cls.student.delete()
 
     # unit tests
 
-    def test_unit_correct_student_creation(self, username='student', password='student', email='student@stude.nt'):
+    def test_unit_correct_student_creation(self, username='student', password='student', email='student@stude.nt',
+                                           first_name='stud', last_name='ent'):
         """
             Create teacher user information testing function with correct input
 
@@ -690,80 +1465,99 @@ class StudentRegistrationTest(TestCase):
             Returns:
                 Boolean: True or False
         """
-        user = get_user_model().objects.get(username='student')
-        test_registration = False
-        if user is not None:
-            test_registration = (self.student_user.username == user.username
-                                 and self.student_user.password == user.password
-                                 and self.student_user.email == user.email
-                                 and self.student_user.first_name == user.first_name
-                                 and self.student_user.last_name == user.last_name)
-        self.assertTrue(test_registration)
-        print("\nCorrect Student Registration + Login Unit Test - ", positive_test_result(test_registration))
+        self.student = get_user_model().objects.create_user(username=username, password=password, email=email,
+                                                            first_name=first_name, last_name=last_name)
+        self.student.is_superuser = False
+        self.student.is_staff = False
+        self.student.save()
 
-    def test_unit_wrong_username_student_creation(self, username='wrong', password='student', email='student@stude.nt'):
+        self.student_extra = StudentExtra()
+        self.student_extra.user = self.student
+        self.student_extra.grade = 'A1'
+        self.student_extra.birth_date = '1995-05-01'
+        self.student_extra.personalPhone = '0521454567'
+        self.student_extra.parentName_F = 'bob'
+        self.student_extra.parentPhone_F = '052987125'
+        self.student_extra.parentName_M = 'bella'
+        self.student_extra.parentPhone_M = '0529871256'
+        self.student_extra.save()
+
+        try:
+            student = get_user_model().objects.get(id=1)
+            student_extra = StudentExtra.objects.get(id=1)
+            test = (self.student.username == student.username
+                    and self.student.password == student.password
+                    and self.student.email == student.email
+                    and self.student.first_name == student.first_name
+                    and self.student.last_name == student.last_name
+                    and self.student_extra.grade == student_extra.grade
+                    and self.student_extra.personalPhone == student_extra.personalPhone
+                    and self.student_extra.parentName_F == student_extra.parentName_F
+                    and self.student_extra.parentPhone_F == student_extra.parentPhone_F
+                    and self.student_extra.parentName_M == student_extra.parentName_M
+                    and self.student_extra.parentPhone_M == student_extra.parentPhone_M)
+        except:
+            test = False
+
+        self.assertTrue(test)
+        print("\nCorrect Student Registration + Login Unit Test - ", positive_test_result(test))
+        return student, student_extra
+
+    def test_unit_existing_email_student_creation(self, username='student', password='student',
+                                                  email='student@stude.nt', first_name='stud', last_name='ent'):
         """
-            Create teacher user information testing function with incorrect username input
+            Create teacher user information testing function with already existing email address
 
             Args:
                 username (String): username input which is set as wrong by default
                 password (String): password input which is set as student by default
                 email (String): email input which is set as student@stude.nt by default
+                first_name (String): password input which is set as stud by default
+                last_name (String): password input which is set as ent by default
 
             Returns:
                 Boolean: True or False
         """
-        user = get_user_model().objects.get(username='student')
-        test_registration = False
-        if user is not None:
-            test_registration = (self.student_user.username == username
-                                 and self.student_user.password == password
-                                 and self.student_user.email == email)
-        self.assertFalse(test_registration)
-        print("\nWrong Username Student Registration + Login Unit Test - ", negative_test_result(test_registration))
+        self.student = get_user_model().objects.create_user(username=username, password=password, email=email,
+                                                            first_name=first_name, last_name=last_name)
+        self.student.is_superuser = False
+        self.student.is_staff = False
+        self.student.save()
 
-    def test_unit_wrong_password_teacher_creation(self, username='student', password='wrong', email='student@stude.nt'):
-        """
-            Create teacher user information testing function with incorrect password input
+        self.student_extra = StudentExtra()
+        self.student_extra.user = self.student
+        self.student_extra.grade = 'A1'
+        self.student_extra.birth_date = '1995-05-01'
+        self.student_extra.personalPhone = '0521454567'
+        self.student_extra.parentName_F = 'bob'
+        self.student_extra.parentPhone_F = '052987125'
+        self.student_extra.parentName_M = 'bella'
+        self.student_extra.parentPhone_M = '0529871256'
+        self.student_extra.save()
 
-            Args:
-                username (String): username input which is set as student by default
-                password (String): password input which is set as wrong by default
-                email (String): email input which is set as student@stude.nt by default
+        try:
+            self.student1 = get_user_model().objects.create_user(username=username, password=password, email=email,
+                                                                 first_name=first_name, last_name=last_name)
+            self.student1.is_superuser = False
+            self.student1.is_staff = False
+            self.student1.save()
 
-            Returns:
-                Boolean: True or False
-        """
-        user = get_user_model().objects.get(username='student')
-        test_registration = False
-        if user is not None:
-            test_registration = (self.student_user.username == username
-                                 and self.student_user.password == password
-                                 and self.student_user.email == email)
-        self.assertFalse(test_registration)
-        print("\nWrong Password Student Registration + Login Unit Test - ",
-              negative_test_result(test_registration))
+            self.student1_extra = StudentExtra()
+            self.student1_extra.user = self.student1
+            self.student1_extra.grade = self.student_extra.grade
+            self.student1_extra.birth_date = self.student_extra.birth_date
+            self.student1_extra.personalPhone = self.student_extra.personalPhone
+            self.student1_extra.parentName_F = self.student_extra.parentName_F
+            self.student1_extra.parentPhone_F = self.student_extra.parentPhone_F
+            self.student1_extra.parentName_M = self.student_extra.parentName_M
+            self.student1_extra.parentPhone_M = self.student_extra.parentPhone_M
+            self.student1_extra.save()
+            test = True
+        except:
+            test = False
 
-    def test_unit_wrong_input_teacher_creation(self, username='wrong', password='wrong', email='student@stude.nt'):
-        """
-            Create student user information testing function with incorrect username and password inputs
-
-            Args:
-                username (String): username input which is set as wrong by default
-                password (String): password input which is set as wrong by default
-                email (String): email input which is set as student@stude.nt by default
-
-            Returns:
-                Boolean: True or False
-        """
-        user = get_user_model().objects.get(username='student')
-        test_registration = False
-        if user is not None:
-            test_registration = (self.student_user.username == username
-                                 and self.student_user.password == password
-                                 and self.student_user.email == email)
-        self.assertFalse(test_registration)
-        print("\nWrong Password Student Registration + Login Unit Test - ", negative_test_result(test_registration))
+        self.assertFalse(test)
+        print("\nAlready Existing Email Address Student Registration + Login Unit Test - ", negative_test_result(test))
 # Student Registration test
 
 
@@ -775,33 +1569,25 @@ class NewsTest(TestCase):
     news_dict = {
         'title': 'news',
         'body': 'testing our news section',
-        'date': '2021-05-05 18:33:00',
+        'date': datetime(day=5, month=5, year=2021, hour=18, minute=33, tzinfo=pytz.UTC),
     }
 
     @classmethod
     def setUpClass(cls):
         """
-            Creating news article which can be used in all the functions
-            and printing the testing class start
+            Printing the testing class start
         """
         super(NewsTest, cls).setUpClass()
         print("\n__News SetUp__")
         print("Module - result")
-        cls.user = get_user_model().objects.create_user(username='admin', password='admin')
-        cls.user.save()
-        cls.news = ArticleForm(cls.news_dict)
-        cls.news.save(commit=False)
-        cls.news = Article(cls.news_dict)
 
     @classmethod
     def tearDownClass(cls):
         """
-             Deleting the news article after the class finishes
-             and printing the testing class end
+             Printing the testing class end
         """
         super(NewsTest, cls).tearDownClass()
         print("\n__News TearDown__")
-        cls.user.delete()
 
     # unit tests
 
@@ -812,25 +1598,22 @@ class NewsTest(TestCase):
             Returns:
                 Boolean: True or False
         """
-        self.news.title = self.news_dict['title']
-        self.news.body = self.news_dict['body']
-        self.news.date = self.news_dict['date']
-        test = (self.news.title == self.news_dict['title'] and self.news.body == self.news_dict['body']
-                and self.news.date == self.news_dict['date'])
+        self.news = Article(title='news', body='testing our news section', date=datetime(day=5, month=5, year=2021,
+                                                                                         hour=18, minute=33,
+                                                                                         tzinfo=pytz.UTC))
+        self.news.save()
+
+        try:
+            news = Article.objects.get(id=1)
+
+            test = (news.title == self.news_dict['title'] and news.body == self.news_dict['body'])
+        except:
+            test = False
+
+        self.news.delete()
         self.assertTrue(test)
         print("\nCorrect News Creation Unit Test - ", positive_test_result(test))
 
-    def test_unit_view_news(self):
-        """
-            View news article testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        test = (self.news.title == self.news_dict['title'] and self.news.body == self.news_dict['body']
-                and self.news.date == self.news_dict['date'])
-        self.assertTrue(test)
-        print("\nView News Unit Test - ", positive_test_result(test))
 
     def test_unit_delete_news(self):
         """
@@ -839,12 +1622,20 @@ class NewsTest(TestCase):
             Returns:
                 Boolean: True or False
         """
-        self.news.title = None
-        self.news.body = None
-        self.news.date = None
-        if self.news.title is None and self.news.body is None and self.news.date is None:
-            self.news = None
-        test = self.news is None
+        self.news = Article(title='news', body='testing our news section', date=datetime(day=5, month=5, year=2021,
+                                                                                         hour=18, minute=33,
+                                                                                         tzinfo=pytz.UTC))
+        self.news.save()
+
+        if self.news is not None:
+            self.news.delete()
+
+        try:
+            self.news = Article.objects.get(id=1)
+            test = False
+        except:
+            test = True
+
         self.assertTrue(test)
         print("\nDelete News Unit Test - ", positive_test_result(test))
 # News test
@@ -1760,7 +2551,7 @@ class Private_ChatTest(TestCase):
             'msg': 'Good day fine sir!'
         }
 
-        cls.private_chat = PrivateChatForm(cls.chat_dict)
+        cls.private_chat = PrivateChatTestForm(cls.chat_dict)
         cls.private_chat.save(commit=False)
 
     @classmethod
@@ -1858,7 +2649,7 @@ class Class_ChatTest(TestCase):
             'msg': 'Good day fine sir!'
         }
 
-        cls.class_chat = ClassChatForm(cls.chat_dict)
+        cls.class_chat = ClassChatTestForm(cls.chat_dict)
         cls.class_chat.save(commit=False)
 
     @classmethod

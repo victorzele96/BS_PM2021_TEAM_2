@@ -325,35 +325,13 @@ class SubjectExerciseForm(forms.ModelForm):
 
 
 class PrivateChatForm(forms.Form):
-    # my_id = None
-    # if not my_id:
-    #     receiver_id = forms.ModelChoiceField(
-    #         # queryset=User.objects.get(is_staff=True, is_superuser=False),
-    #         # queryset=User.objects.all(),
-    #         queryset=User.objects.all().difference(User.objects.filter(id=my_id)),
-    #
-    #         initial=0
-    #     )
-    # # else:
     receiver_id = forms.ModelChoiceField(
-            # queryset=User.objects.get(is_staff=True, is_superuser=False),
             queryset=User.objects.all(),
-            # queryset=User.objects.filter(id !=),
-
             initial=0
     )
-    # print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-    # print(my_id)
     msg = forms.CharField(widget=forms.Textarea)
 
-    #
-    # forms.MultipleChoiceField
-
-    # def get_my_id(self, my_id):
-    #     self.my_id = my_id
-
     class Meta:
-        # model = Private_Chat
         fields = ('msg', 'receiver_id')
 
     def save(self, commit=True):
@@ -388,6 +366,18 @@ class PrivateChatReceiveForm(forms.Form):
             private_chat.publish_date = datetime.now()
             private_chat.save()
         return private_chat
+
+
+class PrivateChatTestForm(forms.ModelForm):
+    class Meta:
+        model = Private_Chat
+        fields = ('msg', 'publish_date', 'receiver_id')
+
+
+class ClassChatTestForm(forms.ModelForm):
+    class Meta:
+        model = Class_Chat
+        fields = ('msg', 'publish_date')
 
 
 class ClassChatForm(forms.ModelForm):
