@@ -42,7 +42,7 @@ urlpatterns = [
 
 
 
-    # path("school/my_test", views.my_test, name="my_test"),  # here just for test
+    path("school/create_subject", views.my_test, name="my_test"),  # here just for test
 
 
 
@@ -69,13 +69,15 @@ urlpatterns = [
     path("teacher/classes/teacher_file_view/upload_file/<int:pk>", views.upload_file, name="upload_file"),
 
 
-
     # Student
+    path("student/class_msg/<int:pk>", views.class_msg, name="class_msg"),
     path("student/", views.studentHome, name="studentHome"),
     path("student/student_update/<int:pk>", views.student_update_from_student,
          name="student_update_from_student"),
 
     path("student/s_view_subject/<int:pk>", views.s_view_subject, name="s_view_subject"),
+    path("student/s_view_subject/download/<int:pk>", views.download, name="download"),
+
     path("student/studentSchedule", views.studentSchedule, name="studentSchedule"),
     path("student/my_class", views.my_class, name="my_class"),
 

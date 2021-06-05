@@ -1,33 +1,82 @@
 {% extends 'student/studentHome.html' %}
-
+{% load static %}
 
 
 {% block head %}
+    <head>
+        <link rel="stylesheet" href="/static/styles/schoolStyles/registerStudent.css"/>
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/userList.css' %}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
 {% endblock %}
 
 
-{#'StudentClassroom': sc,#}
-{#        'Classroom': cr,#}
-{#        'Teacher': teacher,#}
-{#        'ClassSubject': cs,#}
-{#        'Subject': sub#}
+
 
 {% block content %}
-{#    {% for obj in StudentClassroom %}#}
-{##}
-{#    {% endfor %}#}
-{#    {% for obj in Classroom %}#}
-{##}
-{#    {% endfor %}#}
-{#    {% for obj in Teacher %}#}
-{##}
-{#    {% endfor %}#}
-{#    {% for obj in ClassSubject %}#}
-{##}
-{#    {% endfor %}#}
-{#    {% for obj in Subject %}#}
-{##}
-{#    {% endfor %}#}
+    <h1>{{ classroom.class_name }}</h1>
+    <a class="switch-user-view" href="{% url 'class_msg' classroom.id  %}"> Send Msg to my class </a>
+    <div class="table-wrapper">
+
+        <table class="fl-table">
+            <thead>
+            <tr>
+
+
+                <th>Student</th>
+                <th>Private msg</th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td> {{ user.username }}</td>
+                        <td><a class="fa fa-envelope-o" href="{% url 'receive' user.id  %}"> Send Msg to {{ user.username }} </a> </td>
+                    </tr>
+
+                {% endfor %}
+{#                {% if subject_class.meeting %}#}
+{#                    <td><a href="{{subject_class.meeting}}">lesson meeting</a></td>#}
+{#                {% else %}#}
+{#                    <td> No meeting</td>#}
+{#                {% endif %}#}
+            <tbody>
+        </table>
+    </div>
+    <div id="teacher" class="table-wrapper">
+                <table class="fl-table">
+                    <thead>
+                    <tr>
+                        <th>sender</th>
+                        <th>msg</th>
+                        <th>publish_date</th>
+
+            {#                <th>Remove Subject</th>#}
+                    </tr>
+                    </thead>
+                    <tbody>
+{#                        <tr>#}
+{#                            <td>sender test</td>#}
+{#                            <td>msg test</td>#}
+{#                            <td>publish_date test</td>#}
+{#                            <td>receive test</td>#}
+            {#                <th>Remove Subject</th>#}
+{#                        </tr>#}
+                        {% for m in class_chat %}
+                            <tr>
+                                <td> {{m.sender}}</td>
+                                <td> {{m.msg}}</td>
+                                <td> {{m.publish_date}}</td>
+                                {#           Need to add pk: m.sender.id                     #}
+
+        {#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
+                            </tr>
+                        {% endfor %}
+                    <tbody>
+                </table>
+            </div>
 
 
 

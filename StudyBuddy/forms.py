@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 # from django.db.models.functions import Now
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 
 class ArticleForm(forms.ModelForm):
@@ -176,14 +176,23 @@ class SubjectForm(forms.ModelForm):
         return subject
 
 
+# DAYS_OF_WEEK = (
+#     ('Sunday', 'Sunday'),
+#     ('Monday', 'Monday'),
+#     ('Tuesday', 'Tuesday'),
+#     ('Wednesday', 'Wednesday'),
+#     ('Thursday', 'Thursday'),
+#     ('Friday', 'Friday'),
+#     ('Saturday', 'Saturday'),
+#
+# )
+
 DAYS_OF_WEEK = (
-    ('Sunday', 'Sunday'),
-    ('Monday', 'Monday'),
-    ('Tuesday', 'Tuesday'),
-    ('Wednesday', 'Wednesday'),
-    ('Thursday', 'Thursday'),
-    ('Friday', 'Friday'),
-    ('Saturday', 'Saturday'),
+    (1, 'Sunday'),
+    (2, 'Monday'),
+    (3, 'Tuesday'),
+    (4, 'Wednesday'),
+    (5, 'Thursday'),
 
 )
 
@@ -239,7 +248,7 @@ class ClassSubjectForm(forms.ModelForm):
         class_subject.subject = self.cleaned_data["subject"]
         # class_subject.days = self.cleaned_data["day"]
         # class_subject.days = self.day.str()
-        class_subject.days = self.cleaned_data["day".str()]
+        class_subject.days = int(self.cleaned_data["day"][0])
         class_subject.start_time = self.cleaned_data["start_time"]
         # class_subject.end_time = class_subject.start_time + forms.TimeField(
         #     datetime.time(class_subject.subject.duration, 0, 0))
@@ -392,3 +401,20 @@ class ClassChatForm(forms.ModelForm):
             class_chat.publish_date = datetime.now()
             class_chat.save()
         return class_chat
+
+
+class ClassChatReceiveForm(forms.Form):
+
+    msg = forms.CharField(widget=forms.Textarea)
+    class Meta:
+        fields = ('msg',)
+
+    def save(self, commit=True):
+        msg = super(PrivateChatForm, self).save(commit=False)
+
+        if commit:
+            msg.publish_date = datetime.now()
+            msg.save()
+        return msg
+
+

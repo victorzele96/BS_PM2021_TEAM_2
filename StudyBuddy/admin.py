@@ -12,6 +12,7 @@ admin.site.register(Classroom)
 admin.site.register(StudentClassroom)
 admin.site.register(Subject)
 admin.site.register(ClassSubject)
+admin.site.register(TeacherFile)
 
 admin.site.register(Subject_Exercise)
 
