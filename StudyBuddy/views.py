@@ -660,9 +660,10 @@ def studentHome(request):
     return render(request, '../templates/student/studentHome.html', {'birthdays': birthdays})
 
 
-import datetime
+# import datetime
 
 def studentSchedule(request):
+    import datetime
     # class_connection = Subject.objects.get(user_id=request.user.id)
     class_connection = StudentClassroom.objects.get(user_id=request.user.id)
 
@@ -745,6 +746,12 @@ def studentSchedule(request):
         print(day)
         print(type(day))
 
+        for key,val in rev_obj_dic.items():
+            for d in val.keys():
+                rev_obj_dic[key][d]= {'subject_name': None, 'subject_id': None}
+
+
+
 
         if day == '1':
             day = 1
@@ -781,7 +788,8 @@ def studentSchedule(request):
 
 
             start_time = datetime.time(9,0,0)
-
+        # else:
+        #     rev_obj_dic[8][day] = {'subject_name': None, 'subject_id': None}
         if start_time == datetime.time(9,0,0) and end_time != datetime.time(9,0,0):
             if day != None:
                 obj = {'day': day, 'start_time': start_time, 'subject_name': subject_name, 'subject_id': cs.subject.id}
