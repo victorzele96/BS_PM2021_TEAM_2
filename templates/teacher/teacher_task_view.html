@@ -12,15 +12,20 @@
     <h2 style="text-align: center; font-size: 50px">View Task</h2>{% endblock %}
 
 {% block content %}
-    <h3> Click <a href="#popup1" class="btn fa fa-plus"> </a> to add exercise !</h3>
+    <h3> Click <a href="#popup1" class="btn fa fa-plus"> </a> to add task !</h3>
 
     <div id="popup1" class="overlay">
         <div class="popup">
-            <h2>Adding exercise</h2>
+            <h2>Adding task</h2>
             <a class="close" href="#">&times;</a>
     {#           <form action="{% url "upload_file" pk %}" method="POST">       form----------------------------------------------------  #}
               <form id="form-id" action="{% url "teacher_add_task" ret_pk %}" method="POST">
                   {% csrf_token %}
+
+                    <div class="ans">
+                      <input name="name" type="text" required>
+                      <label>Name</label>
+                    </div>
 
                     <div class="ans">
                       <input name="description" type="text" required>
@@ -29,12 +34,12 @@
 
                     <div class="ans">
                       <input name="start_time" type="date" required>
-                      <label>Start Time</label>
+{#                      <label>Start Time</label>#}
                     </div>
 
                     <div class="ans">
                       <input name="end_time" type="date" required>
-                      <label>End Time</label>
+{#                      <label>End Time</label>#}
                     </div>
                       <a type="submit" class="save" onclick="document.forms['form-id'].submit();"> Save </a>
         {#              <button class="save" id="save" type="submit" href="{% url 'teacher_add_exercise' 96 %}"> Save </button>#}
@@ -52,7 +57,7 @@
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Edit</th>
-                <th>Delete</th>
+{#                <th>Delete</th>#}
 
             </tr>
             </thead>
@@ -74,7 +79,7 @@
                     <td>{{ m2.start_time }}</td>
                     <td>{{ m2.end_time }}</td>
                     <td><a href="{% url 'teacher_exercise_view' m2.id %}"><i style="font-size: 25px; color: black" class="fa fa-plus"> </i> </a> </td>
-                    <td>remove</td>
+{#                    <td>remove</td>#}
                 </tr>
             {% endfor %}
             </tbody>

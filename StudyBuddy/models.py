@@ -289,3 +289,18 @@ class Class_Chat(models.Model):
 
     def str(self):
         return self.msg
+
+
+class Task(models.Model):
+    subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=256)
+    description = models.TextField(null=True)
+    start_time = models.DateTimeField(default=None)
+    end_time = models.DateTimeField(default=None)
+
+    def __str__(self):
+        return self.name
+
+class Task_Exercises(models.Model):
+    task = models.ForeignKey(Task, null=True, on_delete=models.CASCADE)
+    exercise = models.OneToOneField(Exercise, null=True, on_delete=models.CASCADE)
