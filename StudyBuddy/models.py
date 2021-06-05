@@ -46,6 +46,7 @@ DAYS_OF_WEEK = (
 )
 
 
+
 class Article(models.Model):
     title = models.CharField(max_length=64)
     body = models.TextField()
