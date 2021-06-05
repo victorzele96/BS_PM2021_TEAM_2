@@ -74,29 +74,180 @@
 {##}
 {#                {% endfor %}#}
 
-                {% for time in rev_obj_dic %}
+                {% for time,tval in rev_obj_dic.items %}
                     <tr>
                         {% if time == 8 %}
-                            <th scope="row" class="light-gray">{{ time }}</th>#}
-                            {% for day in time %}
-                                {% for sub,id in day%}
-                                    {% if sub != None %}
-{#                                        <td rowspan='1'class="math">{{ sub }}<br>{{ id}}</td>#}
-                                        <td rowspan='1'class="math">break<br>break</td>
-                                    {% else %}
-                                        <td rowspan='1'class="math">break<br>break</td>
+                            <th scope="row" class="light-gray">{{ time }}:00</th>
+                            {% for day,dval in tval.items %}
+                                {% for i,j in dval.items %}
+                                    {% if i == "subject_name" %}
+                                        {% if j != None %}
+                                            <td rowspan='1' class="math"> {{ j }}<br>
+                                        {% else %}
+                                            <td rowspan='1' class="math"> break<br>
+                                        {% endif %}
+                                    {% elif i == "subject_id" %}
+                                        {% if j != None %}
+                                            {{ j }} </td>
+                                        {% else %}
+                                            break </td>
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
                             {% endfor %}
 
                         {% elif time == 9  %}
+                            <th scope="row" class="light-gray">{{ time }}:00</th>
+                            {% for day,dval in tval.items %}
+                                {% for i,j in dval.items %}
+                                    {% if i == "subject_name" %}
+                                        {% if j != None %}
+                                            <td rowspan='1' class="math"> {{ j }}<br>
+                                        {% else %}
+                                            <td rowspan='1' class="math"> break<br>
+                                        {% endif %}
+                                    {% elif i == "subject_id" %}
+                                        {% if j != None %}
+                                            {{ j }} </td>
+                                        {% else %}
+                                            break </td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                         {% elif time == 10  %}
+                            <th scope="row" class="light-gray">{{ time }}:00</th>
+                            {% for day,dval in tval.items %}
+                                {% for i,j in dval.items %}
+                                    {% if i == "subject_name" %}
+                                        {% if j != None %}
+                                            <td rowspan='1' class="math"> {{ j }}<br>
+                                        {% else %}
+                                            <td rowspan='1' class="math"> break<br>
+                                        {% endif %}
+                                    {% elif i == "subject_id" %}
+                                        {% if j != None %}
+                                            {{ j }} </td>
+                                        {% else %}
+                                            break </td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                         {% elif time == 11  %}
+                            <th scope="row" class="light-gray">{{ time }}:00</th>
+                            {% for day,dval in tval.items %}
+                                {% for i,j in dval.items %}
+                                    {% if i == "subject_name" %}
+                                        {% if j != None %}
+                                            <td rowspan='1' class="math"> {{ j }}<br>
+                                        {% else %}
+                                            <td rowspan='1' class="math"> break<br>
+                                        {% endif %}
+                                    {% elif i == "subject_id" %}
+                                        {% if j != None %}
+                                            {{ j }} </td>
+                                        {% else %}
+                                            break </td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                         {% elif time == 12  %}
+                            <th scope="row" class="light-gray">{{ time }}:00</th>
+                            {% for day,dval in tval.items %}
+                                {% for i,j in dval.items %}
+                                    {% if i == "subject_name" %}
+                                        {% if j != None %}
+                                            <td rowspan='1' class="math"> {{ j }}<br>
+                                        {% else %}
+                                            <td rowspan='1' class="math"> break<br>
+                                        {% endif %}
+                                    {% elif i == "subject_id" %}
+                                        {% if j != None %}
+                                            {{ j }} </td>
+                                        {% else %}
+                                            break </td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                         {% elif time == 13  %}
+                            <th scope="row" class="light-gray">{{ time }}:00</th>
+                            {% for day,dval in tval.items %}
+                                {% for i,j in dval.items %}
+                                    {% if i == "subject_name" %}
+                                        {% if j != None %}
+                                            <td rowspan='1' class="math"> {{ j }}<br>
+                                        {% else %}
+                                            <td rowspan='1' class="math"> break<br>
+                                        {% endif %}
+                                    {% elif i == "subject_id" %}
+                                        {% if j != None %}
+                                            {{ j }} </td>
+                                        {% else %}
+                                            break </td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                         {% elif time == 14  %}
+                            <th scope="row" class="light-gray">{{ time }}:00</th>
+                            {% for day,dval in tval.items %}
+                                {% for i,j in dval.items %}
+                                    {% if i == "subject_name" %}
+                                        {% if j != None %}
+                                            <td rowspan='1' class="math"> {{ j }}<br>
+                                        {% else %}
+                                            <td rowspan='1' class="math"> break<br>
+                                        {% endif %}
+                                    {% elif i == "subject_id" %}
+                                        {% if j != None %}
+                                            {{ j }} </td>
+                                        {% else %}
+                                            break </td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                         {% elif time == 15  %}
+                            <th scope="row" class="light-gray">{{ time }}:00</th>
+                            {% for day,dval in tval.items %}
+                                {% for i,j in dval.items %}
+                                    {% if i == "subject_name" %}
+                                        {% if j != None %}
+                                            <td rowspan='1' class="math"> {{ j }}<br>
+                                        {% else %}
+                                            <td rowspan='1' class="math"> break<br>
+                                        {% endif %}
+                                    {% elif i == "subject_id" %}
+                                        {% if j != None %}
+                                            {{ j }} </td>
+                                        {% else %}
+                                            break </td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                         {% elif time == 16  %}
+                            <th scope="row" class="light-gray">{{ time }}:00</th>
+                            {% for day,dval in tval.items %}
+                                {% for i,j in dval.items %}
+                                    {% if i == "subject_name" %}
+                                        {% if j != None %}
+                                            <td rowspan='1' class="math"> {{ j }}<br>
+                                        {% else %}
+                                            <td rowspan='1' class="math"> break<br>
+                                        {% endif %}
+                                    {% elif i == "subject_id" %}
+                                        {% if j != None %}
+                                            {{ j }} </td>
+                                        {% else %}
+                                            break </td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                         {% endif %}
 
                     </tr>
