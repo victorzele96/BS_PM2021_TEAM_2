@@ -20,7 +20,7 @@
                 <th>Class Name</th>
                 <th>Teacher</th>
                 <th>View Class</th>
-                <th>Delete</th>
+{#                <th>Delete</th>#}
             </tr>
             </thead>
             <tbody>
@@ -31,9 +31,9 @@
 {#                        <td> View Class</td>#}
 
 {#                        <td><a class="" href="{% url 'view_class' m.id %}">  <i style="font-size: 25px; color: black" class="fa fa-edit"></i> <span></span></a></td>#}
-                        <td> View Class</td>
-                        <td><a class="" href="#">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>
-{#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
+{#                        <td> View Class</td>#}
+{#                        <td><a class="" href="#">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
+                        <td><a class="" href="{% url 't_my_class'  %}">  <i style="font-size: 25px; color: black" class="fa fa-external-link"></i> <span></span></a></td>
                     </tr>
                 {% endfor %}
             <tbody>
