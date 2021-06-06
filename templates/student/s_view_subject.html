@@ -44,12 +44,8 @@
         <table class="fl-table">
             <thead>
             <tr>
-
-
                 <th>File</th>
                 <th>Description</th>
-
-
             </tr>
             </thead>
             <tbody>
@@ -64,6 +60,42 @@
                     {% endfor %}
                 {% else %}
                     <td> No Files</td>
+                {% endif %}
+            <tbody>
+        </table>
+    </div>
+
+
+    <h1> Tasks </h1>
+    <div class="table-wrapper">
+
+        <table class="fl-table">
+            <thead>
+            <tr>
+                <th>My progress</th>
+                <th>Task</th>
+                <th>Task description</th>
+                <th>Attempt to answer</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {% if tasks %}
+                    {% for task in tasks %}
+                        <tr>
+                            {% for o in obj %}
+                                {% if o.task_id == task.id %}
+                                    <td>{{ o.correct_ans }} / {{ o.total_amount_of_exercises }}</td>
+                                {% endif %}
+                            {% endfor %}
+                            <td>{{ task.name }}</td>
+{#                            <td><a href="{{ file.file.url }}" download="{{ file.file.url }}">{{ file.name }}</a></td>#}
+                            <td> {{ task.description }}</td>
+                            <td><a href="{% url 'ans_task' task.id %}">Try to answer</a></td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td> No Tasks</td>
                 {% endif %}
             <tbody>
         </table>
