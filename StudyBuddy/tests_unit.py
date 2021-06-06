@@ -303,6 +303,7 @@ class UpdateTeacherDetailsTest(TestCase):
 
         self.assertTrue(test)
         print("\nCorrect Update Teacher Username Unit Test - ", positive_test_result(test))
+        return test
 
     def test_unit_update_teacher_email(self, email='notTeacher@teach.er'):
         """
@@ -1168,16 +1169,17 @@ class UpdateStudentDetailsTest(TestCase):
     #     self.assertTrue(test)
     #     print("\nCorrect Update Student Mother Phone Unit Test - ", positive_test_result(test))
     #
-    def test_unit_update_student_information(self, username='notTeacher', email='notTeacher@teach.er',
-                                             first_name='not', last_name='not', grade='A1', personalPhone='0541239856',
+    def test_unit_update_student_information(self, username='notStudent', email='notStudent@stud.ent',
+                                             first_name='not', last_name='not', grade='A1',
+                                             personalPhone='0541239856',
                                              parentName_F='notBob', parentPhone_F='0529871324',
                                              parentName_M='notBella', parentPhone_M='0529571256'):
         """
             Update teacher user information testing function
 
             Args:
-                username (String): username input which is set as notTeacher by default
-                email (String): email input which is set as notTeacher@teach.er by default
+                username (String): username input which is set as notStudent by default
+                email (String): email input which is set as notStudent@stud.ent by default
                 first_name (String): first name input which is set as not by default
                 last_name (String): last name input which is set as not by default
                 grade (String): last name input which is set as A1 by default
@@ -1424,7 +1426,6 @@ class TeacherRegistrationTest(TestCase):
 
         print("\nAlready Existing Email Address Teacher Registration + Login Unit Test - ",
               negative_test_result(test))
-
 # Teacher Registration test
 
 
@@ -1613,6 +1614,7 @@ class NewsTest(TestCase):
         self.news.delete()
         self.assertTrue(test)
         print("\nCorrect News Creation Unit Test - ", positive_test_result(test))
+        return test
 
 
     def test_unit_delete_news(self):
@@ -1638,1047 +1640,1103 @@ class NewsTest(TestCase):
 
         self.assertTrue(test)
         print("\nDelete News Unit Test - ", positive_test_result(test))
+        return test
+
+    def test_unit_news_same_fields(self):
+        """
+            Create news article testing function
+
+            Returns:
+                Boolean: True or False
+        """
+        self.news = Article(title='news', body='testing our news section', date=datetime(day=5, month=5, year=2021,
+                                                                                         hour=18, minute=33,
+                                                                                         tzinfo=pytz.UTC))
+        self.news.save()
+
+        try:
+            self.news1 = Article(title='news', body='testing our news section', date=datetime(day=6, month=5, year=2021,
+                                                                                              hour=18, minute=33,
+                                                                                              tzinfo=pytz.UTC))
+            self.news1.save()
+            test = True
+        except:
+            test = False
+
+        self.news.delete()
+        self.assertTrue(test)
+        print("\nCreate News With Same Fields Unit Test - ", positive_test_result(test))
+        return test
 # News test
 
 
-# Classroom test
-class ClassroomTest(TestCase):
-    """
-        Testing class (Inheriting TestCase class) for creating class room
-    """
-
-    @classmethod
-    def setUpClass(cls):
-        """
-            Creating teacher user and class room which can be used in all the functions
-            and printing the testing class start
-        """
-        super(ClassroomTest, cls).setUpClass()
-        print("\n__Classroom SetUp__")
-        print("Module - result")
-        cls.teacher = TeacherExtra()
-        cls.teacher.username = 'teacher'
-        cls.teacher.password1 = 'teacher'
-        cls.teacher.password2 = 'teacher'
-        cls.teacher.first_name = 'tea'
-        cls.teacher.last_name = 'cher'
-        cls.teacher.email = 'teacher@teach.er'
-        cls.teacher.phone = '0521234567'
-        cls.teacher.subjects = 'math'
-
-        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
-                                                                password=cls.teacher.password1, email=cls.teacher.email,
-                                                                first_name=cls.teacher.first_name,
-                                                                last_name=cls.teacher.last_name)
-        cls.teacher_user.is_superuser = False
-        cls.teacher_user.is_staff = True
-        cls.teacher_user.save()
-
-        cls.classroom = Classroom()
-        cls.classroom.classname = 'class1'
-        cls.classroom.teacher = cls.teacher_user
-        cls.classroom.save()
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-             Deleting the teacher user and the class room after the class finishes
-             and printing the testing class end
-        """
-        super(ClassroomTest, cls).tearDownClass()
-        print("\n__Classroom TearDown__")
-        cls.classroom.delete()
-        cls.teacher_user.delete()
-
-    # unit tests
-
-    def test_unit_create_classroom(self):
-        """
-            Create class room testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            test_classroom = Classroom.objects.get(teacher=self.teacher_user.id)
-            test = (self.classroom.teacher.id == test_classroom.teacher_id)
-        except:
-            test = False
-        self.assertTrue(test)
-        print("\nClassroom Creation Unit Test - ", positive_test_result(test))
-
-    def test_unit_same_teacher(self):
-        """
-            Check if 2 different class rooms cant have the same teacher
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            self.classroom1 = Classroom()
-            self.classroom1.class_name = 'class1'
-            self.classroom1.teacher = self.teacher_user
-            self.classroom1.save()
-            test = False
-        except django.db.utils.IntegrityError:
-            test = True
-        self.assertTrue(test)
-        print("\nClassroom Same Teacher Unit Test - ", positive_test_result(test))
-# Classroom test
-
-
-# Subject test
-class SubjectTest(TestCase):
-    """
-        Testing class (Inheriting TestCase class) for creating Subject
-    """
-
-    @classmethod
-    def setUpClass(cls):
-        """
-            Creating teacher user and subject which can be used in all the functions
-            and printing the testing class start
-        """
-        super(SubjectTest, cls).setUpClass()
-        print("\n__Subject SetUp__")
-        print("Module - result")
-        cls.teacher = TeacherExtra()
-        cls.teacher.username = 'teacher'
-        cls.teacher.password1 = 'teacher'
-        cls.teacher.password2 = 'teacher'
-        cls.teacher.first_name = 'tea'
-        cls.teacher.last_name = 'cher'
-        cls.teacher.email = 'teacher@teach.er'
-        cls.teacher.phone = '0521234567'
-        cls.teacher.subjects = 'math'
-
-        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
-                                                                password=cls.teacher.password1, email=cls.teacher.email,
-                                                                first_name=cls.teacher.first_name,
-                                                                last_name=cls.teacher.last_name)
-        cls.teacher_user.is_superuser = False
-        cls.teacher_user.is_staff = True
-        cls.teacher_user.save()
-
-        cls.subject = Subject()
-        cls.subject.classname = 'Math'
-        cls.subject.teacher = cls.teacher_user
-        cls.subject.duration = 2
-        cls.subject.save()
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-             Deleting the teacher user and the subject after the class finishes
-             and printing the testing class end
-        """
-        super(SubjectTest, cls).tearDownClass()
-        print("\n__Subject TearDown__")
-        cls.subject.delete()
-        cls.teacher_user.delete()
-
-    # unit tests
-
-    def test_unit_creat_subject(self):
-        """
-            Create subject testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            teacher = get_user_model().objects.get(id=1, is_superuser=0, is_staff=1)
-            test = (self.subject.teacher.id == teacher.id)
-        except:
-            test = False
-        self.assertTrue(test)
-        print("\nSubject Creation Unit Test - ", positive_test_result(test))
-
-    def test_unit_same_teacher(self):
-        """
-            Check if 2 different class rooms cant have the same teacher
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            self.subject1 = Subject()
-            self.subject1.subject_name = self.subject.subject_name
-            self.subject1.teacher = self.teacher_user
-            self.subject1.duration = self.subject1.duration
-            self.subject1.save()
-            test = False
-        except django.db.utils.IntegrityError:
-            test = True
-        self.assertTrue(test)
-        print("\nSubject Same Teacher Unit Test - ", positive_test_result(test))
-# Subject test
-
-
-# ClassSubject test
-class ClassSubjectTest(TestCase):
-    """
-        Testing class (Inheriting TestCase class) for combining class room and subject
-    """
-    @classmethod
-    def setUpClass(cls):
-        """
-            Creating teacher user, class room and subject which can be used in all the functions
-            and printing the testing class start
-        """
-        super(ClassSubjectTest, cls).setUpClass()
-        print("\n__ClassSubject SetUp__")
-        print("Module - result")
-        cls.teacher = TeacherExtra()
-        cls.teacher.username = 'teacher'
-        cls.teacher.password1 = 'teacher'
-        cls.teacher.password2 = 'teacher'
-        cls.teacher.first_name = 'tea'
-        cls.teacher.last_name = 'cher'
-        cls.teacher.email = 'teacher@teach.er'
-        cls.teacher.phone = '0521234567'
-        cls.teacher.subjects = 'math'
-
-        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
-                                                                password=cls.teacher.password1, email=cls.teacher.email,
-                                                                first_name=cls.teacher.first_name,
-                                                                last_name=cls.teacher.last_name)
-        cls.teacher_user.is_superuser = False
-        cls.teacher_user.is_staff = True
-        cls.teacher_user.save()
-
-        cls.subject = Subject()
-        cls.subject.subject_name = 'Math'
-        cls.subject.teacher = cls.teacher_user
-        cls.subject.duration = 2
-        cls.subject.save()
-
-        cls.classroom = Classroom()
-        cls.classroom.class_name = 'class1'
-        cls.classroom.teacher = cls.teacher_user
-        cls.classroom.save()
-
-        cls.class_subject = ClassSubject()
-        cls.class_subject.subject = cls.subject
-        cls.class_subject.class_room = cls.classroom
-        cls.class_subject.days = 'Sunday'
-        cls.class_subject.start_time = '08:00'
-        cls.class_subject.end_time = '10:00'
-        cls.class_subject.meeting = None
-        cls.class_subject.save()
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-             Deleting the teacher user, class room and the subject after the class finishes
-             and printing the testing class end
-        """
-        super(ClassSubjectTest, cls).tearDownClass()
-        print("\n__ClassSubject TearDown__")
-        cls.class_subject.delete()
-        cls.subject.delete()
-        cls.teacher_user.delete()
-
-    # unit tests
-
-    def test_unit_create_classSubject(self):
-        """
-            Create classSubject testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        class_subject = ClassSubject.objects.get(id=1)
-        test = (self.class_subject.subject.teacher.id == class_subject.subject.teacher.id
-                and self.class_subject.subject.subject_name == class_subject.subject.subject_name
-                and self.class_subject.class_room.class_name == class_subject.class_room.class_name)
-        self.assertTrue(test)
-        print("\nClassSubject Creation Unit Test - ", positive_test_result(test))
-
-    def test_unit_same_fields(self):
-        """
-            Check if different classSubjects cant have 2 different subjects with same teacher
-            or 2 different class rooms with same teacher
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            class_subject = ClassSubject.objects.get(id=1)
-
-            self.class_subject1 = ClassSubject()
-            self.class_subject1.subject = self.subject
-            self.class_subject1.class_room = self.classroom
-            self.class_subject1.days = class_subject.days
-            self.class_subject1.start_time = class_subject.start_time
-            self.class_subject1.end_time = class_subject.end_time
-            self.class_subject1.meeting = None
-            self.class_subject1.save()
-            test = False
-        except django.db.utils.IntegrityError:
-            test = True
-
-        self.assertTrue(test)
-        print("\nClassSubject Same Fields Unit Test - ", positive_test_result(test))
-# ClassSubject test
-
-
-# Exercise test
-class ExerciseTest(TestCase):
-    """
-        Testing class (Inheriting TestCase class) for creating exercise
-    """
-    @classmethod
-    def setUpClass(cls):
-        """
-            Creating exercise which can be used in all the functions
-            and printing the testing class start
-        """
-        super(ExerciseTest, cls).setUpClass()
-        print("\n__Exercise SetUp__")
-        print("Module - result")
-        cls.exercise = Exercise()
-        cls.exercise.question = 'is it working?'
-        cls.exercise.a = 'yes'
-        cls.exercise.b = 'no'
-        cls.exercise.c = 'i dont know'
-        cls.exercise.d = 'maybe'
-        cls.exercise.ans = 'a'
-        cls.exercise.save()
-
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-             Deleting the exercise and the subject after the class finishes
-             and printing the testing class end
-        """
-        super(ExerciseTest, cls).tearDownClass()
-        print("\n__Exercise TearDown__")
-        cls.exercise.delete()
-
-    # unit tests
-
-    def test_unit_create_exercise(self):
-        """
-            Create Exercise testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        exercise = Exercise.objects.get(id=1)
-        test = (self.exercise.question == exercise.question and self.exercise.a == exercise.a
-                and self.exercise.b == exercise.b and self.exercise.c == exercise.c
-                and self.exercise.d == exercise.d and self.exercise.ans == exercise.ans)
-        self.assertTrue(test)
-        print("\nExercise Creation Unit Test - ", positive_test_result(test))
-
-    def test_unit_same_exercise(self):
-        """
-            Check if different exercises can be created with same fields
-
-            Returns:
-                Boolean: True or False
-        """
-        exercise = Exercise.objects.get(id=1)
-        try:
-            self.exercise1 = Exercise()
-            self.exercise1.question = exercise.question
-            self.exercise1.a = exercise.a
-            self.exercise1.b = exercise.b
-            self.exercise1.c = exercise.c
-            self.exercise1.d = exercise.d
-            self.exercise1.ans = exercise.ans
-            self.exercise1.save()
-            test = True
-        except django.db.utils.IntegrityError:
-            test = False
-        self.assertTrue(test)
-        print("\nExercise Same Exercise Unit Test - ", positive_test_result(test))
-# Exercise test
-
-
-# Subject_Exam test
-class Subject_ExamTest(TestCase):
-    """
-        Testing class (Inheriting TestCase class) for combining exercise and subject
-    """
-    @classmethod
-    def setUpClass(cls):
-        """
-            Creating teacher user, subject, exercise and exam which can be used in all the functions
-            and printing the testing class start
-        """
-        super(Subject_ExamTest, cls).setUpClass()
-        print("\n__Subject_Exam SetUp__")
-        print("Module - result")
-
-        cls.teacher = TeacherExtra()
-        cls.teacher.username = 'teacher'
-        cls.teacher.password1 = 'teacher'
-        cls.teacher.password2 = 'teacher'
-        cls.teacher.first_name = 'tea'
-        cls.teacher.last_name = 'cher'
-        cls.teacher.email = 'teacher@teach.er'
-        cls.teacher.phone = '0521234567'
-        cls.teacher.subjects = 'math'
-
-        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
-                                                                password=cls.teacher.password1, email=cls.teacher.email,
-                                                                first_name=cls.teacher.first_name,
-                                                                last_name=cls.teacher.last_name)
-        cls.teacher_user.is_superuser = False
-        cls.teacher_user.is_staff = True
-        cls.teacher_user.save()
-
-        cls.subject = Subject()
-        cls.subject.subject_name = 'Math'
-        cls.subject.teacher = get_user_model().objects.get(id=1, is_staff=1, is_superuser=0)
-        cls.subject.duration = 2
-        cls.subject.save()
-
-        cls.exercise = Exercise()
-        cls.exercise.question = 'is it working?'
-        cls.exercise.a = 'yes'
-        cls.exercise.b = 'no'
-        cls.exercise.c = 'i dont know'
-        cls.exercise.d = 'maybe'
-        cls.exercise.ans = 'a'
-        cls.exercise.save()
-
-        cls.exam = Subject_Exam()
-        cls.exam.exercise = Exercise.objects.get(id=1)
-        cls.exam.subject = Subject.objects.get(id=1)
-        cls.exam.description = 'exam description'
-        cls.exam.start_time = datetime(day=2, month=7, year=2021, hour=8, tzinfo=pytz.UTC)
-        cls.exam.end_time = datetime(day=2, month=7, year=2021, hour=11, tzinfo=pytz.UTC)
-        cls.exam.save()
-
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-             Deleting the teacher user, subject, exercise and the exam after the class finishes
-             and printing the testing class end
-        """
-        super(Subject_ExamTest, cls).tearDownClass()
-        print("\n__Subject_Exam TearDown__")
-        cls.exam.delete()
-        cls.subject.delete()
-        cls.exercise.delete()
-        cls.teacher_user.delete()
-
-    # unit tests
-
-    def test_unit_create_subject_exam(self):
-        """
-            Create Exercise testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            exam = Subject_Exam.objects.get(id=1)
-            test = (self.exam.exercise == Exercise.objects.get(id=1)
-                    and self.exam.subject == Subject.objects.get(id=1)
-                    and self.exam.description == exam.description
-                    and self.exam.start_time == exam.start_time
-                    and self.exam.end_time == exam.end_time)
-        except:
-            test = False
-        self.assertTrue(test)
-        print("\nSubject_Exam Creation Unit Test - ", positive_test_result(test))
-
-    def test_unit_same_exercise(self):
-        """
-            Check if different exercises cant be created with same fields
-
-            Returns:
-                Boolean: True or False
-        """
-        exam = Subject_Exam.objects.get(id=1)
-        try:
-            self.exam1 = Subject_Exam()
-            self.exam1.subject = Subject.objects.get(id=1)
-            self.exam1.exercise = Exercise.objects.get(id=1)
-            self.exam1.description = exam.description
-            self.exam1.start_time = exam.start_time
-            self.exam1.end_time = exam.end_time
-            self.exam1.save()
-            test = False
-        except django.db.utils.IntegrityError:
-            test = True
-        self.assertTrue(test)
-        print("\nSubject_Exam Same Exercise Unit Test - ", positive_test_result(test))
-# Subject_Exam test
-
-
-# Subject_Exercise test
-class Subject_ExerciseTest(TestCase):
-    """
-        Testing class (Inheriting TestCase class) for combining exercise and subject
-    """
-    @classmethod
-    def setUpClass(cls):
-        """
-            Creating teacher user, subject, exercise and exam which can be used in all the functions
-            and printing the testing class start
-        """
-        super(Subject_ExerciseTest, cls).setUpClass()
-        print("\n__Subject_Exercise SetUp__")
-        print("Module - result")
-
-        cls.teacher = TeacherExtra()
-        cls.teacher.username = 'teacher'
-        cls.teacher.password1 = 'teacher'
-        cls.teacher.password2 = 'teacher'
-        cls.teacher.first_name = 'tea'
-        cls.teacher.last_name = 'cher'
-        cls.teacher.email = 'teacher@teach.er'
-        cls.teacher.phone = '0521234567'
-        cls.teacher.subjects = 'math'
-
-        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
-                                                                password=cls.teacher.password1, email=cls.teacher.email,
-                                                                first_name=cls.teacher.first_name,
-                                                                last_name=cls.teacher.last_name)
-        cls.teacher_user.is_superuser = False
-        cls.teacher_user.is_staff = True
-        cls.teacher_user.save()
-
-        cls.subject = Subject()
-        cls.subject.subject_name = 'Math'
-        cls.subject.teacher = get_user_model().objects.get(id=1, is_staff=1, is_superuser=0)
-        cls.subject.duration = 2
-        cls.subject.save()
-
-        cls.exercise = Exercise()
-        cls.exercise.question = 'is it working?'
-        cls.exercise.a = 'yes'
-        cls.exercise.b = 'no'
-        cls.exercise.c = 'i dont know'
-        cls.exercise.d = 'maybe'
-        cls.exercise.ans = 'a'
-        cls.exercise.save()
-
-        cls.subject_exercise = Subject_Exercise()
-        cls.subject_exercise.exercise = Exercise.objects.get(id=1)
-        cls.subject_exercise.subject = Subject.objects.get(id=1)
-        cls.subject_exercise.description = 'exam description'
-        cls.subject_exercise.start_time = datetime(day=2, month=7, year=2021, hour=8, tzinfo=pytz.UTC)
-        cls.subject_exercise.end_time = datetime(day=2, month=7, year=2021, hour=11, tzinfo=pytz.UTC)
-        cls.subject_exercise.save()
-
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-             Deleting the exercise and the subject after the class finishes
-             and printing the testing class end
-        """
-        super(Subject_ExerciseTest, cls).tearDownClass()
-        print("\n__Subject_Exercise TearDown__")
-        cls.subject_exercise.delete()
-        cls.subject.delete()
-        cls.exercise.delete()
-        cls.teacher_user.delete()
-
-    # unit tests
-
-    def test_unit_create_subject_exercise(self):
-        """
-            Create Exercise testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            subject_exercise = Subject_Exercise.objects.get(id=1)
-            test = (self.subject_exercise.exercise == Exercise.objects.get(id=1)
-                    and self.subject_exercise.subject == Subject.objects.get(id=1)
-                    and self.subject_exercise.description == subject_exercise.description
-                    and self.subject_exercise.start_time == subject_exercise.start_time
-                    and self.subject_exercise.end_time == subject_exercise.end_time)
-        except:
-            test = False
-        self.assertTrue(test)
-        print("\nSubject_Exercise Creation Unit Test - ", positive_test_result(test))
-
-    def test_unit_same_exercise(self):
-        """
-            Check if different exercises can be created with same fields
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            subject_exercise = Subject_Exercise.objects.get(id=1)
-
-            self.subject_exercise1 = Subject_Exam()
-            self.subject_exercise1.subject = Subject.objects.get(id=1)
-            self.subject_exercise1.exercise = Exercise.objects.get(id=1)
-            self.subject_exercise1.description = subject_exercise.description
-            self.subject_exercise1.start_time = subject_exercise.start_time
-            self.subject_exercise1.end_time = subject_exercise.end_time
-            self.subject_exercise1.save()
-            test = True
-        except django.db.utils.IntegrityError:
-            test = False
-        self.assertTrue(test)
-        print("\nSubject_Exercise Same Exercise Unit Test - ", positive_test_result(test))
-# Subject_Exercise test
-
-
-# Student_Exercises test
-class Student_ExercisesTest(TestCase):
-    """
-        Testing class (Inheriting TestCase class) for combining exercise and student
-    """
-    @classmethod
-    def setUpClass(cls):
-        """
-            Creating teacher and student users, exercise, student exercise and subject
-            which can be used in all the functions and printing the testing class start
-        """
-        super(Student_ExercisesTest, cls).setUpClass()
-        print("\n__Student_Exercises SetUp__")
-        print("Module - result")
-
-        cls.teacher = TeacherExtra()
-        cls.teacher.username = 'teacher'
-        cls.teacher.password1 = 'teacher'
-        cls.teacher.password2 = 'teacher'
-        cls.teacher.first_name = 'tea'
-        cls.teacher.last_name = 'cher'
-        cls.teacher.email = 'teacher@teach.er'
-        cls.teacher.phone = '0521234567'
-        cls.teacher.subjects = 'math'
-
-        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
-                                                                password=cls.teacher.password1, email=cls.teacher.email,
-                                                                first_name=cls.teacher.first_name,
-                                                                last_name=cls.teacher.last_name)
-        cls.teacher_user.is_superuser = False
-        cls.teacher_user.is_staff = True
-        cls.teacher_user.save()
-
-        cls.student = StudentExtra()
-        cls.student.username = 'student'
-        cls.student.password1 = 'student'
-        cls.student.password2 = 'student'
-        cls.student.first_name = 'stud'
-        cls.student.last_name = 'ent'
-        cls.student.email = 'student@stude.nt'
-        cls.student.phone = '0521454567'
-        cls.student.birth_date = '1995-05-01'
-        cls.student.parentName_F = 'bob'
-        cls.student.parentPhone_F = '052987125'
-        cls.student.parentName_M = 'bella'
-        cls.student.parentPhone_M = '0529871256'
-
-        cls.student_user = get_user_model().objects.create_user(username=cls.student.username,
-                                                                password=cls.student.password1, email=cls.student.email,
-                                                                first_name=cls.student.first_name,
-                                                                last_name=cls.student.last_name)
-        cls.student_user.is_superuser = False
-        cls.student_user.is_staff = False
-        cls.student_user.save()
-
-        cls.subject = Subject()
-        cls.subject.subject_name = 'Math'
-        cls.subject.teacher = get_user_model().objects.get(is_staff=1, is_superuser=0)
-        cls.subject.duration = 2
-        cls.subject.save()
-
-        cls.exercise = Exercise()
-        cls.exercise.question = 'is it working?'
-        cls.exercise.a = 'yes'
-        cls.exercise.b = 'no'
-        cls.exercise.c = 'i dont know'
-        cls.exercise.d = 'maybe'
-        cls.exercise.ans = 'a'
-        cls.exercise.save()
-
-        cls.subject_exercise = Subject_Exercise()
-        cls.subject_exercise.exercise = Exercise.objects.get(id=1)
-        cls.subject_exercise.subject = Subject.objects.get(id=1)
-        cls.subject_exercise.description = 'exam description'
-        cls.subject_exercise.start_time = datetime(day=2, month=7, year=2021, hour=8, tzinfo=pytz.UTC)
-        cls.subject_exercise.end_time = datetime(day=2, month=7, year=2021, hour=11, tzinfo=pytz.UTC)
-        cls.subject_exercise.save()
-
-        cls.student_exercises = Student_Exercises()
-        cls.student_exercises.student = get_user_model().objects.get(is_staff=0, is_superuser=0)
-        cls.student_exercises.subject_exercise = Subject_Exercise.objects.get(id=1)
-        cls.student_exercises.correct_ans = 1
-        cls.student_exercises.total_amount_of_exercises = 1
-        cls.student_exercises.save()
-
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-             Deleting the teacher and student users, exercise, student exercise and the subject after the class finishes
-             and printing the testing class end
-        """
-        super(Student_ExercisesTest, cls).tearDownClass()
-        print("\n__Student_Exercises TearDown__")
-        cls.student_exercises.delete()
-        cls.subject_exercise.delete()
-        cls.subject.delete()
-        cls.exercise.delete()
-        cls.teacher_user.delete()
-        cls.student_user.delete()
-
-    # unit tests
-
-    def test_unit_create_student_exercise(self):
-        """
-            Create Exercise testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            student_exercises = Student_Exercises.objects.get(id=1)
-            test = (self.student_exercises.student == get_user_model().objects.get(is_staff=0, is_superuser=0)
-                    and self.student_exercises.subject_exercise == Subject_Exercise.objects.get(id=1)
-                    and self.student_exercises.correct_ans == student_exercises.correct_ans
-                    and self.student_exercises.total_amount_of_exercises == student_exercises.total_amount_of_exercises)
-        except:
-            test = False
-        self.assertTrue(test)
-        print("\nStudent_Exercise Creation Unit Test - ", positive_test_result(test))
-
-    def test_unit_same_subject_exercise(self):
-        """
-            Check if different student_exercises cant be created with same fields
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            student_exercises = Student_Exercises.objects.get(id=1)
-
-            self.student_exercises1 = Subject_Exam()
-            self.student_exercises1.student = get_user_model().objects.get(is_staff=0, is_superuser=0)
-            self.student_exercises1.subject_exercise = Subject_Exercise.objects.get(id=1)
-            self.student_exercises1.correct_ans = student_exercises.correct_ans
-            self.student_exercises1.total_amount_of_exercises = student_exercises.total_amount_of_exercises
-            self.student_exercises1.save()
-            test = False
-        except django.db.utils.IntegrityError:
-            test = True
-        self.assertTrue(test)
-        print("\nStudent_Exercises Same Subject_Exercise Unit Test - ", positive_test_result(test))
-# Student_Exercises test
-
-
-# StudentClassroom test
-class StudentClassroomTest(TestCase):
-    """
-        Testing class (Inheriting TestCase class) for combining class room and student
-    """
-    @classmethod
-    def setUpClass(cls):
-        """
-            Creating student users, student and classroom
-            which can be used in all the functions and printing the testing class start
-        """
-        super(StudentClassroomTest, cls).setUpClass()
-        print("\n__StudentClassroom SetUp__")
-        print("Module - result")
-
-        cls.teacher = TeacherExtra()
-        cls.teacher.username = 'teacher'
-        cls.teacher.password1 = 'teacher'
-        cls.teacher.password2 = 'teacher'
-        cls.teacher.first_name = 'tea'
-        cls.teacher.last_name = 'cher'
-        cls.teacher.email = 'teacher@teach.er'
-        cls.teacher.phone = '0521234567'
-        cls.teacher.subjects = 'math'
-
-        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
-                                                                password=cls.teacher.password1, email=cls.teacher.email,
-                                                                first_name=cls.teacher.first_name,
-                                                                last_name=cls.teacher.last_name)
-        cls.teacher_user.is_superuser = False
-        cls.teacher_user.is_staff = True
-        cls.teacher_user.save()
-
-        cls.student = StudentExtra()
-        cls.student.username = 'student'
-        cls.student.password1 = 'student'
-        cls.student.password2 = 'student'
-        cls.student.first_name = 'stud'
-        cls.student.last_name = 'ent'
-        cls.student.email = 'student@stude.nt'
-        cls.student.phone = '0521454567'
-        cls.student.birth_date = '1995-05-01'
-        cls.student.parentName_F = 'bob'
-        cls.student.parentPhone_F = '052987125'
-        cls.student.parentName_M = 'bella'
-        cls.student.parentPhone_M = '0529871256'
-
-        cls.student_user = get_user_model().objects.create_user(username=cls.student.username,
-                                                                password=cls.student.password1, email=cls.student.email,
-                                                                first_name=cls.student.first_name,
-                                                                last_name=cls.student.last_name)
-        cls.student_user.is_superuser = False
-        cls.student_user.is_staff = False
-        cls.student_user.save()
-
-        cls.classroom = Classroom()
-        cls.classroom.class_name = 'class1'
-        cls.classroom.teacher = cls.teacher_user
-        cls.classroom.save()
-
-        cls.student_classroom = StudentClassroom()
-        cls.student_classroom.class_room = Classroom.objects.get(id=1)
-        cls.student_classroom.user = get_user_model().objects.get(is_superuser=0, is_staff=0)
-        cls.student_classroom.save()
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-             Deleting the student users and the classroom after the class finishes
-             and printing the testing class end
-        """
-        super(StudentClassroomTest, cls).tearDownClass()
-        print("\n__StudentClassroom TearDown__")
-        cls.student_classroom.delete()
-        cls.classroom.delete()
-        cls.student_user.delete()
-        cls.teacher_user.delete()
-
-    # unit tests
-
-    def test_unit_create_student_classroom(self):
-        """
-            Create student classroom testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            student_classroom = StudentClassroom.objects.get(id=1)
-            test = (self.student_classroom.class_room == Classroom.objects.get(id=1)
-                    and self.student_classroom.user == get_user_model().objects.get(is_superuser=0, is_staff=0))
-        except:
-            test = False
-        self.assertTrue(test)
-        print("\nStudent_Classroom Creation Unit Test - ", positive_test_result(test))
-
-    def test_unit_same_student_classroom(self):
-        """
-            Check if different student_exercises cant be created with same student
-
-            Returns:
-                Boolean: True or False
-        """
-        try:
-            self.student_classroom1 = Subject_Exam()
-            self.student_classroom1.class_room = Classroom.objects.get(id=1)
-            self.student_classroom1.user = get_user_model().objects.get(is_superuser=0, is_staff=0)
-            self.student_classroom1.save()
-            test = False
-        except django.db.utils.IntegrityError:
-            test = True
-        self.assertTrue(test)
-        print("\nStudent_Classroom Same Student Unit Test - ", positive_test_result(test))
-# StudentClassroom test
-
-
-# Private_Chat test
-class Private_ChatTest(TestCase):
-    """
-        Testing class (Inheriting TestCase class) for private chatting
-    """
-    @classmethod
-    def setUpClass(cls):
-        """
-            Creating student and teacher users and private chat
-            which can be used in all the functions and printing the testing class start
-        """
-        super(Private_ChatTest, cls).setUpClass()
-        print("\n__Private_Chat SetUp__")
-        print("Module - result")
-
-        cls.teacher = TeacherExtra()
-        cls.teacher.username = 'teacher'
-        cls.teacher.password1 = 'teacher'
-        cls.teacher.password2 = 'teacher'
-        cls.teacher.first_name = 'tea'
-        cls.teacher.last_name = 'cher'
-        cls.teacher.email = 'teacher@teach.er'
-        cls.teacher.phone = '0521234567'
-        cls.teacher.subjects = 'math'
-
-        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
-                                                                password=cls.teacher.password1, email=cls.teacher.email,
-                                                                first_name=cls.teacher.first_name,
-                                                                last_name=cls.teacher.last_name)
-        cls.teacher_user.is_superuser = False
-        cls.teacher_user.is_staff = True
-        cls.teacher_user.save()
-
-        cls.student = StudentExtra()
-        cls.student.username = 'student'
-        cls.student.password1 = 'student'
-        cls.student.password2 = 'student'
-        cls.student.first_name = 'stud'
-        cls.student.last_name = 'ent'
-        cls.student.email = 'student@stude.nt'
-        cls.student.phone = '0521454567'
-        cls.student.birth_date = '1995-05-01'
-        cls.student.parentName_F = 'bob'
-        cls.student.parentPhone_F = '052987125'
-        cls.student.parentName_M = 'bella'
-        cls.student.parentPhone_M = '0529871256'
-
-        cls.student_user = get_user_model().objects.create_user(username=cls.student.username,
-                                                                password=cls.student.password1, email=cls.student.email,
-                                                                first_name=cls.student.first_name,
-                                                                last_name=cls.student.last_name)
-        cls.student_user.is_superuser = False
-        cls.student_user.is_staff = False
-        cls.student_user.save()
-
-        cls.chat_dict = {
-            'receiver_id': get_user_model().objects.get(id=2).id,
-            'publish_date': '2021-05-05 18:33:00',
-            'msg': 'Good day fine sir!'
-        }
-
-        cls.private_chat = PrivateChatTestForm(cls.chat_dict)
-        cls.private_chat.save(commit=False)
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-             Deleting the student and teacher users and the private chat after the class finishes
-             and printing the testing class end
-        """
-        super(Private_ChatTest, cls).tearDownClass()
-        print("\n__Private_Chat TearDown__")
-        cls.student_user.delete()
-        cls.teacher_user.delete()
-
-    # unit tests
-
-    def test_unit_private_chat_creation(self):
-        """
-            Create student private chat testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        self.private_chat.receiver_id = self.chat_dict['receiver_id']
-        self.private_chat.msg = self.chat_dict['msg']
-        self.private_chat.publish_date = self.chat_dict['publish_date']
-        test = (self.private_chat.receiver_id == self.chat_dict['receiver_id'] and self.private_chat.msg == self.chat_dict['msg']
-                and self.private_chat.publish_date == self.chat_dict['publish_date'])
-        self.assertTrue(test)
-        print("\nPrivate_Chat Creation Unit Test - ", positive_test_result(test))
-# Private_Chat test
-
-
-# Class_Chat test
-class Class_ChatTest(TestCase):
-    """
-        Testing class (Inheriting TestCase class) for class chatting
-    """
-    @classmethod
-    def setUpClass(cls):
-        """
-            Creating student and teacher users, classroom and class chat
-            which can be used in all the functions and printing the testing class start
-        """
-        super(Class_ChatTest, cls).setUpClass()
-        print("\n__Class_Chat SetUp__")
-        print("Module - result")
-
-        cls.teacher = TeacherExtra()
-        cls.teacher.username = 'teacher'
-        cls.teacher.password1 = 'teacher'
-        cls.teacher.password2 = 'teacher'
-        cls.teacher.first_name = 'tea'
-        cls.teacher.last_name = 'cher'
-        cls.teacher.email = 'teacher@teach.er'
-        cls.teacher.phone = '0521234567'
-        cls.teacher.subjects = 'math'
-
-        cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
-                                                                password=cls.teacher.password1, email=cls.teacher.email,
-                                                                first_name=cls.teacher.first_name,
-                                                                last_name=cls.teacher.last_name)
-        cls.teacher_user.is_superuser = False
-        cls.teacher_user.is_staff = True
-        cls.teacher_user.save()
-
-        cls.student = StudentExtra()
-        cls.student.username = 'student'
-        cls.student.password1 = 'student'
-        cls.student.password2 = 'student'
-        cls.student.first_name = 'stud'
-        cls.student.last_name = 'ent'
-        cls.student.email = 'student@stude.nt'
-        cls.student.phone = '0521454567'
-        cls.student.birth_date = '1995-05-01'
-        cls.student.parentName_F = 'bob'
-        cls.student.parentPhone_F = '052987125'
-        cls.student.parentName_M = 'bella'
-        cls.student.parentPhone_M = '0529871256'
-
-        cls.student_user = get_user_model().objects.create_user(username=cls.student.username,
-                                                                password=cls.student.password1, email=cls.student.email,
-                                                                first_name=cls.student.first_name,
-                                                                last_name=cls.student.last_name)
-        cls.student_user.is_superuser = False
-        cls.student_user.is_staff = False
-        cls.student_user.save()
-
-        cls.classroom = Classroom()
-        cls.classroom.class_name = 'class1'
-        cls.classroom.teacher = cls.teacher_user
-        cls.classroom.save()
-
-        cls.chat_dict = {
-            'publish_date': '2021-05-05 18:33:00',
-            'msg': 'Good day fine sir!'
-        }
-
-        cls.class_chat = ClassChatTestForm(cls.chat_dict)
-        cls.class_chat.save(commit=False)
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-             Deleting the student and teacher users, classroom and the class chat after the class finishes
-             and printing the testing class end
-        """
-        super(Class_ChatTest, cls).tearDownClass()
-        print("\n__Class_Chat TearDown__")
-        cls.classroom.delete()
-        cls.student_user.delete()
-        cls.teacher_user.delete()
-
-    # unit tests
-
-    def test_unit_class_chat_creation(self):
-        """
-            Create student class chat testing function
-
-            Returns:
-                Boolean: True or False
-        """
-        self.class_chat.msg = self.chat_dict['msg']
-        self.class_chat.publish_date = self.chat_dict['publish_date']
-        test = (self.class_chat.msg == self.chat_dict['msg']
-                and self.class_chat.publish_date == self.chat_dict['publish_date'])
-        self.assertTrue(test)
-        print("\nClass_Chat Creation Unit Test - ", positive_test_result(test))
-# Class_Chat test
-
-
+# # Classroom test
+# class ClassroomTest(TestCase):
+#     """
+#         Testing class (Inheriting TestCase class) for creating class room
+#     """
+#
+#     @classmethod
+#     def setUpClass(cls):
+#         """
+#             Creating teacher user and class room which can be used in all the functions
+#             and printing the testing class start
+#         """
+#         super(ClassroomTest, cls).setUpClass()
+#         print("\n__Classroom SetUp__")
+#         print("Module - result")
+#
+#         cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher', first_name='tea',
+#                                                            last_name='cher', email='teacher@teach.er')
+#         cls.teacher.is_superuser = False
+#         cls.teacher.is_staff = True
+#         cls.teacher.save()
+#
+#         cls.teacher_extra = TeacherExtra()
+#         cls.teacher_extra.user = cls.teacher
+#         cls.teacher_extra.phone = '0521234567'
+#         cls.teacher_extra.subjects = 'math'
+#
+#         cls.teacher_extra.save()
+#
+#         cls.classroom = Classroom()
+#         cls.classroom.classname = 'class1'
+#         cls.classroom.teacher = cls.teacher
+#         cls.classroom.save()
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         """
+#              Deleting the teacher user and the class room after the class finishes
+#              and printing the testing class end
+#         """
+#         super(ClassroomTest, cls).tearDownClass()
+#         print("\n__Classroom TearDown__")
+#         cls.classroom.delete()
+#         cls.teacher_extra.delete()
+#         cls.teacher.delete()
+#
+#     # unit tests
+#
+#     def test_unit_create_classroom(self):
+#         """
+#             Create class room testing function
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             classroom = Classroom.objects.get(teacher=self.teacher.id)
+#             test = (self.classroom.teacher.id == classroom.teacher_id
+#                     and self.classroom.class_name == classroom.class_name)
+#         except:
+#             test = False
+#         self.assertTrue(test)
+#         print("\nClassroom Creation Unit Test - ", positive_test_result(test))
+#
+#     def test_unit_same_teacher(self):
+#         """
+#             Check if 2 different class rooms cant have the same teacher
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             self.classroom1 = Classroom()
+#             self.classroom1.class_name = self.classroom.class_name
+#             self.classroom1.teacher = self.teacher
+#             self.classroom1.save()
+#             test = False
+#         except django.db.utils.IntegrityError:
+#             test = True
+#         self.assertTrue(test)
+#         print("\nClassroom Same Teacher Unit Test - ", positive_test_result(test))
+# # Classroom test
+#
+#
+# # Subject test
+# class SubjectTest(TestCase):
+#     """
+#         Testing class (Inheriting TestCase class) for creating Subject
+#     """
+#
+#     @classmethod
+#     def setUpClass(cls):
+#         """
+#             Creating teacher user and subject which can be used in all the functions
+#             and printing the testing class start
+#         """
+#         super(SubjectTest, cls).setUpClass()
+#         print("\n__Subject SetUp__")
+#         print("Module - result")
+#
+#         cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher', first_name='tea',
+#                                                            last_name='cher', email='teacher@teach.er')
+#         cls.teacher.is_superuser = False
+#         cls.teacher.is_staff = True
+#         cls.teacher.save()
+#
+#         cls.teacher_extra = TeacherExtra()
+#         cls.teacher_extra.user = cls.teacher
+#         cls.teacher_extra.phone = '0521234567'
+#         cls.teacher_extra.subjects = 'math'
+#
+#         cls.teacher_extra.save()
+#
+#         cls.classroom = Classroom()
+#         cls.classroom.classname = 'class1'
+#         cls.classroom.teacher = cls.teacher
+#         cls.classroom.save()
+#
+#         cls.subject = Subject()
+#         cls.subject.subject_name = 'Math'
+#         cls.subject.teacher = cls.teacher
+#         cls.subject.duration = 2
+#         cls.subject.save()
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         """
+#              Deleting the teacher user and the subject after the class finishes
+#              and printing the testing class end
+#         """
+#         super(SubjectTest, cls).tearDownClass()
+#         print("\n__Subject TearDown__")
+#         cls.subject.delete()
+#         cls.teacher_extra.delete()
+#         cls.teacher.delete()
+#
+#     # unit tests
+#
+#     def test_unit_create_subject(self):
+#         """
+#             Create subject testing function
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             subject = Subject.objects.get(id=1)
+#             test = (subject.subject_name == self.subject.subject_name and subject.teacher == self.teacher
+#                     and subject.duration == self.subject.duration)
+#         except:
+#             test = False
+#         self.assertTrue(test)
+#         print("\nSubject Creation Unit Test - ", positive_test_result(test))
+#
+#     def test_unit_same_teacher(self):
+#         """
+#             Check if 2 different class rooms cant have the same teacher
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             self.subject1 = Subject()
+#             self.subject1.subject_name = self.subject.subject_name
+#             self.subject1.teacher = self.teacher
+#             self.subject1.duration = self.subject1.duration
+#             self.subject1.save()
+#             test = False
+#         except django.db.utils.IntegrityError:
+#             test = True
+#         self.assertTrue(test)
+#         print("\nSubject Same Teacher Unit Test - ", positive_test_result(test))
+# # Subject test
+#
+#
+# # ClassSubject test
+# class ClassSubjectTest(TestCase):
+#     """
+#         Testing class (Inheriting TestCase class) for combining class room and subject
+#     """
+#     @classmethod
+#     def setUpClass(cls):
+#         """
+#             Creating teacher user, class room and subject which can be used in all the functions
+#             and printing the testing class start
+#         """
+#         super(ClassSubjectTest, cls).setUpClass()
+#         print("\n__ClassSubject SetUp__")
+#         print("Module - result")
+#
+#         cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher', first_name='tea',
+#                                                            last_name='cher', email='teacher@teach.er')
+#         cls.teacher.is_superuser = False
+#         cls.teacher.is_staff = True
+#         cls.teacher.save()
+#
+#         cls.teacher_extra = TeacherExtra()
+#         cls.teacher_extra.user = cls.teacher
+#         cls.teacher_extra.phone = '0521234567'
+#         cls.teacher_extra.subjects = 'math'
+#
+#         cls.teacher_extra.save()
+#
+#         cls.subject = Subject()
+#         cls.subject.subject_name = 'Math'
+#         cls.subject.teacher = cls.teacher
+#         cls.subject.duration = 2
+#         cls.subject.save()
+#
+#         cls.classroom = Classroom()
+#         cls.classroom.class_name = 'class1'
+#         cls.classroom.teacher = cls.teacher
+#         cls.classroom.save()
+#
+#         cls.class_subject = ClassSubject()
+#         cls.class_subject.subject = cls.subject
+#         cls.class_subject.class_room = cls.classroom
+#         cls.class_subject.days = 'Sunday'
+#         cls.class_subject.start_time = '08:00'
+#         cls.class_subject.end_time = '10:00'
+#         cls.class_subject.meeting = None
+#         cls.class_subject.save()
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         """
+#              Deleting the teacher user, class room and the subject after the class finishes
+#              and printing the testing class end
+#         """
+#         super(ClassSubjectTest, cls).tearDownClass()
+#         print("\n__ClassSubject TearDown__")
+#         cls.class_subject.delete()
+#         cls.subject.delete()
+#         cls.teacher_extra.delete()
+#         cls.teacher.delete()
+#
+#     # unit tests
+#
+#     def test_unit_create_classSubject(self):
+#         """
+#             Create classSubject testing function
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         class_subject = ClassSubject.objects.get(id=1)
+#         test = (self.class_subject.subject_id == class_subject.subject_id
+#                 and self.class_subject.class_room_id == class_subject.class_room_id
+#                 and self.class_subject.days == class_subject.days)
+#         self.assertTrue(test)
+#         print("\nClassSubject Creation Unit Test - ", positive_test_result(test))
+#
+#     def test_unit_same_fields(self):
+#         """
+#             Check if different classSubjects cant have 2 different subjects with same teacher
+#             or 2 different class rooms with same teacher
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             class_subject = ClassSubject.objects.get(id=1)
+#
+#             self.class_subject1 = ClassSubject()
+#             self.class_subject1.subject = self.subject
+#             self.class_subject1.class_room = self.classroom
+#             self.class_subject1.days = class_subject.days
+#             self.class_subject1.start_time = class_subject.start_time
+#             self.class_subject1.end_time = class_subject.end_time
+#             self.class_subject1.save()
+#             test = False
+#         except django.db.utils.IntegrityError:
+#             test = True
+#
+#         self.assertTrue(test)
+#         print("\nClassSubject Same Fields Unit Test - ", positive_test_result(test))
+# # ClassSubject test
+#
+#
+# # Exercise test
+# class ExerciseTest(TestCase):
+#     """
+#         Testing class (Inheriting TestCase class) for creating exercise
+#     """
+#     @classmethod
+#     def setUpClass(cls):
+#         """
+#             Creating exercise which can be used in all the functions
+#             and printing the testing class start
+#         """
+#         super(ExerciseTest, cls).setUpClass()
+#         print("\n__Exercise SetUp__")
+#         print("Module - result")
+#         cls.exercise = Exercise()
+#         cls.exercise.question = 'is it working?'
+#         cls.exercise.a = 'yes'
+#         cls.exercise.b = 'no'
+#         cls.exercise.c = 'i dont know'
+#         cls.exercise.d = 'maybe'
+#         cls.exercise.ans = 'a'
+#         cls.exercise.save()
+#
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         """
+#              Deleting the exercise and the subject after the class finishes
+#              and printing the testing class end
+#         """
+#         super(ExerciseTest, cls).tearDownClass()
+#         print("\n__Exercise TearDown__")
+#         cls.exercise.delete()
+#
+#     # unit tests
+#
+#     def test_unit_create_exercise(self):
+#         """
+#             Create Exercise testing function
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         exercise = Exercise.objects.get(id=1)
+#         test = (self.exercise.question == exercise.question and self.exercise.a == exercise.a
+#                 and self.exercise.b == exercise.b and self.exercise.c == exercise.c
+#                 and self.exercise.d == exercise.d and self.exercise.ans == exercise.ans)
+#         self.assertTrue(test)
+#         print("\nExercise Creation Unit Test - ", positive_test_result(test))
+#
+#     def test_unit_same_exercise(self):
+#         """
+#             Check if different exercises can be created with same fields
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         exercise = Exercise.objects.get(id=1)
+#         try:
+#             self.exercise1 = Exercise()
+#             self.exercise1.question = exercise.question
+#             self.exercise1.a = exercise.a
+#             self.exercise1.b = exercise.b
+#             self.exercise1.c = exercise.c
+#             self.exercise1.d = exercise.d
+#             self.exercise1.ans = exercise.ans
+#             self.exercise1.save()
+#             test = True
+#         except django.db.utils.IntegrityError:
+#             test = False
+#         self.assertTrue(test)
+#         print("\nExercise Same Exercise Unit Test - ", positive_test_result(test))
+#
+#     def test_unit_create_few_exercises(self):
+#         """
+#             Check if different exercises can be created with same fields
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         exercise = Exercise.objects.get(id=1)
+#         try:
+#             self.exercise1 = Exercise()
+#             self.exercise1.question = exercise.question
+#             self.exercise1.a = 'ans1'
+#             self.exercise1.b = 'ans2'
+#             self.exercise1.c = 'ans3'
+#             self.exercise1.d = 'ans4'
+#             self.exercise1.ans = 'b'
+#             self.exercise1.save()
+#             test = True
+#         except django.db.utils.IntegrityError:
+#             test = False
+#
+#         try:
+#             self.exercise2 = Exercise()
+#             self.exercise2.question = exercise.question
+#             self.exercise2.a = 'ans5'
+#             self.exercise2.b = 'ans6'
+#             self.exercise2.c = 'ans7'
+#             self.exercise2.d = 'ans8'
+#             self.exercise2.ans = 'd'
+#             self.exercise2.save()
+#             test = True
+#         except django.db.utils.IntegrityError:
+#             test = False
+#         self.assertTrue(test)
+#         print("\nCreate Few Exercises Unit Test - ", positive_test_result(test))
+# # Exercise test
+#
+#
+# # Subject_Exam test
+# class Subject_ExamTest(TestCase):
+#     """
+#         Testing class (Inheriting TestCase class) for combining exercise and subject
+#     """
+#     @classmethod
+#     def setUpClass(cls):
+#         """
+#             Creating teacher user, subject, exercise and exam which can be used in all the functions
+#             and printing the testing class start
+#         """
+#         super(Subject_ExamTest, cls).setUpClass()
+#         print("\n__Subject_Exam SetUp__")
+#         print("Module - result")
+#
+#         cls.teacher = get_user_model().objects.create_user(username='teacher', password='teacher', first_name='tea',
+#                                                            last_name='cher', email='teacher@teach.er')
+#         cls.teacher.is_superuser = False
+#         cls.teacher.is_staff = True
+#         cls.teacher.save()
+#
+#         cls.teacher_extra = TeacherExtra()
+#         cls.teacher_extra.user = cls.teacher
+#         cls.teacher_extra.phone = '0521234567'
+#         cls.teacher_extra.subjects = 'math'
+#
+#         cls.teacher_extra.save()
+#
+#         cls.subject = Subject()
+#         cls.subject.subject_name = 'Math'
+#         cls.subject.teacher = get_user_model().objects.get(id=1, is_staff=1, is_superuser=0)
+#         cls.subject.duration = 2
+#         cls.subject.save()
+#
+#         cls.exercise = Exercise()
+#         cls.exercise.question = 'is it working?'
+#         cls.exercise.a = 'yes'
+#         cls.exercise.b = 'no'
+#         cls.exercise.c = 'i dont know'
+#         cls.exercise.d = 'maybe'
+#         cls.exercise.ans = 'a'
+#         cls.exercise.save()
+#
+#         cls.exam = Subject_Exam()
+#         cls.exam.exercise = Exercise.objects.get(id=1)
+#         cls.exam.subject = Subject.objects.get(id=1)
+#         cls.exam.description = 'exam description'
+#         cls.exam.start_time = datetime(day=2, month=7, year=2021, hour=8, tzinfo=pytz.UTC)
+#         cls.exam.end_time = datetime(day=2, month=7, year=2021, hour=11, tzinfo=pytz.UTC)
+#         cls.exam.save()
+#
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         """
+#              Deleting the teacher user, subject, exercise and the exam after the class finishes
+#              and printing the testing class end
+#         """
+#         super(Subject_ExamTest, cls).tearDownClass()
+#         print("\n__Subject_Exam TearDown__")
+#         cls.exam.delete()
+#         cls.subject.delete()
+#         cls.exercise.delete()
+#         cls.teacher_extra.delete()
+#         cls.teacher.delete()
+#
+#     # unit tests
+#
+#     def test_unit_create_subject_exam(self):
+#         """
+#             Create Exercise testing function
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             exam = Subject_Exam.objects.get(id=1)
+#             test = (self.exam.exercise == Exercise.objects.get(id=1)
+#                     and self.exam.subject == Subject.objects.get(id=1)
+#                     and self.exam.description == exam.description
+#                     and self.exam.start_time == exam.start_time
+#                     and self.exam.end_time == exam.end_time)
+#         except:
+#             test = False
+#         self.assertTrue(test)
+#         print("\nSubject_Exam Creation Unit Test - ", positive_test_result(test))
+#
+#     def test_unit_same_exercise(self):
+#         """
+#             Check if different exercises cant be created with same fields
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         exam = Subject_Exam.objects.get(id=1)
+#         try:
+#             self.exam1 = Subject_Exam()
+#             self.exam1.subject = Subject.objects.get(id=1)
+#             self.exam1.exercise = Exercise.objects.get(id=1)
+#             self.exam1.description = exam.description
+#             self.exam1.start_time = exam.start_time
+#             self.exam1.end_time = exam.end_time
+#             self.exam1.save()
+#             test = False
+#         except django.db.utils.IntegrityError:
+#             test = True
+#         self.assertTrue(test)
+#         print("\nSubject_Exam Same Exercise Unit Test - ", positive_test_result(test))
+# # Subject_Exam test
+#
+#
+# # Subject_Exercise test
+# class Subject_ExerciseTest(TestCase):
+#     """
+#         Testing class (Inheriting TestCase class) for combining exercise and subject
+#     """
+#     @classmethod
+#     def setUpClass(cls):
+#         """
+#             Creating teacher user, subject, exercise and exam which can be used in all the functions
+#             and printing the testing class start
+#         """
+#         super(Subject_ExerciseTest, cls).setUpClass()
+#         print("\n__Subject_Exercise SetUp__")
+#         print("Module - result")
+#
+#         cls.teacher = TeacherExtra()
+#         cls.teacher.username = 'teacher'
+#         cls.teacher.password1 = 'teacher'
+#         cls.teacher.password2 = 'teacher'
+#         cls.teacher.first_name = 'tea'
+#         cls.teacher.last_name = 'cher'
+#         cls.teacher.email = 'teacher@teach.er'
+#         cls.teacher.phone = '0521234567'
+#         cls.teacher.subjects = 'math'
+#
+#         cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
+#                                                                 password=cls.teacher.password1, email=cls.teacher.email,
+#                                                                 first_name=cls.teacher.first_name,
+#                                                                 last_name=cls.teacher.last_name)
+#         cls.teacher_user.is_superuser = False
+#         cls.teacher_user.is_staff = True
+#         cls.teacher_user.save()
+#
+#         cls.subject = Subject()
+#         cls.subject.subject_name = 'Math'
+#         cls.subject.teacher = get_user_model().objects.get(id=1, is_staff=1, is_superuser=0)
+#         cls.subject.duration = 2
+#         cls.subject.save()
+#
+#         cls.exercise = Exercise()
+#         cls.exercise.question = 'is it working?'
+#         cls.exercise.a = 'yes'
+#         cls.exercise.b = 'no'
+#         cls.exercise.c = 'i dont know'
+#         cls.exercise.d = 'maybe'
+#         cls.exercise.ans = 'a'
+#         cls.exercise.save()
+#
+#         cls.subject_exercise = Subject_Exercise()
+#         cls.subject_exercise.exercise = Exercise.objects.get(id=1)
+#         cls.subject_exercise.subject = Subject.objects.get(id=1)
+#         cls.subject_exercise.description = 'exam description'
+#         cls.subject_exercise.start_time = datetime(day=2, month=7, year=2021, hour=8, tzinfo=pytz.UTC)
+#         cls.subject_exercise.end_time = datetime(day=2, month=7, year=2021, hour=11, tzinfo=pytz.UTC)
+#         cls.subject_exercise.save()
+#
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         """
+#              Deleting the exercise and the subject after the class finishes
+#              and printing the testing class end
+#         """
+#         super(Subject_ExerciseTest, cls).tearDownClass()
+#         print("\n__Subject_Exercise TearDown__")
+#         cls.subject_exercise.delete()
+#         cls.subject.delete()
+#         cls.exercise.delete()
+#         cls.teacher_user.delete()
+#
+#     # unit tests
+#
+#     def test_unit_create_subject_exercise(self):
+#         """
+#             Create Exercise testing function
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             subject_exercise = Subject_Exercise.objects.get(id=1)
+#             test = (self.subject_exercise.exercise == Exercise.objects.get(id=1)
+#                     and self.subject_exercise.subject == Subject.objects.get(id=1)
+#                     and self.subject_exercise.description == subject_exercise.description
+#                     and self.subject_exercise.start_time == subject_exercise.start_time
+#                     and self.subject_exercise.end_time == subject_exercise.end_time)
+#         except:
+#             test = False
+#         self.assertTrue(test)
+#         print("\nSubject_Exercise Creation Unit Test - ", positive_test_result(test))
+#
+#     def test_unit_same_exercise(self):
+#         """
+#             Check if different exercises can be created with same fields
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             subject_exercise = Subject_Exercise.objects.get(id=1)
+#
+#             self.subject_exercise1 = Subject_Exam()
+#             self.subject_exercise1.subject = Subject.objects.get(id=1)
+#             self.subject_exercise1.exercise = Exercise.objects.get(id=1)
+#             self.subject_exercise1.description = subject_exercise.description
+#             self.subject_exercise1.start_time = subject_exercise.start_time
+#             self.subject_exercise1.end_time = subject_exercise.end_time
+#             self.subject_exercise1.save()
+#             test = True
+#         except django.db.utils.IntegrityError:
+#             test = False
+#         self.assertTrue(test)
+#         print("\nSubject_Exercise Same Exercise Unit Test - ", positive_test_result(test))
+# # Subject_Exercise test
+#
+#
+# # Student_Exercises test
+# class Student_ExercisesTest(TestCase):
+#     """
+#         Testing class (Inheriting TestCase class) for combining exercise and student
+#     """
+#     @classmethod
+#     def setUpClass(cls):
+#         """
+#             Creating teacher and student users, exercise, student exercise and subject
+#             which can be used in all the functions and printing the testing class start
+#         """
+#         super(Student_ExercisesTest, cls).setUpClass()
+#         print("\n__Student_Exercises SetUp__")
+#         print("Module - result")
+#
+#         cls.teacher = TeacherExtra()
+#         cls.teacher.username = 'teacher'
+#         cls.teacher.password1 = 'teacher'
+#         cls.teacher.password2 = 'teacher'
+#         cls.teacher.first_name = 'tea'
+#         cls.teacher.last_name = 'cher'
+#         cls.teacher.email = 'teacher@teach.er'
+#         cls.teacher.phone = '0521234567'
+#         cls.teacher.subjects = 'math'
+#
+#         cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
+#                                                                 password=cls.teacher.password1, email=cls.teacher.email,
+#                                                                 first_name=cls.teacher.first_name,
+#                                                                 last_name=cls.teacher.last_name)
+#         cls.teacher_user.is_superuser = False
+#         cls.teacher_user.is_staff = True
+#         cls.teacher_user.save()
+#
+#         cls.student = StudentExtra()
+#         cls.student.username = 'student'
+#         cls.student.password1 = 'student'
+#         cls.student.password2 = 'student'
+#         cls.student.first_name = 'stud'
+#         cls.student.last_name = 'ent'
+#         cls.student.email = 'student@stude.nt'
+#         cls.student.phone = '0521454567'
+#         cls.student.birth_date = '1995-05-01'
+#         cls.student.parentName_F = 'bob'
+#         cls.student.parentPhone_F = '052987125'
+#         cls.student.parentName_M = 'bella'
+#         cls.student.parentPhone_M = '0529871256'
+#
+#         cls.student_user = get_user_model().objects.create_user(username=cls.student.username,
+#                                                                 password=cls.student.password1, email=cls.student.email,
+#                                                                 first_name=cls.student.first_name,
+#                                                                 last_name=cls.student.last_name)
+#         cls.student_user.is_superuser = False
+#         cls.student_user.is_staff = False
+#         cls.student_user.save()
+#
+#         cls.subject = Subject()
+#         cls.subject.subject_name = 'Math'
+#         cls.subject.teacher = get_user_model().objects.get(is_staff=1, is_superuser=0)
+#         cls.subject.duration = 2
+#         cls.subject.save()
+#
+#         cls.exercise = Exercise()
+#         cls.exercise.question = 'is it working?'
+#         cls.exercise.a = 'yes'
+#         cls.exercise.b = 'no'
+#         cls.exercise.c = 'i dont know'
+#         cls.exercise.d = 'maybe'
+#         cls.exercise.ans = 'a'
+#         cls.exercise.save()
+#
+#         cls.subject_exercise = Subject_Exercise()
+#         cls.subject_exercise.exercise = Exercise.objects.get(id=1)
+#         cls.subject_exercise.subject = Subject.objects.get(id=1)
+#         cls.subject_exercise.description = 'exam description'
+#         cls.subject_exercise.start_time = datetime(day=2, month=7, year=2021, hour=8, tzinfo=pytz.UTC)
+#         cls.subject_exercise.end_time = datetime(day=2, month=7, year=2021, hour=11, tzinfo=pytz.UTC)
+#         cls.subject_exercise.save()
+#
+#         cls.student_exercises = Student_Exercises()
+#         cls.student_exercises.student = get_user_model().objects.get(is_staff=0, is_superuser=0)
+#         cls.student_exercises.subject_exercise = Subject_Exercise.objects.get(id=1)
+#         cls.student_exercises.correct_ans = 1
+#         cls.student_exercises.total_amount_of_exercises = 1
+#         cls.student_exercises.save()
+#
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         """
+#              Deleting the teacher and student users, exercise, student exercise and the subject after the class finishes
+#              and printing the testing class end
+#         """
+#         super(Student_ExercisesTest, cls).tearDownClass()
+#         print("\n__Student_Exercises TearDown__")
+#         cls.student_exercises.delete()
+#         cls.subject_exercise.delete()
+#         cls.subject.delete()
+#         cls.exercise.delete()
+#         cls.teacher_user.delete()
+#         cls.student_user.delete()
+#
+#     # unit tests
+#
+#     def test_unit_create_student_exercise(self):
+#         """
+#             Create Exercise testing function
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             student_exercises = Student_Exercises.objects.get(id=1)
+#             test = (self.student_exercises.student == get_user_model().objects.get(is_staff=0, is_superuser=0)
+#                     and self.student_exercises.subject_exercise == Subject_Exercise.objects.get(id=1)
+#                     and self.student_exercises.correct_ans == student_exercises.correct_ans
+#                     and self.student_exercises.total_amount_of_exercises == student_exercises.total_amount_of_exercises)
+#         except:
+#             test = False
+#         self.assertTrue(test)
+#         print("\nStudent_Exercise Creation Unit Test - ", positive_test_result(test))
+#
+#     def test_unit_same_subject_exercise(self):
+#         """
+#             Check if different student_exercises cant be created with same fields
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             student_exercises = Student_Exercises.objects.get(id=1)
+#
+#             self.student_exercises1 = Subject_Exam()
+#             self.student_exercises1.student = get_user_model().objects.get(is_staff=0, is_superuser=0)
+#             self.student_exercises1.subject_exercise = Subject_Exercise.objects.get(id=1)
+#             self.student_exercises1.correct_ans = student_exercises.correct_ans
+#             self.student_exercises1.total_amount_of_exercises = student_exercises.total_amount_of_exercises
+#             self.student_exercises1.save()
+#             test = False
+#         except django.db.utils.IntegrityError:
+#             test = True
+#         self.assertTrue(test)
+#         print("\nStudent_Exercises Same Subject_Exercise Unit Test - ", positive_test_result(test))
+# # Student_Exercises test
+#
+#
+# # StudentClassroom test
+# class StudentClassroomTest(TestCase):
+#     """
+#         Testing class (Inheriting TestCase class) for combining class room and student
+#     """
+#     @classmethod
+#     def setUpClass(cls):
+#         """
+#             Creating student users, student and classroom
+#             which can be used in all the functions and printing the testing class start
+#         """
+#         super(StudentClassroomTest, cls).setUpClass()
+#         print("\n__StudentClassroom SetUp__")
+#         print("Module - result")
+#
+#         cls.teacher = TeacherExtra()
+#         cls.teacher.username = 'teacher'
+#         cls.teacher.password1 = 'teacher'
+#         cls.teacher.password2 = 'teacher'
+#         cls.teacher.first_name = 'tea'
+#         cls.teacher.last_name = 'cher'
+#         cls.teacher.email = 'teacher@teach.er'
+#         cls.teacher.phone = '0521234567'
+#         cls.teacher.subjects = 'math'
+#
+#         cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
+#                                                                 password=cls.teacher.password1, email=cls.teacher.email,
+#                                                                 first_name=cls.teacher.first_name,
+#                                                                 last_name=cls.teacher.last_name)
+#         cls.teacher_user.is_superuser = False
+#         cls.teacher_user.is_staff = True
+#         cls.teacher_user.save()
+#
+#         cls.student = StudentExtra()
+#         cls.student.username = 'student'
+#         cls.student.password1 = 'student'
+#         cls.student.password2 = 'student'
+#         cls.student.first_name = 'stud'
+#         cls.student.last_name = 'ent'
+#         cls.student.email = 'student@stude.nt'
+#         cls.student.phone = '0521454567'
+#         cls.student.birth_date = '1995-05-01'
+#         cls.student.parentName_F = 'bob'
+#         cls.student.parentPhone_F = '052987125'
+#         cls.student.parentName_M = 'bella'
+#         cls.student.parentPhone_M = '0529871256'
+#
+#         cls.student_user = get_user_model().objects.create_user(username=cls.student.username,
+#                                                                 password=cls.student.password1, email=cls.student.email,
+#                                                                 first_name=cls.student.first_name,
+#                                                                 last_name=cls.student.last_name)
+#         cls.student_user.is_superuser = False
+#         cls.student_user.is_staff = False
+#         cls.student_user.save()
+#
+#         cls.classroom = Classroom()
+#         cls.classroom.class_name = 'class1'
+#         cls.classroom.teacher = cls.teacher_user
+#         cls.classroom.save()
+#
+#         cls.student_classroom = StudentClassroom()
+#         cls.student_classroom.class_room = Classroom.objects.get(id=1)
+#         cls.student_classroom.user = get_user_model().objects.get(is_superuser=0, is_staff=0)
+#         cls.student_classroom.save()
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         """
+#              Deleting the student users and the classroom after the class finishes
+#              and printing the testing class end
+#         """
+#         super(StudentClassroomTest, cls).tearDownClass()
+#         print("\n__StudentClassroom TearDown__")
+#         cls.student_classroom.delete()
+#         cls.classroom.delete()
+#         cls.student_user.delete()
+#         cls.teacher_user.delete()
+#
+#     # unit tests
+#
+#     def test_unit_create_student_classroom(self):
+#         """
+#             Create student classroom testing function
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             student_classroom = StudentClassroom.objects.get(id=1)
+#             test = (self.student_classroom.class_room == Classroom.objects.get(id=1)
+#                     and self.student_classroom.user == get_user_model().objects.get(is_superuser=0, is_staff=0))
+#         except:
+#             test = False
+#         self.assertTrue(test)
+#         print("\nStudent_Classroom Creation Unit Test - ", positive_test_result(test))
+#
+#     def test_unit_same_student_classroom(self):
+#         """
+#             Check if different student_exercises cant be created with same student
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         try:
+#             self.student_classroom1 = Subject_Exam()
+#             self.student_classroom1.class_room = Classroom.objects.get(id=1)
+#             self.student_classroom1.user = get_user_model().objects.get(is_superuser=0, is_staff=0)
+#             self.student_classroom1.save()
+#             test = False
+#         except django.db.utils.IntegrityError:
+#             test = True
+#         self.assertTrue(test)
+#         print("\nStudent_Classroom Same Student Unit Test - ", positive_test_result(test))
+# # StudentClassroom test
+#
+#
+# # Private_Chat test
+# class Private_ChatTest(TestCase):
+#     """
+#         Testing class (Inheriting TestCase class) for private chatting
+#     """
+#     @classmethod
+#     def setUpClass(cls):
+#         """
+#             Creating student and teacher users and private chat
+#             which can be used in all the functions and printing the testing class start
+#         """
+#         super(Private_ChatTest, cls).setUpClass()
+#         print("\n__Private_Chat SetUp__")
+#         print("Module - result")
+#
+#         cls.teacher = TeacherExtra()
+#         cls.teacher.username = 'teacher'
+#         cls.teacher.password1 = 'teacher'
+#         cls.teacher.password2 = 'teacher'
+#         cls.teacher.first_name = 'tea'
+#         cls.teacher.last_name = 'cher'
+#         cls.teacher.email = 'teacher@teach.er'
+#         cls.teacher.phone = '0521234567'
+#         cls.teacher.subjects = 'math'
+#
+#         cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
+#                                                                 password=cls.teacher.password1, email=cls.teacher.email,
+#                                                                 first_name=cls.teacher.first_name,
+#                                                                 last_name=cls.teacher.last_name)
+#         cls.teacher_user.is_superuser = False
+#         cls.teacher_user.is_staff = True
+#         cls.teacher_user.save()
+#
+#         cls.student = StudentExtra()
+#         cls.student.username = 'student'
+#         cls.student.password1 = 'student'
+#         cls.student.password2 = 'student'
+#         cls.student.first_name = 'stud'
+#         cls.student.last_name = 'ent'
+#         cls.student.email = 'student@stude.nt'
+#         cls.student.phone = '0521454567'
+#         cls.student.birth_date = '1995-05-01'
+#         cls.student.parentName_F = 'bob'
+#         cls.student.parentPhone_F = '052987125'
+#         cls.student.parentName_M = 'bella'
+#         cls.student.parentPhone_M = '0529871256'
+#
+#         cls.student_user = get_user_model().objects.create_user(username=cls.student.username,
+#                                                                 password=cls.student.password1, email=cls.student.email,
+#                                                                 first_name=cls.student.first_name,
+#                                                                 last_name=cls.student.last_name)
+#         cls.student_user.is_superuser = False
+#         cls.student_user.is_staff = False
+#         cls.student_user.save()
+#
+#         cls.chat_dict = {
+#             'receiver_id': get_user_model().objects.get(id=2).id,
+#             'publish_date': '2021-05-05 18:33:00',
+#             'msg': 'Good day fine sir!'
+#         }
+#
+#         cls.private_chat = PrivateChatTestForm(cls.chat_dict)
+#         cls.private_chat.save(commit=False)
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         """
+#              Deleting the student and teacher users and the private chat after the class finishes
+#              and printing the testing class end
+#         """
+#         super(Private_ChatTest, cls).tearDownClass()
+#         print("\n__Private_Chat TearDown__")
+#         cls.student_user.delete()
+#         cls.teacher_user.delete()
+#
+#     # unit tests
+#
+#     def test_unit_private_chat_creation(self):
+#         """
+#             Create student private chat testing function
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         self.private_chat.receiver_id = self.chat_dict['receiver_id']
+#         self.private_chat.msg = self.chat_dict['msg']
+#         self.private_chat.publish_date = self.chat_dict['publish_date']
+#         test = (self.private_chat.receiver_id == self.chat_dict['receiver_id'] and self.private_chat.msg == self.chat_dict['msg']
+#                 and self.private_chat.publish_date == self.chat_dict['publish_date'])
+#         self.assertTrue(test)
+#         print("\nPrivate_Chat Creation Unit Test - ", positive_test_result(test))
+# # Private_Chat test
+#
+#
+# # Class_Chat test
+# class Class_ChatTest(TestCase):
+#     """
+#         Testing class (Inheriting TestCase class) for class chatting
+#     """
+#     @classmethod
+#     def setUpClass(cls):
+#         """
+#             Creating student and teacher users, classroom and class chat
+#             which can be used in all the functions and printing the testing class start
+#         """
+#         super(Class_ChatTest, cls).setUpClass()
+#         print("\n__Class_Chat SetUp__")
+#         print("Module - result")
+#
+#         cls.teacher = TeacherExtra()
+#         cls.teacher.username = 'teacher'
+#         cls.teacher.password1 = 'teacher'
+#         cls.teacher.password2 = 'teacher'
+#         cls.teacher.first_name = 'tea'
+#         cls.teacher.last_name = 'cher'
+#         cls.teacher.email = 'teacher@teach.er'
+#         cls.teacher.phone = '0521234567'
+#         cls.teacher.subjects = 'math'
+#
+#         cls.teacher_user = get_user_model().objects.create_user(username=cls.teacher.username,
+#                                                                 password=cls.teacher.password1, email=cls.teacher.email,
+#                                                                 first_name=cls.teacher.first_name,
+#                                                                 last_name=cls.teacher.last_name)
+#         cls.teacher_user.is_superuser = False
+#         cls.teacher_user.is_staff = True
+#         cls.teacher_user.save()
+#
+#         cls.student = StudentExtra()
+#         cls.student.username = 'student'
+#         cls.student.password1 = 'student'
+#         cls.student.password2 = 'student'
+#         cls.student.first_name = 'stud'
+#         cls.student.last_name = 'ent'
+#         cls.student.email = 'student@stude.nt'
+#         cls.student.phone = '0521454567'
+#         cls.student.birth_date = '1995-05-01'
+#         cls.student.parentName_F = 'bob'
+#         cls.student.parentPhone_F = '052987125'
+#         cls.student.parentName_M = 'bella'
+#         cls.student.parentPhone_M = '0529871256'
+#
+#         cls.student_user = get_user_model().objects.create_user(username=cls.student.username,
+#                                                                 password=cls.student.password1, email=cls.student.email,
+#                                                                 first_name=cls.student.first_name,
+#                                                                 last_name=cls.student.last_name)
+#         cls.student_user.is_superuser = False
+#         cls.student_user.is_staff = False
+#         cls.student_user.save()
+#
+#         cls.classroom = Classroom()
+#         cls.classroom.class_name = 'class1'
+#         cls.classroom.teacher = cls.teacher_user
+#         cls.classroom.save()
+#
+#         cls.chat_dict = {
+#             'publish_date': '2021-05-05 18:33:00',
+#             'msg': 'Good day fine sir!'
+#         }
+#
+#         cls.class_chat = ClassChatTestForm(cls.chat_dict)
+#         cls.class_chat.save(commit=False)
+#
+#     @classmethod
+#     def tearDownClass(cls):
+#         """
+#              Deleting the student and teacher users, classroom and the class chat after the class finishes
+#              and printing the testing class end
+#         """
+#         super(Class_ChatTest, cls).tearDownClass()
+#         print("\n__Class_Chat TearDown__")
+#         cls.classroom.delete()
+#         cls.student_user.delete()
+#         cls.teacher_user.delete()
+#
+#     # unit tests
+#
+#     def test_unit_class_chat_creation(self):
+#         """
+#             Create student class chat testing function
+#
+#             Returns:
+#                 Boolean: True or False
+#         """
+#         self.class_chat.msg = self.chat_dict['msg']
+#         self.class_chat.publish_date = self.chat_dict['publish_date']
+#         test = (self.class_chat.msg == self.chat_dict['msg']
+#                 and self.class_chat.publish_date == self.chat_dict['publish_date'])
+#         self.assertTrue(test)
+#         print("\nClass_Chat Creation Unit Test - ", positive_test_result(test))
+# # Class_Chat test
+#
+#
