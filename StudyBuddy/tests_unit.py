@@ -5,7 +5,7 @@ from StudyBuddy.models import TeacherForm as TeacherExtra, StudentForm as Studen
 from .models import Article, StudentClassroom, Classroom, Subject, ClassSubject
 from .models import Exercise, Subject_Exam, Subject_Exercise, Student_Exercises
 from .models import Subject_Exam, Subject_Exercise, Student_Exercises, Task, Task_Exercises
-from .forms import ArticleForm, PrivateChatTestForm, ClassChatTestForm
+from .forms import ArticleForm, PrivateChatTestForm, ClassChatTestForm, PrivateChatForm, ClassChatForm, StudentUserForm
 from datetime import datetime
 from django.utils import timezone
 
@@ -2227,7 +2227,6 @@ class Subject_ExerciseTest(TestCase):
         cls.subject_exercise.end_time = datetime(day=2, month=7, year=2021, hour=11, tzinfo=pytz.UTC)
         cls.subject_exercise.save()
 
-
     @classmethod
     def tearDownClass(cls):
         """
@@ -2612,6 +2611,8 @@ class Private_ChatTest(TestCase):
         cls.private_chat = PrivateChatTestForm(cls.chat_dict)
         cls.private_chat.save(commit=False)
 
+        cls.private_chat_second_form = PrivateChatForm(cls.chat_dict)
+
     @classmethod
     def tearDownClass(cls):
         """
@@ -2709,6 +2710,8 @@ class Class_ChatTest(TestCase):
 
         cls.class_chat = ClassChatTestForm(cls.chat_dict)
         cls.class_chat.save(commit=False)
+
+        cls.class_chat_second_form = ClassChatForm(cls.chat_dict)
 
     @classmethod
     def tearDownClass(cls):
