@@ -303,6 +303,13 @@ class SubjectExamForm(forms.ModelForm):
         fields = ('description', 'start_time', 'end_time')
 
 
+class TaskForm(forms.ModelForm):
+    ### need two more fields subject(key) and exercise(key) to use this form correct
+    class Meta:
+        model = Task
+        fields = ('name', 'description', 'start_time', 'end_time')
+
+
 class SubjectExerciseForm(forms.ModelForm):
     description = forms.TextInput()
     start_time = forms.DateTimeField()

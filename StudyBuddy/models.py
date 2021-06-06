@@ -258,10 +258,20 @@ class Subject_Exercise(models.Model):
     def get_qws_amount(self):
         return Subject_Exercise.objects.filter(subject=self.subject).count()
 
+class Task(models.Model):
+    subject = models.ForeignKey(Subject, null=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=256)
+    description = models.TextField(null=True)
+    start_time = models.DateTimeField(default=None)
+    end_time = models.DateTimeField(default=None)
+
+    def __str__(self):
+        return self.name
+
 
 class Student_Exercises(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
-    subject_exercise = models.OneToOneField(Subject_Exercise, on_delete=models.CASCADE)
+    task = models.OneToOneField(Task, on_delete=models.CASCADE)
     correct_ans = models.IntegerField()
     total_amount_of_exercises = models.IntegerField()
 
@@ -289,3 +299,10 @@ class Class_Chat(models.Model):
 
     def str(self):
         return self.msg
+
+
+
+
+class Task_Exercises(models.Model):
+    task = models.ForeignKey(Task, null=True, on_delete=models.CASCADE)
+    exercise = models.OneToOneField(Exercise, null=True, on_delete=models.CASCADE)

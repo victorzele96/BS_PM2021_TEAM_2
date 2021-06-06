@@ -1,0 +1,123 @@
+{% extends 'school/schoolHome.html' %}
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% block title %}
+
+    <head>
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/userList.css' %}" />
+        <link type="text/css" rel="stylesheet" href="{% static 'styles/teacherStyles/exerciseView.css' %}" />
+{#        <link type="text/css" rel="stylesheet" href="{% static 'styles/studentStyles/userList.css' %}" />#}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+
+    <h2 style="text-align: center; font-size: 50px">{{ task.name }}</h2>
+{% endblock %}
+<body>
+    {% block content %}
+
+
+    <div>
+{#        <h1>Main Class</h1>#}
+        <table class="fl-table">
+            <thead>
+            <tr>
+                <th>Question</th>
+
+                <th>Answer</th>
+
+            </tr>
+            </thead>
+            <tbody>
+                {% for e in ex %}
+                    <tr>
+
+                        <td> {{ e.question }}</td>
+                        <td><a class="" href="#popup1">  <i style="font-size: 25px; color: black" class="fa fa-magic"></i> <span></span></a></td>
+
+{#                        <td><a class="" href="{% url 'delete-teacher-from-school' t.id  %}">  <i style="font-size: 25px; color: black" class="fa fa-trash"></i> <span></span></a></td>#}
+                        <div id="popup1" class="overlay">
+                            <div class="popup">
+                                <h2>Adding exercise</h2>
+                                <a class="close" href="#">&times;</a>
+
+                                  <form id="form-id" action="{% url "ans_submit" task.id e.id %}" method="POST">
+                                      {% csrf_token %}
+
+                                    <div class="group">
+                                      <input name="question" type="text" required disabled>
+                                      <label style="color: Black">{{ e.question }}</label>
+                                    </div>
+
+                                    <div class="ans">
+                                      <input id="a" name="a" type="checkbox" onclick="checkBox('a')" required>
+                                        {{ e.a }}
+                                      </input>
+                                    </div>
+
+                                    <div class="ans">
+                                      <input id="b" name="b" type="checkbox" onclick="checkBox('b')" required>
+                                        {{ e.b }}
+                                      </input>
+                                    </div>
+
+                                    <div class="ans">
+                                      <input id="c" name="c" type="checkbox" onclick="checkBox('c')" required>
+                                        {{ e.c }}
+                                      </input>
+                                    </div>
+
+                                    <div class="ans">
+                                      <input id="d" name="d" type="checkbox" onclick="checkBox('d')" required>
+                                        {{ e.d }}
+                                      </input>
+                                    </div>
+
+                                      <a type="submit" class="save" onclick="document.forms['form-id'].submit();"> Save </a>
+                                  </form>
+                            </div>
+                        </div>
+                    </tr>
+                {% endfor %}
+            <tbody>
+        </table>
+    </div>
+
+<script>
+    function checkBox(checkId){
+        var check1 = document.getElementById("a");
+        var check2 = document.getElementById("b");
+        var check3 = document.getElementById("c");
+        var check4 = document.getElementById("d");
+
+        if(checkId == "a"){
+            check1.checked = true;
+            check2.checked = false;
+            check3.checked = false;
+            check4.checked = false;
+        }
+        if(checkId == "b"){
+            check1.checked = false;
+            check2.checked = true;
+            check3.checked = false;
+            check4.checked = false;
+        }
+        if(checkId == "c"){
+            check1.checked = false;
+            check2.checked = false;
+            check3.checked = true;
+            check4.checked = false;
+        }
+        if(checkId == "d"){
+            check1.checked = false;
+            check2.checked = false;
+            check3.checked = false;
+            check4.checked = true;
+        }
+
+    }
+</script>
+
+    {% endblock %}
+</body>
+</html>
