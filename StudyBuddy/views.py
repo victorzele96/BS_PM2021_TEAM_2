@@ -935,7 +935,12 @@ def s_view_subject(request, pk):
     subject_class = ClassSubject.objects.get(subject_id=pk, class_room_id=my_classroom.id)
     files = TeacherFile.objects.filter(subject_id=pk)
     teacher= User.objects.get(id=subject.teacher_id)
-    return render(request, '../templates/student/s_view_subject.html', {"subject": subject, 'subject_class': subject_class, 'files': files, 'teacher': teacher})
+
+    tasks = Task.objects.filter(subject_id=pk)
+
+    obj = Student_Exercises.objects.filter(student_id=request.user.id ,task__in=tasks)
+
+    return render(request, '../templates/student/s_view_subject.html', {'obj': obj, "subject": subject, 'subject_class': subject_class, 'files': files, 'teacher': teacher, 'tasks': tasks})
 
 
 def my_class(request):
@@ -943,16 +948,132 @@ def my_class(request):
     classroom = Classroom.objects.get(id=class_id)
     students_ids = StudentClassroom.objects.filter(class_room_id=class_id)
 
+
     list_of_ids = []
     for s in students_ids:
         if s.user.id != request.user.id:
             list_of_ids.append(s.user.id)
     user = User.objects.filter(id__in=list_of_ids)
 
-    class_chat= Class_Chat.objects.filter(receiver_class_id=classroom.id)
+    class_chat = Class_Chat.objects.filter(receiver_class_id=classroom.id)
 
     return render(request, '../templates/student/my_class/my_class.html', {'classroom': classroom, 'users': user, 'class_chat': class_chat})
 
+
+def ans_submit(request, pk, eid):
+    print("||||||||||||||||||||||||||||||||||||||||")
+    print("||||||||||||||||||||||||||||||||||||||||")
+    print("||||||||||||||||||||||||||||||||||||||||")
+    print(pk)
+    print(eid)
+    print(request.POST)
+    print("||||||||||||||||||||||||||||||||||||||||")
+    print("||||||||||||||||||||||||||||||||||||||||")
+    print("||||||||||||||||||||||||||||||||||||||||")
+    try:
+        se=Student_Exercises.objects.get(student_id=request.user.id, task_id=pk)
+
+        ans = None
+        try:
+
+            if request.POST['a'] == 'on':
+                # print('a')
+                ans = 'a'
+        except:
+            try:
+                if request.POST['b'] == 'on':
+                    # print('b')
+                    ans = 'b'
+            except:
+                try:
+                    if request.POST['c'] == 'on':
+                        # print('c')
+                        ans = 'c'
+                except:
+                    try:
+                        if request.POST['d'] == 'on':
+                            # print('d')
+                            ans = 'd'
+                    except:
+                        print('we in problem')
+                        # print(ans)
+        # print(ans)
+        # print(se.correct_ans<=se.total_amount_of_exercises)
+        # print(se.correct_ans)
+        # print(se.total_amount_of_exercises)
+        #
+        # print(type(Exercise.objects.get(id=eid).ans))
+        # print(Exercise.objects.get(id=eid).ans)
+        #
+        # print(type(ans))
+        # print(Exercise.objects.get(id=eid).ans is ans)
+
+        if Exercise.objects.get(id=eid).ans is ans:
+            if se.correct_ans<se.total_amount_of_exercises:
+                # print("---------------------------------------------------------------------------------------------------------")
+                # print(se.correct_ans)
+                se.correct_ans+=1
+                se.save()
+                # print(se.correct_ans)
+        else:
+            # se.correct_ans = 0
+            # se.save()
+            pass
+
+
+
+    except:
+        ans = None
+        try:
+
+            if request.POST['a']=='on':
+                # print('a')
+                ans = 'a'
+        except:
+            try:
+                if request.POST['b']=='on':
+                    # print('b')
+                    ans = 'b'
+            except:
+                try:
+                    if request.POST['c']=='on':
+                        # print('c')
+                        ans = 'c'
+                except:
+                    try:
+                        if request.POST['d']=='on':
+                            # print('d')
+                            ans = 'd'
+                    except:
+                        print('we in problem')
+                        # print(ans)
+
+
+
+        if Exercise.objects.get(id=eid).ans==ans:
+            obj = Student_Exercises(student_id=request.user.id, task_id=pk,
+                              total_amount_of_exercises=Task_Exercises.objects.filter(task_id=pk).count(),
+                              correct_ans=1)
+            obj.save()
+        else:
+            obj = Student_Exercises(student_id=request.user.id, task_id=pk,
+                              total_amount_of_exercises=Task_Exercises.objects.filter(task_id=pk).count(),
+                              correct_ans=0)
+            obj.save()
+
+
+    return redirect('ans_task', pk)
+
+def ans_task(request, pk):
+    task = Task.objects.get(id=pk)
+    connection = Task_Exercises.objects.filter(task_id=pk)
+
+    list_of_ids = []
+    for c in connection:
+        list_of_ids.append(c.exercise.id)
+    ex = Exercise.objects.filter(id__in=list_of_ids)
+
+    return render(request, '../templates/student/ans_task.html',{'task': task, 'ex': ex})
 
 
 def class_msg(request, pk):
